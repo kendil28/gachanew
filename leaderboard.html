@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard - GachaKeren</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Luckiest+Guy&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: transparent;
+  min-height: 100vh;
+  overflow-y: auto; overflow-x: hidden;
+  padding: 24px 24px 40px 24px;
+  color: #fff;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
+
+/* ===== DECORATIVE IMAGES ===== */
+.lb-deco-wrap {
+  position: relative;
+  overflow: visible;
+  padding: 0 45px 0 110px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* ===== MAIN PANEL ===== */
+.lb-panel {
+  max-width: calc(100% - 275px);
+  margin: 0 auto;
+  background: linear-gradient(160deg, #1a6fd4 0%, #0d4fa8 40%, #0a3d8f 100%);
+  border-radius: 28px;
+  border: 3px solid rgba(100,180,255,0.6);
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,0.15),
+    0 8px 40px rgba(0,0,50,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  overflow: hidden;
+  padding-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.deco-ash {
+  position: absolute;
+  left: -60px;
+  bottom: 0;
+  width: 370px;
+  height: auto;
+  z-index: 10;
+  filter: drop-shadow(4px 0 12px rgba(0,0,0,0.4));
+  pointer-events: none;
+}
+
+.deco-pikachu {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 220px;
+  height: auto;
+  z-index: 0;
+  filter: drop-shadow(-4px 0 12px rgba(0,0,0,0.3));
+  pointer-events: none;
+}
+
+.podium-header-img {
+  text-align: center;
+  margin-bottom: -8px;
+  position: relative;
+  z-index: 5;
+}
+.podium-header-img img {
+  max-width: 100%;
+  height: 160px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+}
+
+@media (max-width: 1100px) {
+  .lb-deco-wrap { padding: 0 100px; }
+  .deco-ash { width: 280px; }
+  .deco-pikachu { width: 160px; }
+  .podium-header-img img { height: 130px; }
+}
+@media (max-width: 640px) {
+  .lb-deco-wrap { padding: 0; }
+  .deco-ash { display: none; }
+  .deco-pikachu { display: none; }
+  .podium-header-img img { height: 90px; }
+}
+
+/* ===== TABS ===== */
+.lb-tabs {
+  display: flex;
+  background: linear-gradient(180deg, #1e7fe0 0%, #1565c0 100%);
+  border-bottom: 3px solid rgba(0,0,80,0.3);
+  padding: 0 8px;
+  gap: 4px;
+}
+.lb-tab {
+  flex: 1;
+  padding: 14px 8px;
+  text-align: center;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 20px;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  border-radius: 12px 12px 0 0;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+  position: relative;
+  top: 3px;
+}
+.lb-tab:hover { color: #fff; background: rgba(255,255,255,0.1); }
+.lb-tab.active {
+  background: linear-gradient(180deg, #4fc3f7 0%, #0288d1 100%);
+  color: #fff;
+  box-shadow: 0 -2px 12px rgba(79,195,247,0.5);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* ===== HEADER BAR ===== */
+.lb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.15);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.lb-timer {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 20px; padding: 6px 14px;
+  font-size: 16px; font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.lb-timer .timer-icon { font-size: 18px; }
+.lb-timer span { font-family: 'Luckiest Guy', cursive; letter-spacing: 1px; color: #FFD700; font-size: 20px; }
+
+.lb-level {
+  text-align: center;
+}
+.lb-level-label {
+  font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.7);
+  letter-spacing: 2px; text-transform: uppercase;
+}
+.lb-progress-wrap {
+  display: flex; align-items: center; gap: 6px; margin-top: 2px;
+}
+.lb-progress-bar {
+  width: 160px; height: 14px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 7px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.lb-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6b35, #FFD700);
+  border-radius: 7px;
+  transition: width 1s ease;
+}
+.lb-progress-text { font-size: 13px; color: rgba(255,255,255,0.7); }
+
+.lb-season-btn {
+  background: linear-gradient(135deg, #FFD700, #FFA000);
+  color: #000; font-family: 'Luckiest Guy', cursive;
+  font-size: 18px; padding: 10px 22px;
+  border-radius: 20px; border: none; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255,160,0,0.5);
+  letter-spacing: 1px;
+  transition: transform 0.15s;
+}
+.lb-season-btn:hover { transform: scale(1.05); }
+
+/* ===== CONTENT ===== */
+.lb-content {
+  display: flex;
+  gap: 16px;
+  padding: 16px 20px;
+}
+
+/* ===== PODIUM ===== */
+.lb-podium-wrap {
+  flex: 0 0 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 8px 0;
+  position: relative;
+}
+
+.podium-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* Trophy icons */
+.trophy-wrap {
+  position: relative;
+  margin-bottom: -8px;
+  z-index: 2;
+}
+.trophy {
+  font-size: 52px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+  animation: trophyFloat 3s ease-in-out infinite;
+}
+.podium-item.rank-2 .trophy { font-size: 40px; animation-delay: 0.5s; }
+.podium-item.rank-3 .trophy { font-size: 36px; animation-delay: 1s; }
+
+@keyframes trophyFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.podium-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  position: absolute; top: 4px; left: 50%;
+  transform: translateX(-50%);
+  border: 2px solid rgba(255,255,255,0.8);
+  overflow: hidden; background: #1a3a6e;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.podium-item.rank-2 .podium-avatar { width: 34px; height: 34px; top: 3px; }
+.podium-item.rank-3 .podium-avatar { width: 30px; height: 30px; top: 2px; }
+
+/* Podium base */
+.podium-base {
+  border-radius: 10px 10px 0 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding: 8px 6px;
+  min-width: 80px;
+  position: relative;
+  overflow: hidden;
+}
+.podium-base::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+}
+.podium-item.rank-1 .podium-base {
+  height: 90px;
+  background: linear-gradient(180deg, #e53935, #b71c1c);
+  box-shadow: 0 6px 20px rgba(229,57,53,0.5);
+}
+.podium-item.rank-2 .podium-base {
+  height: 70px;
+  background: linear-gradient(180deg, #546e7a, #37474f);
+  box-shadow: 0 4px 14px rgba(84,110,122,0.5);
+}
+.podium-item.rank-3 .podium-base {
+  height: 55px;
+  background: linear-gradient(180deg, #bf8040, #8d5524);
+  box-shadow: 0 4px 14px rgba(191,128,64,0.5);
+}
+
+.podium-rank-num {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 28px; color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  position: relative; z-index: 1;
+}
+.podium-item.rank-2 .podium-rank-num { font-size: 22px; }
+.podium-item.rank-3 .podium-rank-num { font-size: 20px; }
+
+.podium-name {
+  font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.9);
+  text-align: center; margin-top: 4px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  max-width: 80px;
+}
+.podium-score {
+  font-size: 14px; color: #FFD700; font-weight: 700;
+}
+
+/* Confetti */
+.confetti-wrap {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 60px; pointer-events: none; overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  width: 6px; height: 10px;
+  border-radius: 2px;
+  animation: confettiFall 2.5s ease-in infinite;
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(60px) rotate(360deg); opacity: 0; }
+}
+
+/* Podium buttons */
+.podium-btns {
+  display: flex; gap: 10px;
+}
+.podium-btn {
+  flex: 1; padding: 10px;
+  border-radius: 20px; border: none; cursor: pointer;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 18px; letter-spacing: 0.5px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.podium-btn:hover { transform: translateY(-2px); }
+.podium-btn.prizes {
+  background: linear-gradient(135deg, #ff6b35, #e53935);
+  color: #fff; box-shadow: 0 4px 12px rgba(229,57,53,0.4);
+}
+.podium-btn.hall {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  color: #fff; box-shadow: 0 4px 12px rgba(255,152,0,0.4);
+}
+
+/* ===== RANKING LIST ===== */
+.lb-list-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rank-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  transition: transform 0.15s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.rank-row::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+}
+.rank-row:hover { transform: translateX(4px); }
+
+.rank-row.r1 { background: linear-gradient(135deg, rgba(255,215,0,0.25), rgba(255,160,0,0.15)); border: 1px solid rgba(255,215,0,0.4); }
+.rank-row.r2 { background: linear-gradient(135deg, rgba(192,192,192,0.2), rgba(150,150,150,0.1)); border: 1px solid rgba(192,192,192,0.3); }
+.rank-row.r3 { background: linear-gradient(135deg, rgba(205,127,50,0.25), rgba(160,100,30,0.15)); border: 1px solid rgba(205,127,50,0.4); }
+.rank-row.r-other { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); }
+.rank-row.r-me { background: rgba(79,195,247,0.15); border: 1px solid rgba(79,195,247,0.4); }
+
+.rank-num {
+  width: 32px; text-align: center;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 20px; flex-shrink: 0;
+}
+.rank-row.r1 .rank-num { color: #FFD700; }
+.rank-row.r2 .rank-num { color: #C0C0C0; }
+.rank-row.r3 .rank-num { color: #CD7F32; }
+.rank-row.r-other .rank-num { color: rgba(255,255,255,0.6); }
+
+.rank-crown {
+  font-size: 18px; flex-shrink: 0;
+}
+
+.rank-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+.rank-info { flex: 1; min-width: 0; }
+.rank-name {
+  font-size: 16px; font-weight: 700; color: #fff;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.rank-sub { font-size: 13px; color: rgba(255,255,255,0.5); }
+
+.rank-score {
+  display: flex; align-items: center; gap: 5px;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 18px; color: #fff; flex-shrink: 0;
+}
+.rank-score .gem { font-size: 18px; }
+
+/* My rank bar */
+.my-rank-bar {
+  background: rgba(79,195,247,0.1);
+  border: 1px solid rgba(79,195,247,0.3);
+  border-radius: 12px;
+  padding: 10px 14px;
+  text-align: center;
+  font-size: 15px; font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  margin-top: 4px;
+}
+.my-rank-bar span { color: #4fc3f7; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  body { padding: 10px 10px 30px; }
+  .lb-content { flex-direction: column; gap: 12px; }
+  .lb-podium-wrap { flex: none; }
+  .lb-tab { font-size: 13px; padding: 10px 4px; }
+  .lb-header { flex-wrap: wrap; gap: 8px; }
+  .lb-progress-bar { width: 120px; }
+  .podium-base { min-width: 70px; }
+  .trophy { font-size: 44px; }
+  .lb-panel { max-width: 100%; border-radius: 20px; }
+  .lb-timer { font-size: 14px; padding: 5px 12px; }
+  .lb-timer span { font-size: 16px; }
+  .lb-season-btn { font-size: 14px; padding: 8px 16px; }
+  .lb-level-label { font-size: 12px; }
+  .rank-row { padding: 8px 10px; gap: 8px; }
+  .rank-num { font-size: 16px; width: 28px; }
+  .rank-avatar { width: 32px; height: 32px; font-size: 16px; }
+  .rank-name { font-size: 14px; }
+  .rank-sub { font-size: 11px; }
+  .rank-score { font-size: 15px; }
+  .rank-score .gem { font-size: 15px; }
+  .my-rank-bar { font-size: 13px; padding: 8px 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="lb-deco-wrap">
+  <!-- Ash — overlap kiri -->
+  <img src="../character/ash3.png" alt="Ash" class="deco-ash"/>
+
+  <!-- Pikachu — kanan luar -->
+  <img src="../icon/pokemon.png" alt="Pikachu" class="deco-pikachu"/>
+
+<div class="lb-panel">
+
+  <!-- TABS -->
+  <div class="lb-tabs">
+    <div class="lb-tab" onclick="switchTab('pass',this)">Pass</div>
+    <div class="lb-tab active" onclick="switchTab('daily',this)">Daily</div>
+    <div class="lb-tab" onclick="switchTab('weekly',this)">Weekly</div>
+    <div class="lb-tab" onclick="switchTab('alltime',this)">All Time</div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="lb-header">
+    <div class="lb-timer">
+      <span class="timer-icon">⏱️</span>
+      <span id="timerDisplay">23:59:59</span>
+    </div>
+    <div class="lb-level">
+      <div class="lb-level-label">SEASON 1</div>
+      <div class="lb-progress-wrap">
+        <div class="lb-progress-bar">
+          <div class="lb-progress-fill" id="progressFill" style="width:65%"></div>
+        </div>
+        <div class="lb-progress-text">6,500 / 10,000</div>
+      </div>
+    </div>
+    <button class="lb-season-btn">🏆 PRIZES</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="lb-content">
+
+    <!-- PODIUM -->
+    <div class="lb-podium-wrap">
+      <!-- Header image di atas podium -->
+      <div class="podium-header-img">
+        <img src="../header.png" alt="Pokemon Header"/>
+      </div>
+      <div class="podium" id="podium">
+        <!-- Confetti -->
+        <div class="confetti-wrap" id="confetti"></div>
+
+        <!-- Rank 2 -->
+        <div class="podium-item rank-2">
+          <div class="trophy-wrap">
+            <div class="trophy">🥈</div>
+            <div class="podium-avatar">🐉</div>
+          </div>
+          <div class="podium-base">
+            <div class="podium-rank-num">2</div>
+          </div>
+          <div class="podium-name">DragonMstr</div>
+          <div class="podium-score">💎 8,420</div>
+        </div>
+
+        <!-- Rank 1 -->
+        <div class="podium-item rank-1">
+          <div class="trophy-wrap">
+            <div class="trophy">🏆</div>
+            <div class="podium-avatar">⚡</div>
+          </div>
+          <div class="podium-base">
+            <div class="podium-rank-num">1</div>
+          </div>
+          <div class="podium-name">PikaMaster</div>
+          <div class="podium-score">💎 12,850</div>
+        </div>
+
+        <!-- Rank 3 -->
+        <div class="podium-item rank-3">
+          <div class="trophy-wrap">
+            <div class="trophy">🥉</div>
+            <div class="podium-avatar">🔥</div>
+          </div>
+          <div class="podium-base">
+            <div class="podium-rank-num">3</div>
+          </div>
+          <div class="podium-name">FireTrainer</div>
+          <div class="podium-score">💎 7,100</div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="podium-btns">
+        <button class="podium-btn prizes" onclick="openModal('prizes')">🎁 Prizes</button>
+        <button class="podium-btn hall" onclick="openModal('hall')">🌟 Hall of Fame</button>
+      </div>
+    </div>
+
+    <!-- RANKING LIST -->
+    <div class="lb-list-wrap" id="rankList">
+      <!-- Generated by JS -->
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+var players = [
+  { rank:1,  name:'PikaMaster',   emoji:'⚡', score:'12,850', crown:'👑' },
+  { rank:2,  name:'DragonMstr',   emoji:'🐉', score:'8,420',  crown:'🥈' },
+  { rank:3,  name:'FireTrainer',  emoji:'🔥', score:'7,100',  crown:'🥉' },
+  { rank:4,  name:'AshKetchum',   emoji:'🎩', score:'6,500',  crown:'' },
+  { rank:5,  name:'MistyWater',   emoji:'💧', score:'5,980',  crown:'' },
+  { rank:6,  name:'BrockRock',    emoji:'🪨', score:'5,200',  crown:'' },
+  { rank:7,  name:'GaryOak',      emoji:'🌿', score:'4,750',  crown:'' },
+  { rank:8,  name:'Username',     emoji:'🌟', score:'4,200',  crown:'', isMe: true },
+  { rank:9,  name:'SkyRider',     emoji:'🦅', score:'3,800',  crown:'' },
+  { rank:10, name:'DarkTrainer',  emoji:'🌑', score:'3,100',  crown:'' },
+];
+
+// ===== RENDER RANKING =====
+function renderList() {
+  var list = document.getElementById('rankList');
+  list.innerHTML = players.map(function(p) {
+    var cls = p.rank === 1 ? 'r1' : p.rank === 2 ? 'r2' : p.rank === 3 ? 'r3' : p.isMe ? 'r-me' : 'r-other';
+    return '<div class="rank-row ' + cls + '">' +
+      '<div class="rank-num">' + p.rank + '</div>' +
+      (p.crown ? '<div class="rank-crown">' + p.crown + '</div>' : '<div style="width:18px"></div>') +
+      '<div class="rank-avatar">' + p.emoji + '</div>' +
+      '<div class="rank-info">' +
+        '<div class="rank-name">' + p.name + (p.isMe ? ' <span style="color:#4fc3f7;font-size:10px">(You)</span>' : '') + '</div>' +
+        '<div class="rank-sub">Rank #' + p.rank + ' this season</div>' +
+      '</div>' +
+      '<div class="rank-score"><span class="gem">💎</span>' + p.score + '</div>' +
+    '</div>';
+  }).join('') +
+  '<div class="my-rank-bar">Your rank: <span>#8</span> — Keep playing to climb higher! 🚀</div>';
+}
+
+// ===== TABS =====
+var tabData = {
+  daily:   { label: 'Daily',   timer: 86399,  progress: 65, season: 'DAILY RESET',   desc: 'Resets every 24 hours' },
+  weekly:  { label: 'Weekly',  timer: 604799, progress: 40, season: 'WEEKLY RESET',  desc: 'Resets every Monday' },
+  alltime: { label: 'All Time',timer: 0,      progress: 80, season: 'ALL TIME',       desc: 'Permanent ranking' },
+  pass:    { label: 'Pass',    timer: 2592000, progress: 20, season: 'SEASON PASS',   desc: 'Season ends in 30 days' },
+};
+
+var tabPlayers = {
+  daily: [
+    { rank:1, name:'PikaMaster',  emoji:'⚡', score:'12,850', crown:'👑' },
+    { rank:2, name:'DragonMstr',  emoji:'🐉', score:'8,420',  crown:'🥈' },
+    { rank:3, name:'FireTrainer', emoji:'🔥', score:'7,100',  crown:'🥉' },
+    { rank:4, name:'AshKetchum',  emoji:'🎩', score:'6,500',  crown:'' },
+    { rank:5, name:'MistyWater',  emoji:'💧', score:'5,980',  crown:'' },
+    { rank:6, name:'BrockRock',   emoji:'🪨', score:'5,200',  crown:'' },
+    { rank:7, name:'GaryOak',     emoji:'🌿', score:'4,750',  crown:'' },
+    { rank:8, name:'Username',    emoji:'🌟', score:'4,200',  crown:'', isMe:true },
+    { rank:9, name:'SkyRider',    emoji:'🦅', score:'3,800',  crown:'' },
+    { rank:10,name:'DarkTrainer', emoji:'🌑', score:'3,100',  crown:'' },
+  ],
+  weekly: [
+    { rank:1, name:'DragonMstr',  emoji:'🐉', score:'58,200', crown:'👑' },
+    { rank:2, name:'SkyRider',    emoji:'🦅', score:'44,100', crown:'🥈' },
+    { rank:3, name:'PikaMaster',  emoji:'⚡', score:'39,500', crown:'🥉' },
+    { rank:4, name:'GaryOak',     emoji:'🌿', score:'31,200', crown:'' },
+    { rank:5, name:'MistyWater',  emoji:'💧', score:'28,900', crown:'' },
+    { rank:6, name:'Username',    emoji:'🌟', score:'24,500', crown:'', isMe:true },
+    { rank:7, name:'FireTrainer', emoji:'🔥', score:'21,000', crown:'' },
+    { rank:8, name:'BrockRock',   emoji:'🪨', score:'18,400', crown:'' },
+    { rank:9, name:'AshKetchum',  emoji:'🎩', score:'15,200', crown:'' },
+    { rank:10,name:'DarkTrainer', emoji:'🌑', score:'12,800', crown:'' },
+  ],
+  alltime: [
+    { rank:1, name:'LegendaryOne',emoji:'🌈', score:'1,250,000', crown:'👑' },
+    { rank:2, name:'DragonMstr',  emoji:'🐉', score:'980,500',   crown:'🥈' },
+    { rank:3, name:'PikaMaster',  emoji:'⚡', score:'875,200',   crown:'🥉' },
+    { rank:4, name:'SkyRider',    emoji:'🦅', score:'720,100',   crown:'' },
+    { rank:5, name:'GaryOak',     emoji:'🌿', score:'650,400',   crown:'' },
+    { rank:6, name:'FireTrainer', emoji:'🔥', score:'580,000',   crown:'' },
+    { rank:7, name:'MistyWater',  emoji:'💧', score:'490,200',   crown:'' },
+    { rank:8, name:'BrockRock',   emoji:'🪨', score:'420,800',   crown:'' },
+    { rank:9, name:'Username',    emoji:'🌟', score:'380,500',   crown:'', isMe:true },
+    { rank:10,name:'DarkTrainer', emoji:'🌑', score:'310,000',   crown:'' },
+  ],
+  pass: [
+    { rank:1, name:'PassKing',    emoji:'👑', score:'Level 50', crown:'👑' },
+    { rank:2, name:'DragonMstr',  emoji:'🐉', score:'Level 45', crown:'🥈' },
+    { rank:3, name:'PikaMaster',  emoji:'⚡', score:'Level 42', crown:'🥉' },
+    { rank:4, name:'SkyRider',    emoji:'🦅', score:'Level 38', crown:'' },
+    { rank:5, name:'GaryOak',     emoji:'🌿', score:'Level 35', crown:'' },
+    { rank:6, name:'Username',    emoji:'🌟', score:'Level 21', crown:'', isMe:true },
+    { rank:7, name:'FireTrainer', emoji:'🔥', score:'Level 18', crown:'' },
+    { rank:8, name:'MistyWater',  emoji:'💧', score:'Level 15', crown:'' },
+    { rank:9, name:'BrockRock',   emoji:'🪨', score:'Level 12', crown:'' },
+    { rank:10,name:'DarkTrainer', emoji:'🌑', score:'Level 9',  crown:'' },
+  ],
+};
+
+var currentTab = 'daily';
+totalSecs = 86399;
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.lb-tab').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+  currentTab = tab;
+  var d = tabData[tab];
+  totalSecs = d.timer;
+  document.getElementById('progressFill').style.width = d.progress + '%';
+  document.querySelector('.lb-level-label').textContent = d.season;
+  document.querySelector('.lb-progress-text').textContent = d.desc;
+  players = tabPlayers[tab];
+  renderList();
+  updatePodium();
+}
+
+function updatePodium() {
+  var p = tabPlayers[currentTab];
+  var items = document.querySelectorAll('.podium-item');
+  // rank-2 = index 0, rank-1 = index 1, rank-3 = index 2
+  var order = [p[1], p[0], p[2]];
+  items.forEach(function(item, i) {
+    item.querySelector('.podium-avatar').textContent = order[i].emoji;
+    item.querySelector('.podium-name').textContent = order[i].name;
+    item.querySelector('.podium-score').textContent = '💎 ' + order[i].score;
+  });
+}
+
+// ===== TIMER =====
+var totalSecs = 86399;
+function updateTimer() {
+  var h = Math.floor(totalSecs / 3600);
+  var m = Math.floor((totalSecs % 3600) / 60);
+  var s = totalSecs % 60;
+  document.getElementById('timerDisplay').textContent =
+    String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  if (totalSecs > 0) totalSecs--;
+}
+setInterval(updateTimer, 1000);
+updateTimer();
+
+// ===== CONFETTI =====
+(function() {
+  var colors = ['#FFD700','#ff6b35','#4fc3f7','#e53935','#66bb6a','#ab47bc'];
+  var wrap = document.getElementById('confetti');
+  for (var i = 0; i < 12; i++) {
+    var p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.left = (Math.random() * 100) + '%';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.animationDelay = (Math.random() * 2.5) + 's';
+    p.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+    p.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+    wrap.appendChild(p);
+  }
+})();
+
+renderList();
+</script>
+
+</div><!-- /lb-panel -->
+</div><!-- /lb-deco-wrap -->
+
+<!-- ===== MODAL PRIZES & HALL OF FAME ===== -->
+<div class="lb-modal-overlay" id="modalOverlay" onclick="closeModal()">
+  <div class="lb-modal" onclick="event.stopPropagation()">
+    <button class="lb-modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+var prizesContent = '<div class="modal-title">🎁 Prize Pool</div>' +
+  '<div class="modal-sub">Top players win amazing rewards every season!</div>' +
+  '<div class="prize-list">' +
+    '<div class="prize-row gold"><span class="prize-rank">🥇 Rank 1</span><span class="prize-items">💎 50,000 + 🃏 Legendary Card + 👑 Exclusive Title</span></div>' +
+    '<div class="prize-row silver"><span class="prize-rank">🥈 Rank 2</span><span class="prize-items">💎 30,000 + 🃏 Epic Card + 🎖️ Silver Title</span></div>' +
+    '<div class="prize-row bronze"><span class="prize-rank">🥉 Rank 3</span><span class="prize-items">💎 20,000 + 🃏 Rare Card + 🎗️ Bronze Title</span></div>' +
+    '<div class="prize-row normal"><span class="prize-rank">🏅 Rank 4–10</span><span class="prize-items">💎 5,000 + 🃏 Uncommon Card</span></div>' +
+    '<div class="prize-row normal"><span class="prize-rank">🎯 Rank 11–50</span><span class="prize-items">💎 1,000 + 🎫 Gacha Ticket x3</span></div>' +
+    '<div class="prize-row normal"><span class="prize-rank">🎮 Rank 51–100</span><span class="prize-items">💎 500 + 🎫 Gacha Ticket x1</span></div>' +
+  '</div>' +
+  '<div class="modal-note">⏱️ Prizes distributed automatically at season end</div>';
+
+var hallContent = '<div class="modal-title">🌟 Hall of Fame</div>' +
+  '<div class="modal-sub">Legends who dominated past seasons</div>' +
+  '<div class="hall-list">' +
+    '<div class="hall-row"><span class="hall-season">Season 3</span><span class="hall-avatar">🌈</span><span class="hall-name">LegendaryOne</span><span class="hall-score">💎 1,250,000</span><span class="hall-badge">👑 Champion</span></div>' +
+    '<div class="hall-row"><span class="hall-season">Season 2</span><span class="hall-avatar">🐉</span><span class="hall-name">DragonMstr</span><span class="hall-score">💎 980,500</span><span class="hall-badge">👑 Champion</span></div>' +
+    '<div class="hall-row"><span class="hall-season">Season 1</span><span class="hall-avatar">⚡</span><span class="hall-name">PikaMaster</span><span class="hall-score">💎 875,200</span><span class="hall-badge">👑 Champion</span></div>' +
+  '</div>' +
+  '<div class="modal-note">🏆 Win a season to be immortalized here!</div>';
+
+function openModal(type) {
+  document.getElementById('modalContent').innerHTML = type === 'prizes' ? prizesContent : hallContent;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+</script>
+
+<style>
+.lb-modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.7);
+  display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px); padding: 20px;
+}
+.lb-modal-overlay.show { display: flex; }
+.lb-modal {
+  background: linear-gradient(160deg, #1a6fd4, #0a3d8f);
+  border: 2px solid rgba(100,180,255,0.6);
+  border-radius: 24px; padding: 28px 28px 24px;
+  max-width: 520px; width: 100%; position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,50,0.6);
+  animation: modalPop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes modalPop { from{transform:scale(0.7);opacity:0} to{transform:scale(1);opacity:1} }
+.lb-modal-close {
+  position: absolute; top: 14px; right: 16px;
+  background: rgba(255,255,255,0.15); border: none;
+  color: #fff; font-size: 16px; width: 30px; height: 30px;
+  border-radius: 50%; cursor: pointer; transition: background 0.2s;
+}
+.lb-modal-close:hover { background: rgba(255,255,255,0.3); }
+.modal-title { font-family: 'Luckiest Guy', cursive; font-size: 30px; color: #FFD700; text-shadow: 0 0 16px rgba(255,215,0,0.6); margin-bottom: 6px; }
+.modal-sub { font-size: 15px; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+.modal-note { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 16px; text-align: center; }
+.prize-list { display: flex; flex-direction: column; gap: 8px; }
+.prize-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: 12px; gap: 10px; flex-wrap: wrap; }
+.prize-row.gold   { background: rgba(255,215,0,0.2); border: 1px solid rgba(255,215,0,0.4); }
+.prize-row.silver { background: rgba(192,192,192,0.15); border: 1px solid rgba(192,192,192,0.3); }
+.prize-row.bronze { background: rgba(205,127,50,0.2); border: 1px solid rgba(205,127,50,0.4); }
+.prize-row.normal { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); }
+.prize-rank { font-weight: 700; font-size: 15px; flex-shrink: 0; }
+.prize-items { font-size: 14px; color: rgba(255,255,255,0.85); }
+.hall-list { display: flex; flex-direction: column; gap: 10px; }
+.hall-row { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 12px 14px; }
+.hall-season { font-size: 13px; color: rgba(255,255,255,0.5); min-width: 64px; }
+.hall-avatar { font-size: 28px; }
+.hall-name { font-weight: 700; font-size: 16px; flex: 1; }
+.hall-score { font-size: 14px; color: #FFD700; font-weight: 700; }
+.hall-badge { font-size: 13px; font-weight: 700; background: rgba(255,215,0,0.2); color: #FFD700; padding: 3px 8px; border-radius: 10px; border: 1px solid rgba(255,215,0,0.4); }
+</style>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kartu Fisik - GachaKeren</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: transparent; color: #fff;
+  min-height: 100vh; overflow-y: auto; overflow-x: hidden;
+  padding: 24px 24px 40px;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+
+h1.page-title {
+  font-size: 22px; font-weight: 900; color: #fff;
+  margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
+}
+.page-subtitle { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 28px; }
+
+/* Tabs */
+.tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid rgba(255,255,255,0.1); }
+.tab-btn {
+  padding: 12px 28px; background: transparent;
+  border: none; color: rgba(255,255,255,0.5);
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  border-bottom: 3px solid transparent; margin-bottom: -2px;
+  transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.tab-btn:hover { color: #fff; }
+.tab-btn.active { color: #FFD700; border-bottom-color: #FFD700; }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* Card */
+.card {
+  background: rgba(30,30,30,0.9); border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden; margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+.card-header {
+  padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08);
+  font-size: 14px; font-weight: 700; color: #FFD700;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-body { padding: 20px; }
+
+/* Form */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.form-row.single { grid-template-columns: 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+label { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.5px; }
+.form-control {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  color: #fff; padding: 11px 14px; border-radius: 10px; font-size: 13px;
+  font-family: 'Poppins', sans-serif; transition: 0.2s; outline: none;
+}
+.form-control:focus { border-color: #FFD700; box-shadow: 0 0 0 2px rgba(255,215,0,0.1); }
+select.form-control option { background: #1e1e1e; }
+
+/* Card selector */
+.card-selector-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px; margin-bottom: 16px;
+}
+.card-select-item {
+  border-radius: 10px; overflow: hidden; cursor: pointer;
+  border: 2px solid rgba(255,255,255,0.1); transition: all 0.2s;
+  position: relative;
+}
+.card-select-item:hover { border-color: #FFD700; transform: scale(1.04); }
+.card-select-item.selected { border-color: #FFD700; box-shadow: 0 0 12px rgba(255,215,0,0.4); }
+.card-select-item img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
+.card-select-item .check {
+  position: absolute; top: 6px; right: 6px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #FFD700; color: #000; font-size: 12px;
+  display: none; align-items: center; justify-content: center;
+}
+.card-select-item.selected .check { display: flex; }
+
+/* Info box */
+.info-box {
+  background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.2);
+  border-radius: 10px; padding: 14px 16px; margin-bottom: 16px;
+  font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.8;
+}
+.info-box i { color: #FFD700; margin-right: 6px; }
+
+/* Submit */
+.btn-submit {
+  width: 100%; padding: 14px; border-radius: 12px;
+  background: linear-gradient(135deg, #FFD700, #FFA000);
+  border: none; color: #000; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: all 0.25s; letter-spacing: 0.5px;
+  font-family: 'Poppins', sans-serif;
+}
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,215,0,0.4); }
+
+/* History table */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { padding: 12px 14px; text-align: left; color: rgba(255,255,255,0.5); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+td { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.85); }
+tr:hover td { background: rgba(255,255,255,0.03); }
+.badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.badge-process { background: rgba(255,165,0,0.2); color: #FFA500; }
+.badge-sent    { background: rgba(0,230,118,0.2); color: #00e676; }
+.badge-done    { background: rgba(96,165,250,0.2); color: #60a5fa; }
+
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<h1 class="page-title"><i class="fas fa-shipping-fast"></i> Kartu Fisik</h1>
+<p class="page-subtitle">Kirim kartu digital kamu menjadi kartu fisik ke alamatmu</p>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('kirim', this)">Kirim Kartu</button>
+  <button class="tab-btn" onclick="switchTab('riwayat', this)">Riwayat Pengiriman</button>
+</div>
+
+<!-- TAB KIRIM -->
+<div class="tab-pane active" id="tab-kirim">
+
+  <div class="card">
+    <div class="card-header"><i class="fas fa-cards-blank"></i> Pilih Kartu</div>
+    <div class="card-body">
+      <p style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:12px;">Pilih kartu yang ingin dicetak fisik (maks. 5 kartu)</p>
+      <div class="card-selector-grid" id="cardSelectorGrid"></div>
+      <p id="selectedCount" style="font-size:12px;color:#FFD700;margin-top:4px;">0 kartu dipilih</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><i class="fas fa-map-marker-alt"></i> Alamat Pengiriman</div>
+    <div class="card-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nama Penerima</label>
+          <input type="text" class="form-control" placeholder="Nama lengkap"/>
+        </div>
+        <div class="form-group">
+          <label>Nomor HP</label>
+          <input type="tel" class="form-control" placeholder="08xxxxxxxxxx"/>
+        </div>
+      </div>
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Alamat Lengkap</label>
+          <textarea class="form-control" rows="3" placeholder="Jalan, nomor rumah, RT/RW..."></textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Kota / Kabupaten</label>
+          <input type="text" class="form-control" placeholder="Kota"/>
+        </div>
+        <div class="form-group">
+          <label>Kode Pos</label>
+          <input type="text" class="form-control" placeholder="12345"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Provinsi</label>
+          <select class="form-control">
+            <option value="">Pilih Provinsi</option>
+            <option>DKI Jakarta</option><option>Jawa Barat</option>
+            <option>Jawa Tengah</option><option>Jawa Timur</option>
+            <option>Bali</option><option>Sumatera Utara</option>
+            <option>Sulawesi Selatan</option><option>Kalimantan Timur</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ekspedisi</label>
+          <select class="form-control">
+            <option>JNE Regular</option><option>JNE YES</option>
+            <option>J&T Express</option><option>SiCepat REG</option>
+            <option>Anteraja</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <i class="fas fa-info-circle"></i> Biaya cetak kartu fisik: <strong>Rp 15.000/kartu</strong><br>
+    <i class="fas fa-clock"></i> Estimasi produksi: <strong>3-5 hari kerja</strong><br>
+    <i class="fas fa-truck"></i> Ongkos kirim ditanggung pembeli sesuai ekspedisi pilihan
+  </div>
+
+  <button class="btn-submit" onclick="submitOrder()">
+    <i class="fas fa-paper-plane"></i> &nbsp; KIRIM PESANAN
+  </button>
+</div>
+
+<!-- TAB RIWAYAT -->
+<div class="tab-pane" id="tab-riwayat">
+  <div class="card">
+    <div class="card-header"><i class="fas fa-history"></i> Riwayat Pengiriman</div>
+    <div class="card-body">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Kartu</th>
+              <th>Alamat</th>
+              <th>Ekspedisi</th>
+              <th>No. Resi</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>12 Apr 2026</td>
+              <td>Charizard EX</td>
+              <td>Jakarta Selatan</td>
+              <td>JNE REG</td>
+              <td>JNE123456789</td>
+              <td><span class="badge badge-sent">Dikirim</span></td>
+            </tr>
+            <tr>
+              <td>05 Mar 2026</td>
+              <td>Mew EX, Pikachu VMAX</td>
+              <td>Bandung</td>
+              <td>J&T Express</td>
+              <td>JT987654321</td>
+              <td><span class="badge badge-done">Selesai</span></td>
+            </tr>
+            <tr>
+              <td>18 Apr 2026</td>
+              <td>Rayquaza EX</td>
+              <td>Surabaya</td>
+              <td>SiCepat REG</td>
+              <td>-</td>
+              <td><span class="badge badge-process">Diproses</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Card selector
+var myCards = [
+  { img:'../pokemon-cards/_-Cek9cr07LvG455A07v4j33ALumZ-wNPbekp55EdRY.jpeg', name:'Charizard EX' },
+  { img:'../pokemon-cards/m13qNSEFwa0fwsXI6xC-69CqnH1V11Y0VCqFEwn6p2w.jpeg', name:'Rayquaza EX' },
+  { img:'../pokemon-cards/ZA8TA0g5foXDKfBjuSl0_-L7j9_VE_3zsGNw2S-oDA0.jpeg', name:'Mew EX' },
+  { img:'../pokemon-cards/73l51yZHpPLOIK2kg8gsba2FRbX5ubrJYivG1ZY6OUA.jpeg', name:'Pikachu VMAX' },
+  { img:'../pokemon-cards/Hc7QMiT980rB_6MEvb9rJ6gRoOwgGGGcYfeT9dvqLxE.jpeg', name:'Lugia VSTAR' },
+  { img:'../pokemon-cards/npPSLO51S39hPtX5rzoZHXKX2_0xrWbWeKhVv9SeiHI.jpeg', name:'Umbreon VMAX' },
+];
+var selected = [];
+
+var grid = document.getElementById('cardSelectorGrid');
+grid.innerHTML = myCards.map(function(c, i) {
+  return '<div class="card-select-item" onclick="toggleCard(' + i + ', this)">' +
+    '<img src="' + c.img + '" alt="' + c.name + '" loading="lazy"/>' +
+    '<div class="check"><i class="fas fa-check"></i></div>' +
+  '</div>';
+}).join('');
+
+function toggleCard(i, el) {
+  var idx = selected.indexOf(i);
+  if (idx === -1) {
+    if (selected.length >= 5) { alert('Maksimal 5 kartu'); return; }
+    selected.push(i); el.classList.add('selected');
+  } else {
+    selected.splice(idx, 1); el.classList.remove('selected');
+  }
+  document.getElementById('selectedCount').textContent = selected.length + ' kartu dipilih';
+}
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function submitOrder() {
+  if (selected.length === 0) { alert('Pilih minimal 1 kartu'); return; }
+  alert('Pesanan berhasil dikirim! Kami akan memproses dalam 1x24 jam.');
+}
+</script>
+</body>
+</html>

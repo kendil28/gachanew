@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legendary Board - GachaKeren</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Luckiest+Guy&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: transparent;
+  min-height: 100vh;
+  overflow-y: auto; overflow-x: hidden;
+  padding: 24px 24px 40px 24px;
+  color: #fff;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
+
+/* ===== MAIN PANEL ===== */
+.lb-panel {
+  max-width: 100%;
+  margin: 0 auto;
+  background: linear-gradient(160deg, #e53935 0%, #c62828 40%, #b71c1c 100%);
+  border-radius: 28px;
+  border: 3px solid rgba(255,100,100,0.6);
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,0.15),
+    0 8px 40px rgba(180,50,50,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  overflow: hidden;
+  padding-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== TABS ===== */
+.lb-tabs {
+  display: flex;
+  background: #FFFFFF;
+  border-bottom: 3px solid rgba(180,50,50,0.3);
+  padding: 0 8px;
+  gap: 4px;
+}
+.lb-tab {
+  flex: 1;
+  padding: 14px 8px;
+  text-align: center;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 20px;
+  color: rgba(180,50,50,0.6);
+  cursor: pointer;
+  border-radius: 12px 12px 0 0;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+  position: relative;
+  top: 3px;
+}
+.lb-tab:hover { color: #e53935; background: rgba(229,57,53,0.05); }
+.lb-tab.active {
+  background: linear-gradient(180deg, #e53935 0%, #c62828 100%);
+  color: #fff;
+  box-shadow: 0 -2px 12px rgba(255,100,100,0.5);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* ===== HEADER BAR ===== */
+.lb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: rgba(60,60,60,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.lb-title {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 28px;
+  color: #FFD700;
+  text-shadow: 0 0 16px rgba(255,215,0,0.6);
+}
+.lb-subtitle {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+}
+
+/* ===== CONTENT ===== */
+.lb-content {
+  display: flex;
+  gap: 16px;
+  padding: 16px 20px;
+}
+
+/* ===== CARD GRID ===== */
+.card-grid-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 14px;
+}
+
+.legend-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+  position: relative;
+}
+.legend-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+}
+.legend-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(255,215,0,0.3);
+  border-color: rgba(255,215,0,0.4);
+}
+.legend-card.legendary:hover { box-shadow: 0 8px 24px rgba(255,215,0,0.4); }
+.legend-card.mythic:hover { box-shadow: 0 8px 24px rgba(219,39,119,0.4); }
+
+.legend-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  display: block;
+  padding: 8px;
+  background: rgba(0,0,0,0.2);
+}
+
+.legend-card-info {
+  padding: 10px 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.legend-card-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+}
+
+.legend-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+  font-family: 'Luckiest Guy', cursive;
+}
+.badge-legendary {
+  background: rgba(255,215,0,0.2);
+  color: #FFD700;
+  border: 1px solid rgba(255,215,0,0.4);
+}
+.badge-mythic {
+  background: rgba(219,39,119,0.2);
+  color: #f472b6;
+  border: 1px solid rgba(219,39,119,0.4);
+}
+
+.legend-owner {
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255,255,255,0.4);
+}
+.empty-state i {
+  font-size: 64px;
+  margin-bottom: 16px;
+  color: rgba(255,215,0,0.3);
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.empty-state p { font-size: 16px; font-weight: 600; }
+
+/* ===== STATS PANEL ===== */
+.stats-panel {
+  flex: 0 0 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-box {
+  background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 16px;
+}
+.stat-box-title {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 18px;
+  color: #FFD700;
+  margin-bottom: 12px;
+}
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.stat-row:last-child { border-bottom: none; }
+.stat-label { font-size: 13px; color: rgba(255,255,255,0.7); }
+.stat-value {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 16px;
+  color: #ffcdd2;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  body { padding: 10px 10px 30px; }
+  .lb-content { flex-direction: column; gap: 12px; }
+  .stats-panel { flex: none; }
+  .lb-tab { font-size: 13px; padding: 10px 4px; }
+  .lb-header { flex-direction: column; gap: 8px; text-align: center; }
+  .lb-title { font-size: 22px; }
+  .lb-panel { max-width: 100%; border-radius: 20px; }
+  .card-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  .legend-card-name { font-size: 12px; }
+  .legend-badge { font-size: 9px; padding: 2px 6px; }
+  .legend-owner { font-size: 9px; }
+}
+</style>
+</head>
+<body>
+
+<div class="lb-panel">
+
+  <!-- TABS -->
+  <div class="lb-tabs">
+    <div class="lb-tab active" onclick="switchTab('all',this)">All</div>
+    <div class="lb-tab" onclick="switchTab('legendary',this)">⭐ Legendary</div>
+    <div class="lb-tab" onclick="switchTab('mythic',this)">💎 Mythic</div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="lb-header">
+    <div>
+      <div class="lb-title">👑 Legendary Board</div>
+      <div class="lb-subtitle">Kartu-kartu paling langka dari pemain top</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="lb-content">
+
+    <!-- CARD GRID -->
+    <div class="card-grid-wrap">
+      <div class="card-grid" id="cardGrid">
+        <!-- Cards generated by JS -->
+      </div>
+    </div>
+
+    <!-- STATS PANEL -->
+    <div class="stats-panel">
+      <div class="stat-box">
+        <div class="stat-box-title">📊 Statistics</div>
+        <div class="stat-row">
+          <span class="stat-label">Total Cards</span>
+          <span class="stat-value" id="totalCards">8</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Legendary</span>
+          <span class="stat-value" id="legendaryCount">5</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Mythic</span>
+          <span class="stat-value" id="mythicCount">3</span>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-box-title">🏆 Top Collectors</div>
+        <div class="stat-row">
+          <span class="stat-label">Trainer_Ash</span>
+          <span class="stat-value">2</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">DragonMaster</span>
+          <span class="stat-value">1</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">PikaMaster</span>
+          <span class="stat-value">1</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var cards = [
+  { img: '../pokemon-cards/_-Cek9cr07LvG455A07v4j33ALumZ-wNPbekp55EdRY.jpeg', name: 'Charizard EX', rarity: 'legendary', owner: 'Trainer_Ash' },
+  { img: '../pokemon-cards/m13qNSEFwa0fwsXI6xC-69CqnH1V11Y0VCqFEwn6p2w.jpeg', name: 'Rayquaza EX', rarity: 'legendary', owner: 'DragonMaster' },
+  { img: '../pokemon-cards/ZA8TA0g5foXDKfBjuSl0_-L7j9_VE_3zsGNw2S-oDA0.jpeg', name: 'Mew EX', rarity: 'mythic', owner: 'MewHunter99' },
+  { img: '../pokemon-cards/73l51yZHpPLOIK2kg8gsba2FRbX5ubrJYivG1ZY6OUA.jpeg', name: 'Pikachu VMAX', rarity: 'legendary', owner: 'PikaMaster' },
+  { img: '../pokemon-cards/Hc7QMiT980rB_6MEvb9rJ6gRoOwgGGGcYfeT9dvqLxE.jpeg', name: 'Lugia VSTAR', rarity: 'mythic', owner: 'SkyRider' },
+  { img: '../pokemon-cards/npPSLO51S39hPtX5rzoZHXKX2_0xrWbWeKhVv9SeiHI.jpeg', name: 'Umbreon VMAX', rarity: 'legendary', owner: 'DarkTrainer' },
+  { img: '../pokemon-cards/U2US8ECIxX-OQdC-LqQ9LjU3kmJQsBq1LAfZJruZUog.jpeg', name: 'Sylveon VMAX', rarity: 'legendary', owner: 'FairyQueen' },
+  { img: '../pokemon-cards/ZU7OBcSwBOxbGU9vXkHLGTUOOpXQVrkOet4IhOVGcEo.jpeg', name: 'Alakazam V', rarity: 'mythic', owner: 'PsychicPro' },
+];
+
+var currentFilter = 'all';
+
+function switchTab(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('.lb-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  renderCards();
+}
+
+function renderCards() {
+  var grid = document.getElementById('cardGrid');
+  var filtered = currentFilter === 'all' ? cards : cards.filter(function(c) { return c.rarity === currentFilter; });
+  
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><i class="fas fa-crown"></i><p>Belum ada kartu ' + currentFilter + '</p></div>';
+    return;
+  }
+  
+  grid.innerHTML = filtered.map(function(c) {
+    return '<div class="legend-card ' + c.rarity + '">' +
+      '<img src="' + c.img + '" alt="' + c.name + '" loading="lazy"/>' +
+      '<div class="legend-card-info">' +
+        '<div class="legend-card-name">' + c.name + '</div>' +
+        '<div class="legend-card-meta">' +
+          '<span class="legend-badge badge-' + c.rarity + '">' + (c.rarity === 'legendary' ? '⭐ LEGENDARY' : '💎 MYTHIC') + '</span>' +
+          '<span class="legend-owner">@' + c.owner + '</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function updateStats() {
+  document.getElementById('totalCards').textContent = cards.length;
+  document.getElementById('legendaryCount').textContent = cards.filter(function(c) { return c.rarity === 'legendary'; }).length;
+  document.getElementById('mythicCount').textContent = cards.filter(function(c) { return c.rarity === 'mythic'; }).length;
+}
+
+renderCards();
+updateStats();
+</script>
+
+</div><!-- /lb-panel -->
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GachaKeren Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/super-starfish" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- BACKGROUND -->
+  <div class="bg" style="background-image: url('background.png');"></div>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <!-- Logo -->
+    <div class="logo">
+      <img src="logoweb.png" alt="GachaKeren" />
+    </div>
+
+    <!-- Profile -->
+    <div class="profile">
+      <div class="profile-avatar">
+        <img src="icon/pokemon.png" alt="avatar" class="avatar-img" />
+      </div>
+      <div class="profile-card">
+        <div class="profile-username">Username</div>
+        <div class="profile-id">ID 608</div>
+      </div>
+    </div>
+
+    <!-- Currency + Profile Card Mobile (kanan) -->
+    <div class="topbar-right">
+      <!-- Profile card mobile: muncul di atas currencies di mobile -->
+      <div class="profile-card-mobile">
+        <div class="profile-username">Username</div>
+        <div class="profile-id">ID 608</div>
+      </div>
+      <!-- Currency -->
+      <div class="currencies">
+        <div class="currency-item">
+          <img src="icon/koin.png" alt="koin" />
+          <span>20.15M</span>
+          <button class="btn-plus">+</button>
+        </div>
+        <div class="currency-item">
+          <img src="icon/diamond.png" alt="diamond" />
+          <span>20.15M</span>
+          <button class="btn-plus">+</button>
+        </div>
+        <div class="currency-item">
+          <img src="icon/flash.png" alt="flash" />
+          <span>20.15M</span>
+          <button class="btn-plus">+</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar-left">
+      <div class="side-btn" onclick="window.location='memberarea.html?page=deposit'">
+        <div class="side-icon-ring red">
+          <img src="icon/deposit.png" alt="deposit" />
+        </div>
+        <span>DEPOSIT</span>
+      </div>
+      <div class="side-btn" onclick="window.location='memberarea.html?page=withdraw'">
+        <div class="side-icon-ring orange">
+          <img src="icon/withdraw.png" alt="withdraw" />
+        </div>
+        <span>WITHDRAW</span>
+      </div>
+      <div class="side-btn" onclick="window.location='memberarea.html?page=profile'">
+        <div class="side-icon-ring blue">
+          <img src="icon/settingakun.png" alt="setting" />
+        </div>
+        <span>PENGATURAN<br/>AKUN</span>
+      </div>
+    </aside>
+
+    <!-- CHARACTER CENTER -->
+    <div class="character-center">
+      <video class="character-img" autoplay loop muted playsinline>
+        <source src="character/ash.webm" type="video/webm" />
+      </video>
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="sidebar-right">
+      <div class="side-btn" onclick="window.location='memberarea.html?page=kirimkartu'">
+        <img src="icon/kirimkartu.png" alt="kirim kartu" class="right-icon" />
+        <span>KIRIM KARTU FISIK</span>
+      </div>
+      <div class="side-btn" onclick="window.location='memberarea.html?page=koleksi'">
+        <img src="icon/koleksisaya.png" alt="koleksi saya" class="right-icon shift-left" />
+        <span>KOLEKSI SAYA</span>
+      </div>
+      <div class="side-btn jual-kartu" onclick="window.location='memberarea.html?page=jualkartu'">
+        <img src="icon/jualkartu.png" alt="jual kartu" class="right-icon shift-left" />
+        <span>JUAL KARTU</span>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- BOTTOM NAVBAR -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" onclick="setActive(this, 'home')">
+      <div class="nav-icon-wrap">
+        <div class="explosion"></div>
+        <img src="icon/home.png" alt="home" />
+      </div>
+      <span>HOME</span>
+    </div>
+    <div class="nav-item" onclick="window.location='gacha.html'">
+      <div class="nav-icon-wrap">
+        <div class="explosion"></div>
+        <img src="icon/gacha.png" alt="gacha" />
+      </div>
+      <span>GACHA</span>
+    </div>
+    <div class="nav-item" onclick="window.location='memberarea.html?page=leaderboard'">
+      <div class="nav-icon-wrap">
+        <div class="explosion"></div>
+        <img src="icon/leaderboard.png" alt="leaderboard" />
+      </div>
+      <span>LEADERBOARD</span>
+    </div>
+    <div class="nav-item" onclick="window.location='memberarea.html?page=legendary'">
+      <div class="nav-icon-wrap nav-icon-legendary">
+        <div class="explosion"></div>
+        <img src="icon/legendaryboard.png" alt="legendary board" />
+      </div>
+      <span>LEGENDARY BOARD</span>
+    </div>
+    <div class="nav-item" onclick="window.location='memberarea.html?page=koleksi'">
+      <div class="nav-icon-wrap">
+        <div class="explosion"></div>
+        <img src="icon/semuakartu.png" alt="semua kartu" />
+      </div>
+      <span>SEMUA KARTU</span>
+    </div>
+  </nav>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Mobile tap tooltip untuk navbar bawah
+    document.querySelectorAll('.nav-item').forEach(function(item) {
+      var timer;
+      item.addEventListener('touchstart', function() {
+        item.classList.add('tapped');
+        clearTimeout(timer);
+        timer = setTimeout(function() { item.classList.remove('tapped'); }, 1200);
+      }, { passive: true });
+    });
+  </script>
+</body>
+</html>

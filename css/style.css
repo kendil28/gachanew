@@ -1,0 +1,587 @@
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Poppins', 'Arial', sans-serif;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ===== BACKGROUND ===== */
+.bg {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* ===== LAYOUT WRAPPER ===== */
+body {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== TOP BAR ===== */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  position: relative;
+  z-index: 10;
+}
+
+.logo img {
+  height: 64px;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 8px;
+}
+
+/* Avatar — keluar dari ring, overlap ke card */
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 4px solid #e53935;
+  background: #1a1a1a;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 0 3px #fff, 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* Card username + ID */
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  margin-left: -18px;
+  position: relative;
+  z-index: 1;
+}
+
+.profile-username {
+  background: #e53935;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 6px 20px 6px 28px;
+  clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+  min-width: 160px;
+  letter-spacing: 0.5px;
+}
+
+.profile-id {
+  background: #fffced;
+  color: #1a1a1a;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 20px 4px 28px;
+  clip-path: polygon(0 0, 92% 0, 84% 100%, 0 100%);
+  min-width: 140px;
+  border-left: 3px solid #1a1a1a;
+}
+
+.currencies {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+/* Wrapper kanan topbar */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+/* Profile card mobile — hidden di desktop */
+.profile-card-mobile {
+  display: none;
+}
+
+.currency-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,0,0,0.55);
+  border-radius: 30px;
+  padding: 5px 10px 5px 6px;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+.currency-item img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.currency-item span {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 48px;
+}
+
+.btn-plus {
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.2s;
+}
+
+.btn-plus:hover { background: #388e3c; }
+
+/* ===== MAIN AREA ===== */
+.main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  z-index: 5;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
+/* ===== LEFT SIDEBAR ===== */
+.sidebar-left {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-top: 16px;
+  z-index: 10;
+  align-self: flex-start;
+}
+
+.side-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.side-btn:hover { transform: scale(1.1); }
+
+.side-btn span {
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7);
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.side-icon-ring {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid;
+  background: rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.side-icon-ring.red    { border-color: #e53935; }
+.side-icon-ring.orange { border-color: #ff9800; }
+.side-icon-ring.blue   { border-color: #1565c0; }
+
+.side-icon-ring img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* ===== CHARACTER CENTER ===== */
+.character-center {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  align-self: stretch;
+  pointer-events: none;
+  padding-left: 0;
+  margin-left: -111px;
+}
+
+.character-img {
+  height: 72vh;
+  max-height: 520px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.4));
+  margin-bottom: 82px;
+}
+
+/* ===== RIGHT SIDEBAR ===== */
+.sidebar-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-end;
+  align-self: center;
+  z-index: 10;
+  padding-bottom: 80px;
+  margin-bottom: 113px;
+}
+
+.sidebar-right .side-btn { align-items: center; }
+
+.right-icon {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+}
+
+.jual-kartu .right-icon {
+  width: 82px;
+  height: 82px;
+}
+
+.shift-left {
+  margin-right: 11px;
+}
+
+/* ===== BOTTOM NAVBAR ===== */
+.bottom-nav {
+  display: flex;
+  align-items: flex-end;
+  background: #f9d923;
+  border: none;
+  border-radius: 999px;
+  z-index: 20;
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: 900px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  padding: 0 8px 8px;
+  height: 56px;
+  overflow: visible;
+}
+
+/* ===== NAV ITEM ===== */
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+  padding-bottom: 2px;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Icon wrapper — floats above the bar */
+.nav-item .nav-icon-wrap {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Legendary board — lebih besar */
+.nav-item .nav-icon-wrap.nav-icon-legendary {
+  width: 96px;
+  height: 96px;
+  bottom: 28px;
+}
+
+.nav-item .nav-icon-wrap.nav-icon-legendary img {
+  width: 92px !important;
+  height: 92px !important;
+}
+
+/* ===== EXPLOSION DIV (behind icon) ===== */
+.nav-item .explosion {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Core blast */
+.nav-item .explosion::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,240,80,1) 0%, rgba(255,140,0,0.8) 40%, rgba(255,50,0,0.4) 65%, transparent 80%);
+  opacity: 0;
+  transform: scale(0.2);
+}
+
+/* Shockwave ring */
+.nav-item .explosion::after {
+  content: '';
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 5px solid rgba(255,210,0,0.95);
+  box-shadow: 0 0 12px rgba(255,180,0,0.8), inset 0 0 8px rgba(255,220,0,0.5);
+  opacity: 0;
+  transform: scale(0.15);
+}
+
+/* Icon image — always on top */
+.nav-item .nav-icon-wrap img {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.45));
+  transition: filter 0.2s;
+}
+
+/* ===== HOVER ===== */
+.nav-item:hover .nav-icon-wrap {
+  animation: iconBounce 0.4s cubic-bezier(.34,1.8,.64,1) forwards;
+}
+
+.nav-item:hover .nav-icon-wrap img {
+  filter: drop-shadow(0 0 8px rgba(255,220,0,0.9)) drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+}
+
+.nav-item:hover .explosion::before {
+  animation: explodeCore 0.55s ease-out forwards;
+}
+
+.nav-item:hover .explosion::after {
+  animation: explodeRing 0.65s ease-out forwards;
+}
+
+/* ===== ACTIVE ===== */
+.nav-item.active .nav-icon-wrap {
+  transform: translateX(-50%) scale(1.12);
+}
+
+.nav-item.active .nav-icon-wrap img {
+  filter: drop-shadow(0 0 10px rgba(255,200,0,0.8)) drop-shadow(0 4px 10px rgba(0,0,0,0.45));
+}
+
+/* Label */
+.nav-item span {
+  color: #ef4036;
+  font-family: 'Super Starfish', 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-align: center;
+  -webkit-text-stroke: 1.5px #ffffff;
+  paint-order: stroke fill;
+  position: relative;
+  z-index: 1;
+}
+
+/* Dividers */
+.nav-item + .nav-item::before {
+  display: none;
+}
+
+/* ===== KEYFRAMES ===== */
+@keyframes iconBounce {
+  0%   { transform: translateX(-50%) scale(1)    translateY(0); }
+  50%  { transform: translateX(-50%) scale(1.32) translateY(-8px); }
+  100% { transform: translateX(-50%) scale(1.22) translateY(0); }
+}
+
+@keyframes explodeCore {
+  0%   { opacity: 0;   transform: scale(0.2); }
+  20%  { opacity: 1;   transform: scale(1.0); }
+  55%  { opacity: 0.8; transform: scale(1.8); }
+  100% { opacity: 0;   transform: scale(2.8); }
+}
+
+@keyframes explodeRing {
+  0%   { opacity: 0;   transform: scale(0.15); border-width: 7px; }
+  18%  { opacity: 1;   transform: scale(0.9);  border-width: 5px; }
+  60%  { opacity: 0.6; transform: scale(2.0);  border-width: 3px; }
+  100% { opacity: 0;   transform: scale(3.2);  border-width: 1px; }
+}
+
+/* ===================================================
+   RESPONSIVE MOBILE
+   =================================================== */
+
+/* Tablet (≤ 768px) */
+@media (max-width: 768px) {
+
+  .topbar {
+    padding: 6px 10px;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .logo img { height: 40px; }
+
+  /* Avatar dikecilkan, profile-card tetap tampil */
+  .profile { margin-left: 4px; }
+  .profile-avatar {
+    width: 46px; height: 46px; border-width: 3px;
+    box-shadow: 0 0 0 2px #fff, 0 2px 6px rgba(0,0,0,.5);
+  }
+  .profile-card { display: flex; margin-left: -10px; }
+  .profile-username { font-size: 10px; padding: 3px 14px 3px 16px; min-width: 90px; }
+  .profile-id       { font-size: 9px;  padding: 2px 12px 2px 14px; min-width: 80px; }
+
+  /* Sembunyikan profile-card-mobile */
+  .profile-card-mobile { display: none; }
+
+  /* topbar-right: kolom — profile card atas, currencies bawah */
+  .topbar-right { flex-direction: column; align-items: flex-end; gap: 4px; }
+  .currencies { flex-direction: column; gap: 3px; margin-top: 10px; }
+  .currency-item { padding: 3px 6px 3px 5px; gap: 3px; }
+  .currency-item img { width: 16px; height: 16px; }
+  .currency-item span { font-size: 9px; min-width: 28px; }
+  .btn-plus { width: 14px; height: 14px; font-size: 10px; }
+
+  /* Sidebars */
+  .side-icon-ring { width: 52px; height: 52px; border-width: 3px; }
+  .side-icon-ring img { width: 28px; height: 28px; }
+  .side-btn span { font-size: 8px; }
+  .sidebar-left { gap: 12px; padding-top: 10px; }
+  .right-icon { width: 56px; height: 56px; }
+  .jual-kartu .right-icon { width: 60px; height: 60px; }
+  .sidebar-right { gap: 10px; margin-bottom: 0; padding-bottom: 0; align-self: flex-start; padding-top: 10px; z-index: 10; position: relative; transform: translateX(-20px); }
+
+  /* Character */
+  .character-center { margin-left: -122px; }
+  .character-img { height: 55vh; max-height: 380px; margin-bottom: 60px; }
+
+  /* Navbar */
+  .bottom-nav { height: 48px; bottom: 10px; width: calc(100% - 24px); padding: 0 4px 6px; overflow: visible; }
+  .nav-item .nav-icon-wrap { width: 54px; height: 54px; bottom: 24px; }
+  .nav-item .nav-icon-wrap img { width: 50px; height: 50px; }
+  .nav-item .nav-icon-wrap.nav-icon-legendary { width: 70px; height: 70px; bottom: 20px; }
+  .nav-item .nav-icon-wrap.nav-icon-legendary img { width: 66px !important; height: 66px !important; }
+
+  /* Sembunyikan teks, tampilkan sebagai tooltip di atas saat hover/tap */
+  .nav-item span {
+    position: absolute;
+    bottom: calc(100% + 68px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    background: rgba(0,0,0,.88);
+    color: #ffd700;
+    font-family: 'Super Starfish', 'Poppins', sans-serif;
+    font-size: 16px;
+    padding: 5px 12px;
+    border-radius: 10px;
+    white-space: nowrap;
+    -webkit-text-stroke: 0.8px #fff;
+    paint-order: stroke fill;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s, transform .2s;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,.4);
+  }
+  .nav-item:hover span,
+  .nav-item:active span,
+  .nav-item.tapped span {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+/* Mobile kecil (≤ 480px) */
+@media (max-width: 480px) {
+
+  .topbar { padding: 5px 8px; gap: 5px; }
+  .logo img { height: 36px; }
+
+  .profile-avatar { width: 40px; height: 40px; }
+  .profile-card { margin-left: -8px; }
+  .profile-username { font-size: 9px; padding: 3px 12px 3px 14px; min-width: 80px; }
+  .profile-id       { font-size: 8px; padding: 2px 10px 2px 12px; min-width: 70px; }
+
+  .currency-item { padding: 3px 5px 3px 4px; gap: 3px; }
+  .currency-item img { width: 16px; height: 16px; }
+  .currency-item span { font-size: 9px; min-width: 26px; }
+  .btn-plus { display: none; }
+  .currencies { gap: 4px; }
+
+  .side-icon-ring { width: 44px; height: 44px; border-width: 3px; }
+  .side-icon-ring img { width: 24px; height: 24px; }
+  .side-btn span { font-size: 7px; }
+  .sidebar-left { gap: 10px; padding-top: 8px; }
+  .right-icon { width: 46px; height: 46px; }
+  .jual-kartu .right-icon { width: 50px; height: 50px; }
+  .sidebar-right { gap: 8px; margin-bottom: 60px; padding-bottom: 50px; position: relative; z-index: 10; }
+  .shift-left { margin-right: 6px; }
+
+  .character-center { margin-left: -122px; }
+  .character-img { height: 50vh; max-height: 300px; margin-bottom: 50px; }
+
+  .bottom-nav { height: 44px; bottom: 8px; }
+  .nav-item .nav-icon-wrap { width: 46px; height: 46px; bottom: 20px; }
+  .nav-item .nav-icon-wrap img { width: 42px; height: 42px; }
+  .nav-item .nav-icon-wrap.nav-icon-legendary { width: 58px; height: 58px; bottom: 16px; }
+  .nav-item .nav-icon-wrap.nav-icon-legendary img { width: 54px !important; height: 54px !important; }
+  .nav-item span { font-size: 15px; }
+}
+
+/* Sangat kecil (≤ 360px) */
+@media (max-width: 360px) {
+  .logo img { height: 32px; }
+  .profile-username { font-size: 8px; min-width: 70px; }
+  .profile-id { font-size: 7px; min-width: 60px; }
+  .currencies { gap: 3px; }
+  .currency-item span { display: none; }
+  .character-img { height: 45vh; max-height: 260px; }
+  .nav-item span { display: none; }
+  .bottom-nav { height: 40px; }
+  .nav-item .nav-icon-wrap { bottom: 16px; width: 40px; height: 40px; }
+  .nav-item .nav-icon-wrap img { width: 36px; height: 36px; }
+}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>GachaKeren — Member Area</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/super-starfish" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    html, body {
+      width: 100%; height: 100%;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden; background: #000;
+      display: flex; flex-direction: column;
+      position: relative; z-index: 1;
+    }
+
+    /* BG */
+    .bg { position: fixed; inset: 0; background-size: cover; background-position: center; z-index: 0; }
+    .bg-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
+
+    /* TOPBAR */
+    .topbar {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 18px; position: relative; z-index: 10; flex-shrink: 0;
+    }
+    .logo img { height: 60px; filter: drop-shadow(0 2px 8px rgba(0,0,0,.5)); }
+    .profile { display: flex; align-items: center; position: relative; margin-left: 8px; }
+    .profile-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      border: 4px solid #e53935; background: #1a1a1a;
+      overflow: hidden; flex-shrink: 0; z-index: 2;
+      box-shadow: 0 0 0 3px #fff, 0 4px 12px rgba(0,0,0,.5);
+    }
+    .avatar-img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .profile-card { display: flex; flex-direction: column; margin-left: -16px; z-index: 1; }
+    .profile-username {
+      background: #e53935; color: #fff; font-size: 14px; font-weight: 700;
+      padding: 5px 18px 5px 24px;
+      clip-path: polygon(0 0,100% 0,92% 100%,0 100%); min-width: 150px;
+    }
+    .profile-id {
+      background: #fffced; color: #1a1a1a; font-size: 11px; font-weight: 700;
+      padding: 3px 18px 3px 24px;
+      clip-path: polygon(0 0,92% 0,84% 100%,0 100%); min-width: 130px;
+      border-left: 3px solid transparent;
+    }
+    .topbar-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+    .currencies { display: flex; gap: 10px; }
+    .currency-item {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(0,0,0,.6); border-radius: 30px;
+      padding: 5px 10px 5px 6px; border: 2px solid rgba(255,255,255,.2);
+    }
+    .currency-item img { width: 28px; height: 28px; object-fit: contain; }
+    .currency-item span { color: #fff; font-size: 13px; font-weight: 700; min-width: 44px; }
+    .btn-plus {
+      background: #4caf50; color: #fff; border: none; border-radius: 50%;
+      width: 22px; height: 22px; font-size: 16px; font-weight: 900;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+
+    /* LAYOUT */
+    .main-layout { flex: 1; display: flex; position: relative; z-index: 5; overflow: hidden; }
+
+    /* CONTENT AREA */
+    .content-area { flex: 1; position: relative; overflow: hidden; margin-left: 92px; }
+    .content-frame { width: 100%; height: 100%; border: none; display: block; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .topbar { padding: 6px 10px; gap: 6px; }
+      .logo img { height: 40px; }
+      .profile-avatar { width: 46px; height: 46px; border-width: 3px; }
+      .profile-card { margin-left: -10px; }
+      .profile-username { font-size: 10px; padding: 3px 14px 3px 16px; min-width: 90px; }
+      .profile-id { font-size: 9px; padding: 2px 12px 2px 14px; min-width: 80px; }
+      .topbar-right { flex-direction: column; align-items: flex-end; gap: 3px; }
+      .currencies { flex-direction: column; gap: 3px; }
+      .currency-item { padding: 3px 6px 3px 5px; gap: 3px; }
+      .currency-item img { width: 16px; height: 16px; }
+      .currency-item span { font-size: 9px; min-width: 28px; }
+      .btn-plus { display: none; }
+      .content-area { margin-left: 62px; }
+    }
+    @media (max-width: 480px) {
+      .topbar { padding: 5px 8px; gap: 4px; }
+      .logo img { height: 34px; }
+      .profile-avatar { width: 38px; height: 38px; }
+      .profile-username { font-size: 9px; min-width: 76px; }
+      .profile-id { font-size: 8px; min-width: 68px; }
+      .currency-item span { display: none; }
+      .currency-item img { width: 18px; height: 18px; }
+      .currency-item { padding: 4px; }
+      .content-area { margin-left: 52px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg" style="background-image:url('background.png')"></div>
+  <div class="bg-overlay"></div>
+
+  <header class="topbar">
+    <div class="logo"><img src="logoweb.png" alt="GachaKeren"/></div>
+    <div class="profile">
+      <div class="profile-avatar"><img src="icon/pokemon.png" alt="avatar" class="avatar-img"/></div>
+      <div class="profile-card">
+        <div class="profile-username">Username</div>
+        <div class="profile-id">ID 608</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="currencies">
+        <div class="currency-item"><img src="icon/koin.png"/><span>20.15M</span><button class="btn-plus">+</button></div>
+        <div class="currency-item"><img src="icon/diamond.png"/><span>20.15M</span><button class="btn-plus">+</button></div>
+        <div class="currency-item"><img src="icon/flash.png"/><span>20.15M</span><button class="btn-plus">+</button></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-layout">
+    <div class="content-area">
+      <iframe id="contentFrame" class="content-frame"
+        src="GACHA BARU/GACHA BARU/pages/deposit.html"
+        frameborder="0" scrolling="auto"></iframe>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var pageMap = {
+        'deposit':    'GACHA BARU/GACHA BARU/pages/deposit.html',
+        'withdraw':   'GACHA BARU/GACHA BARU/pages/withdraw.html',
+        'profile':    'GACHA BARU/GACHA BARU/pages/profile.html',
+        'leaderboard':'pages/leaderboard.html',
+        'legendary':  'pages/legendary-board.html',
+        'koleksi':    'pages/semua-kartu.html',
+        'kirimkartu': 'pages/kartu-fisik.html',
+        'jualkartu':  'pages/kartu-fisik.html',
+      };
+      var page = new URLSearchParams(window.location.search).get('page');
+      if (page && pageMap[page]) {
+        document.getElementById('contentFrame').src = pageMap[page];
+      }
+    })();
+  </script>
+  <script src="js/sidebar-nav.js"></script>
+</body>
+</html>

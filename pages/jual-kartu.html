@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jual Kartu - GachaKeren</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Luckiest+Guy&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: transparent;
+  min-height: 100vh;
+  overflow-y: auto; overflow-x: hidden;
+  padding: 24px 24px 40px 24px;
+  color: #fff;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
+
+/* ===== MAIN PANEL ===== */
+.lb-panel {
+  max-width: 100%;
+  margin: 0 auto;
+  background: linear-gradient(160deg, #ff9800 0%, #f57c00 40%, #e65100 100%);
+  border-radius: 28px;
+  border: 3px solid rgba(255,152,0,0.6);
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,0.15),
+    0 8px 40px rgba(180,80,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  overflow: hidden;
+  padding-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== TABS ===== */
+.lb-tabs {
+  display: flex;
+  background: #FFFFFF;
+  border-bottom: 3px solid rgba(255,152,0,0.3);
+  padding: 0 8px;
+  gap: 4px;
+}
+.lb-tab {
+  flex: 1;
+  padding: 14px 8px;
+  text-align: center;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 20px;
+  color: rgba(255,152,0,0.6);
+  cursor: pointer;
+  border-radius: 12px 12px 0 0;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+  position: relative;
+  top: 3px;
+}
+.lb-tab:hover { color: #ff9800; background: rgba(255,152,0,0.05); }
+.lb-tab.active {
+  background: linear-gradient(180deg, #ff9800 0%, #f57c00 100%);
+  color: #fff;
+  box-shadow: 0 -2px 12px rgba(255,152,0,0.5);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* ===== HEADER BAR ===== */
+.lb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: rgba(60,60,60,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.lb-title {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 28px;
+  color: #FFD700;
+  text-shadow: 0 0 16px rgba(255,215,0,0.6);
+}
+.lb-subtitle {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+}
+
+/* ===== CONTENT ===== */
+.lb-content {
+  display: flex;
+  gap: 16px;
+  padding: 16px 20px;
+}
+
+/* ===== SEARCH & FILTER ===== */
+.search-filter-wrap {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.search-box {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 8px 14px;
+}
+.search-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 13px;
+  width: 100%;
+}
+.search-box input::placeholder { color: rgba(255,255,255,0.35); }
+.search-box i { color: rgba(255,255,255,0.4); }
+
+.rarity-filter { display: flex; gap: 8px; flex-wrap: wrap; }
+.rf-btn {
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.rf-btn:hover, .rf-btn.active { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.4); color: #fff; }
+.rf-btn.f-legendary.active { background: rgba(255,215,0,0.2); border-color: #FFD700; color: #FFD700; }
+.rf-btn.f-epic.active      { background: rgba(192,132,252,0.2); border-color: #c084fc; color: #c084fc; }
+.rf-btn.f-rare.active      { background: rgba(96,165,250,0.2);  border-color: #60a5fa; color: #60a5fa; }
+.rf-btn.f-common.active    { background: rgba(255,255,255,0.1); border-color: #aaa; color: #aaa; }
+
+/* ===== CARD GRID ===== */
+.card-grid-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 14px;
+}
+
+.card-item {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+  position: relative;
+}
+.card-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+}
+.card-item:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(255,152,0,0.3);
+  border-color: rgba(255,152,0,0.4);
+}
+.card-item.r-legendary:hover { box-shadow: 0 8px 24px rgba(255,215,0,0.4); }
+.card-item.r-epic:hover      { box-shadow: 0 8px 24px rgba(192,132,252,0.4); }
+.card-item.r-rare:hover      { box-shadow: 0 8px 24px rgba(96,165,250,0.4); }
+
+.card-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  display: block;
+  padding: 8px;
+  background: rgba(0,0,0,0.2);
+}
+
+.card-item .card-rarity-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 4px 8px;
+  font-size: 9px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.5px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+}
+.card-item.r-legendary { border-color: #FFD700; }
+.card-item.r-legendary .card-rarity-bar { background: rgba(255,215,0,0.85); color: #000; }
+.card-item.r-epic      { border-color: #c084fc; }
+.card-item.r-epic .card-rarity-bar      { background: rgba(192,132,252,0.85); color: #fff; }
+.card-item.r-rare      { border-color: #60a5fa; }
+.card-item.r-rare .card-rarity-bar      { background: rgba(96,165,250,0.85); color: #fff; }
+.card-item.r-common .card-rarity-bar    { background: rgba(80,80,80,0.85); color: #fff; }
+
+/* ===== STATS PANEL ===== */
+.stats-panel {
+  flex: 0 0 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-box {
+  background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 16px;
+}
+.stat-box-title {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 18px;
+  color: #FFD700;
+  margin-bottom: 12px;
+}
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.stat-row:last-child { border-bottom: none; }
+.stat-label { font-size: 13px; color: rgba(255,255,255,0.7); }
+.stat-value {
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 16px;
+  color: #ffcc80;
+}
+
+/* Empty state */
+.no-result {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255,255,255,0.4);
+}
+.no-result i {
+  font-size: 64px;
+  margin-bottom: 16px;
+  color: rgba(255,152,0,0.3);
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.no-result p { font-size: 16px; font-weight: 600; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  body { padding: 10px 10px 30px; }
+  .lb-content { flex-direction: column; gap: 12px; }
+  .stats-panel { flex: none; }
+  .lb-tab { font-size: 13px; padding: 10px 4px; }
+  .lb-header { flex-direction: column; gap: 8px; text-align: center; }
+  .lb-title { font-size: 22px; }
+  .lb-panel { max-width: 100%; border-radius: 20px; }
+  .card-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="lb-panel">
+
+  <!-- TABS -->
+  <div class="lb-tabs">
+    <div class="lb-tab active" onclick="switchTab('all',this)">All</div>
+    <div class="lb-tab" onclick="switchTab('legendary',this)">⭐ Legendary</div>
+    <div class="lb-tab" onclick="switchTab('epic',this)">💎 Epic</div>
+    <div class="lb-tab" onclick="switchTab('rare',this)">🔵 Rare</div>
+    <div class="lb-tab" onclick="switchTab('common',this)">⚪ Common</div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="lb-header">
+    <div>
+      <div class="lb-title">💰 Jual Kartu</div>
+      <div class="lb-subtitle">Jual kartu yang tidak kamu butuhkan</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="lb-content">
+
+    <!-- SEARCH & FILTER -->
+    <div class="card-grid-wrap">
+      <div class="search-filter-wrap">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Cari kartu..." oninput="renderCards()"/>
+        </div>
+      </div>
+
+      <div class="card-grid" id="cardsGrid">
+        <!-- Cards generated by JS -->
+      </div>
+    </div>
+
+    <!-- STATS PANEL -->
+    <div class="stats-panel">
+      <div class="stat-box">
+        <div class="stat-box-title">📊 Statistics</div>
+        <div class="stat-row">
+          <span class="stat-label">Total Cards</span>
+          <span class="stat-value" id="totalCards">8</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Legendary</span>
+          <span class="stat-value" id="legendaryCount">1</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Epic</span>
+          <span class="stat-value" id="epicCount">2</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Rare</span>
+          <span class="stat-value" id="rareCount">3</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Common</span>
+          <span class="stat-value" id="commonCount">2</span>
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-box-title">💵 Marketplace</div>
+        <div class="stat-row">
+          <span class="stat-label">Kartu Terjual</span>
+          <span class="stat-value">15</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Total Pendapatan</span>
+          <span class="stat-value">💎 8,500</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var allCards = [
+  { img:'../pokemon-cards/m13qNSEFwa0fwsXI6xC-69CqnH1V11Y0VCqFEwn6p2w.jpeg', name:'Rayquaza EX',   rarity:'legendary' },
+  { img:'../pokemon-cards/73l51yZHpPLOIK2kg8gsba2FRbX5ubrJYivG1ZY6OUA.jpeg', name:'Pikachu VMAX',  rarity:'epic' },
+  { img:'../pokemon-cards/bZni2XH1SLoFVa7ukQs-6c3hXmwGyafUR5QgNo8Wt3w.jpeg', name:'Mewtwo V',      rarity:'rare' },
+  { img:'../pokemon-cards/gLERjG8bFekOCdkkNuc6_21v9eC38rdc5kKFg0-x3DE.jpeg', name:'Gengar V',      rarity:'rare' },
+  { img:'../pokemon-cards/Hc7QMiT980rB_6MEvb9rJ6gRoOwgGGGcYfeT9dvqLxE.jpeg', name:'Lugia VSTAR',   rarity:'epic' },
+  { img:'../pokemon-cards/LVWlk2uXaNGS4nioPF7Ofe3L5NENFz3HqCyhMKsOQkQ.jpeg', name:'Eevee V',       rarity:'rare' },
+  { img:'../pokemon-cards/mJUwvTc4AUZwZaP4PzL6AyeiIAbYzNRKvkwDKEwsZEA.jpeg', name:'Charmander',    rarity:'common' },
+  { img:'../pokemon-cards/VIe3dY5o7nJ2xpiTXd2OXwq3PyBSUzaKcRIKS3R2SrI.jpeg', name:'Jigglypuff',    rarity:'common' },
+];
+
+var currentFilter = 'all';
+var rarityLabel = { legendary:'⭐ LEGENDARY', epic:'💎 EPIC', rare:'🔵 RARE', common:'⚪ COMMON' };
+
+function switchTab(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('.lb-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  renderCards();
+}
+
+function renderCards() {
+  var q = document.getElementById('searchInput').value.toLowerCase();
+  var filtered = allCards.filter(function(c) {
+    return (currentFilter === 'all' || c.rarity === currentFilter) &&
+           (!q || c.name.toLowerCase().includes(q));
+  });
+  var grid = document.getElementById('cardsGrid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="no-result"><i class="fas fa-shopping-cart"></i><p>Tidak ada kartu untuk dijual</p></div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(function(c) {
+    return '<div class="card-item r-' + c.rarity + '">' +
+      '<img src="' + c.img + '" alt="' + c.name + '" loading="lazy"/>' +
+      '<div class="card-rarity-bar">' + rarityLabel[c.rarity] + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function updateStats() {
+  document.getElementById('totalCards').textContent = allCards.length;
+  document.getElementById('legendaryCount').textContent = allCards.filter(function(c) { return c.rarity === 'legendary'; }).length;
+  document.getElementById('epicCount').textContent = allCards.filter(function(c) { return c.rarity === 'epic'; }).length;
+  document.getElementById('rareCount').textContent = allCards.filter(function(c) { return c.rarity === 'rare'; }).length;
+  document.getElementById('commonCount').textContent = allCards.filter(function(c) { return c.rarity === 'common'; }).length;
+}
+
+renderCards();
+updateStats();
+</script>
+
+</div><!-- /lb-panel -->
+
+</body>
+</html>
