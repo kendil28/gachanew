@@ -13,49 +13,53 @@
 <body>
 
   <!-- BACKGROUND -->
-  <div class="bg" style="background-image: url('background.png');"></div>
+  <div class="bg" style="background-image: url('assets/images/backgrounds/background.png');"></div>
 
   <!-- TOP BAR -->
   <header class="topbar">
     <!-- Logo -->
     <div class="logo">
-      <img src="logoweb.png" alt="GachaKeren" />
+      <img src="assets/images/ui/logoweb.png" alt="GachaKeren" />
     </div>
 
-    <!-- Profile -->
-    <div class="profile">
+    <!-- Auth Buttons (Before Login) -->
+    <div class="auth-buttons" id="auth-buttons">
+      <button class="btn-login" onclick="openAuth('login')">LOGIN</button>
+      <button class="btn-register" onclick="openAuth('register')">REGISTER</button>
+    </div>
+
+    <!-- Profile (After Login) -->
+    <div class="profile" id="profile-section" style="display: none;">
       <div class="profile-avatar">
-        <img src="icon/pokemon.png" alt="avatar" class="avatar-img" />
+        <img src="assets/images/icons/icon/pokemon.png" alt="avatar" class="avatar-img" />
       </div>
       <div class="profile-card">
-        <div class="profile-username">Username</div>
-        <div class="profile-id">ID 608</div>
+        <div class="profile-username" id="username-display">Username</div>
+        <div class="profile-id" id="user-id-display">ID 608</div>
       </div>
     </div>
+
+    <!-- Logout Button (After Login) -->
+    <button class="btn-logout" id="btn-logout" style="display: none;" onclick="handleLogout()">KELUAR</button>
 
     <!-- Currency + Profile Card Mobile (kanan) -->
     <div class="topbar-right">
-      <!-- Profile card mobile: muncul di atas currencies di mobile -->
-      <div class="profile-card-mobile">
-        <div class="profile-username">Username</div>
-        <div class="profile-id">ID 608</div>
-      </div>
       <!-- Currency -->
       <div class="currencies">
         <div class="currency-item">
-          <img src="icon/koin.png" alt="koin" />
-          <span>20.15M</span>
-          <button class="btn-plus">+</button>
+          <img src="assets/images/icons/icon/koin.png" alt="koin" />
+          <span id="bal-koin">20.15M</span>
+          <button class="btn-plus" onclick="openTopup('koin')">+</button>
         </div>
         <div class="currency-item">
-          <img src="icon/diamond.png" alt="diamond" />
-          <span>20.15M</span>
-          <button class="btn-plus">+</button>
+          <img src="assets/images/icons/icon/diamond.png" alt="diamond" />
+          <span id="bal-diamond">20.15M</span>
+          <button class="btn-plus" onclick="openTopup('diamond')">+</button>
         </div>
         <div class="currency-item">
-          <img src="icon/flash.png" alt="flash" />
-          <span>20.15M</span>
-          <button class="btn-plus">+</button>
+          <img src="assets/images/icons/icon/flash.png" alt="flash" />
+          <span id="bal-flash">20.15M</span>
+          <button class="btn-plus" onclick="openTopup('flash')">+</button>
         </div>
       </div>
     </div>
@@ -68,19 +72,19 @@
     <aside class="sidebar-left">
       <div class="side-btn" onclick="window.location='memberarea.html?page=deposit'">
         <div class="side-icon-ring red">
-          <img src="icon/deposit.png" alt="deposit" />
+          <img src="assets/images/icons/icon/deposit.png" alt="deposit" />
         </div>
         <span>DEPOSIT</span>
       </div>
       <div class="side-btn" onclick="window.location='memberarea.html?page=withdraw'">
         <div class="side-icon-ring orange">
-          <img src="icon/withdraw.png" alt="withdraw" />
+          <img src="assets/images/icons/icon/withdraw.png" alt="withdraw" />
         </div>
         <span>WITHDRAW</span>
       </div>
       <div class="side-btn" onclick="window.location='memberarea.html?page=profile'">
         <div class="side-icon-ring blue">
-          <img src="icon/settingakun.png" alt="setting" />
+          <img src="assets/images/icons/icon/settingakun.png" alt="setting" />
         </div>
         <span>PENGATURAN<br/>AKUN</span>
       </div>
@@ -89,22 +93,22 @@
     <!-- CHARACTER CENTER -->
     <div class="character-center">
       <video class="character-img" autoplay loop muted playsinline>
-        <source src="character/ash.webm" type="video/webm" />
+        <source src="assets/images/character/character/ash.webm" type="video/webm" />
       </video>
     </div>
 
     <!-- RIGHT SIDEBAR -->
     <aside class="sidebar-right">
       <div class="side-btn" onclick="window.location='memberarea.html?page=kirimkartu'">
-        <img src="icon/kirimkartu.png" alt="kirim kartu" class="right-icon" />
+        <img src="assets/images/icons/icon/kirimkartu.png" alt="kirim kartu" class="right-icon" />
         <span>KIRIM KARTU FISIK</span>
       </div>
       <div class="side-btn" onclick="window.location='memberarea.html?page=koleksi'">
-        <img src="icon/koleksisaya.png" alt="koleksi saya" class="right-icon shift-left" />
+        <img src="assets/images/icons/icon/koleksisaya.png" alt="koleksi saya" class="right-icon shift-left" />
         <span>KOLEKSI SAYA</span>
       </div>
       <div class="side-btn jual-kartu" onclick="window.location='memberarea.html?page=jualkartu'">
-        <img src="icon/jualkartu.png" alt="jual kartu" class="right-icon shift-left" />
+        <img src="assets/images/icons/icon/jualkartu.png" alt="jual kartu" class="right-icon shift-left" />
         <span>JUAL KARTU</span>
       </div>
     </aside>
@@ -116,35 +120,35 @@
     <div class="nav-item active" onclick="setActive(this, 'home')">
       <div class="nav-icon-wrap">
         <div class="explosion"></div>
-        <img src="icon/home.png" alt="home" />
+        <img src="assets/images/icons/icon/home.png" alt="home" />
       </div>
       <span>HOME</span>
     </div>
     <div class="nav-item" onclick="window.location='gacha.html'">
       <div class="nav-icon-wrap">
         <div class="explosion"></div>
-        <img src="icon/gacha.png" alt="gacha" />
+        <img src="assets/images/icons/icon/gacha.png" alt="gacha" />
       </div>
       <span>GACHA</span>
     </div>
     <div class="nav-item" onclick="window.location='memberarea.html?page=leaderboard'">
       <div class="nav-icon-wrap">
         <div class="explosion"></div>
-        <img src="icon/leaderboard.png" alt="leaderboard" />
+        <img src="assets/images/icons/icon/leaderboard.png" alt="leaderboard" />
       </div>
       <span>LEADERBOARD</span>
     </div>
     <div class="nav-item" onclick="window.location='memberarea.html?page=legendary'">
       <div class="nav-icon-wrap nav-icon-legendary">
         <div class="explosion"></div>
-        <img src="icon/legendaryboard.png" alt="legendary board" />
+        <img src="assets/images/icons/icon/legendaryboard.png" alt="legendary board" />
       </div>
       <span>LEGENDARY BOARD</span>
     </div>
     <div class="nav-item" onclick="window.location='memberarea.html?page=koleksi'">
       <div class="nav-icon-wrap">
         <div class="explosion"></div>
-        <img src="icon/semuakartu.png" alt="semua kartu" />
+        <img src="assets/images/icons/icon/semuakartu.png" alt="semua kartu" />
       </div>
       <span>SEMUA KARTU</span>
     </div>
@@ -161,6 +165,340 @@
         timer = setTimeout(function() { item.classList.remove('tapped'); }, 1200);
       }, { passive: true });
     });
+  </script>
+
+  <!-- TOPUP MODAL -->
+  <div class="topup-overlay" id="topup-overlay" onclick="closeTopup()">
+    <div class="topup-modal" onclick="event.stopPropagation()">
+      <button class="topup-close" onclick="closeTopup()">✕</button>
+
+      <!-- Header -->
+      <div class="topup-header">
+        <div class="topup-icon-wrap" id="topup-icon-wrap"></div>
+        <div>
+          <div class="topup-title" id="topup-title">Top Up</div>
+          <div class="topup-balance">Saldo: <span id="topup-balance-val">0</span></div>
+        </div>
+      </div>
+
+      <!-- Packages -->
+      <div class="topup-packages" id="topup-packages"></div>
+
+      <!-- Custom amount -->
+      <div class="topup-custom">
+        <div class="topup-custom-label">Atau masukkan jumlah:</div>
+        <div class="topup-custom-row">
+          <input type="number" id="topup-custom-input" class="topup-custom-input" placeholder="0" min="1" />
+          <button class="topup-custom-btn" onclick="buyCustom()">Beli</button>
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="topup-info">
+        💡 Pembelian menggunakan saldo Rupiah akun kamu
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTH MODALS -->
+  <div class="auth-modal-overlay" id="auth-modal">
+    <!-- LOGIN FORM -->
+    <div class="auth-modal" id="login-modal" style="display: none;">
+      <div class="close-auth" onclick="closeAuth()">&times;</div>
+      <div class="auth-title">Masuk ke Gacha</div>
+      <form class="auth-form" onsubmit="handleAuth(event, 'login')">
+        <div class="auth-input-group">
+          <label>Username atau Email</label>
+          <input type="text" class="auth-input" placeholder="Masukkan username" required>
+        </div>
+        <div class="auth-input-group">
+          <label>Kata Sandi</label>
+          <input type="password" class="auth-input" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-submit-auth">MASUK SEKARANG</button>
+        <div class="auth-switch">Belum punya akun? <span onclick="toggleAuth('register')">Daftar</span></div>
+      </form>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div class="auth-modal" id="register-modal" style="display: none;">
+      <div class="close-auth" onclick="closeAuth()">&times;</div>
+      <div class="auth-title">Daftar Akun Baru</div>
+      <form class="auth-form" onsubmit="handleAuth(event, 'register')">
+        <div class="auth-input-group">
+          <label>Username</label>
+          <input type="text" class="auth-input" placeholder="Buat username" required>
+        </div>
+        <div class="auth-input-group">
+          <label>Kata Sandi</label>
+          <input type="password" class="auth-input" id="reg-password" placeholder="••••••••" required>
+        </div>
+        <div class="auth-input-group">
+          <label>Konfirmasi Kata Sandi</label>
+          <input type="password" class="auth-input" id="reg-confirm-password" placeholder="••••••••" required>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="auth-input-group">
+            <label>Nama Bank</label>
+            <select class="auth-input" style="padding: 12px 10px;" required>
+              <option value="">Pilih Bank</option>
+              <option value="BCA">BCA</option>
+              <option value="BNI">BNI</option>
+              <option value="BRI">BRI</option>
+              <option value="MANDIRI">MANDIRI</option>
+              <option value="DANAMON">DANAMON</option>
+            </select>
+          </div>
+          <div class="auth-input-group">
+            <label>No. Rekening</label>
+            <input type="text" class="auth-input" placeholder="0000000000" required>
+          </div>
+        </div>
+        <div class="auth-input-group">
+          <label>Nama Rekening</label>
+          <input type="text" class="auth-input" placeholder="Sesuai buku tabungan" required>
+        </div>
+        <button type="submit" class="btn-submit-auth">DAFTAR SEKARANG</button>
+        <div class="auth-switch">Sudah punya akun? <span onclick="toggleAuth('login')">Masuk</span></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openAuth(type) {
+      const overlay = document.getElementById('auth-modal');
+      overlay.classList.add('active');
+      toggleAuth(type);
+    }
+
+    function closeAuth() {
+      document.getElementById('auth-modal').classList.remove('active');
+    }
+
+    function toggleAuth(type) {
+      const loginModal = document.getElementById('login-modal');
+      const registerModal = document.getElementById('register-modal');
+      if (type === 'login') {
+        loginModal.style.display = 'block';
+        registerModal.style.display = 'none';
+      } else {
+        loginModal.style.display = 'none';
+        registerModal.style.display = 'block';
+      }
+    }
+
+    function handleAuth(event, type) {
+      event.preventDefault();
+      const form = event.target;
+      let username = '';
+
+      if (type === 'register') {
+        const pass = document.getElementById('reg-password').value;
+        const confirm = document.getElementById('reg-confirm-password').value;
+        if (pass !== confirm) {
+          alert('Kata sandi konfirmasi tidak cocok!');
+          return;
+        }
+        username = form.querySelector('input[placeholder="Buat username"]').value;
+      } else {
+        username = form.querySelector('input[placeholder="Masukkan username"]').value;
+      }
+
+      // Simpan session
+      sessionStorage.setItem('loggedIn', 'true');
+      sessionStorage.setItem('username', username);
+
+      closeAuth();
+      updateAuthUI(username);
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('loggedIn');
+      sessionStorage.removeItem('username');
+      updateAuthUI(null);
+    }
+
+    function updateAuthUI(username) {
+      const authButtons   = document.getElementById('auth-buttons');
+      const profileSection = document.getElementById('profile-section');
+      const btnLogout     = document.getElementById('btn-logout');
+      const usernameDisplay = document.getElementById('username-display');
+
+      if (username) {
+        // After login
+        authButtons.style.display    = 'none';
+        profileSection.style.display = 'flex';
+        btnLogout.style.display      = 'inline-flex';
+        usernameDisplay.textContent  = username;
+      } else {
+        // Before login
+        authButtons.style.display    = 'flex';
+        profileSection.style.display = 'none';
+        btnLogout.style.display      = 'none';
+      }
+    }
+
+    // Cek session saat halaman dimuat
+    (function() {
+      const saved = sessionStorage.getItem('username');
+      if (sessionStorage.getItem('loggedIn') && saved) {
+        updateAuthUI(saved);
+      }
+    })();
+
+    // Tutup modal saat klik overlay
+    document.getElementById('auth-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeAuth();
+    });
+  </script>
+
+  <script>
+    // ===== TOP-UP SYSTEM =====
+    var topupCurrency = null;
+
+    var topupConfig = {
+      koin: {
+        title: '🪙 Top Up Koin',
+        icon: 'assets/images/icons/icon/koin.png',
+        color: '#f59e0b',
+        balanceKey: 'bal-koin',
+        packages: [
+          { label: '1.000',    amount: 1000,    price: 'Rp 1.000',   bonus: '' },
+          { label: '5.000',    amount: 5000,    price: 'Rp 4.500',   bonus: '+500 Bonus' },
+          { label: '10.000',   amount: 10000,   price: 'Rp 8.500',   bonus: '+1.500 Bonus', popular: true },
+          { label: '50.000',   amount: 50000,   price: 'Rp 40.000',  bonus: '+10.000 Bonus' },
+          { label: '100.000',  amount: 100000,  price: 'Rp 75.000',  bonus: '+25.000 Bonus' },
+          { label: '500.000',  amount: 500000,  price: 'Rp 350.000', bonus: '+150.000 Bonus', best: true },
+        ]
+      },
+      diamond: {
+        title: '💎 Top Up Diamond',
+        icon: 'assets/images/icons/icon/diamond.png',
+        color: '#3b82f6',
+        balanceKey: 'bal-diamond',
+        packages: [
+          { label: '60',    amount: 60,    price: 'Rp 15.000',  bonus: '' },
+          { label: '300',   amount: 300,   price: 'Rp 70.000',  bonus: '+30 Bonus' },
+          { label: '980',   amount: 980,   price: 'Rp 200.000', bonus: '+80 Bonus', popular: true },
+          { label: '1.980', amount: 1980,  price: 'Rp 380.000', bonus: '+200 Bonus' },
+          { label: '3.280', amount: 3280,  price: 'Rp 600.000', bonus: '+400 Bonus' },
+          { label: '6.480', amount: 6480,  price: 'Rp 1.100.000', bonus: '+1.000 Bonus', best: true },
+        ]
+      },
+      flash: {
+        title: '⚡ Top Up Flash',
+        icon: 'assets/images/icons/icon/flash.png',
+        color: '#8b5cf6',
+        balanceKey: 'bal-flash',
+        packages: [
+          { label: '10',   amount: 10,   price: 'Rp 5.000',   bonus: '' },
+          { label: '50',   amount: 50,   price: 'Rp 22.000',  bonus: '+5 Bonus' },
+          { label: '100',  amount: 100,  price: 'Rp 40.000',  bonus: '+15 Bonus', popular: true },
+          { label: '300',  amount: 300,  price: 'Rp 110.000', bonus: '+50 Bonus' },
+          { label: '500',  amount: 500,  price: 'Rp 175.000', bonus: '+100 Bonus' },
+          { label: '1.000',amount: 1000, price: 'Rp 320.000', bonus: '+250 Bonus', best: true },
+        ]
+      }
+    };
+
+    // Simpan balance di sessionStorage
+    var balances = {
+      koin:    parseFloat(sessionStorage.getItem('bal-koin')    || 20150000),
+      diamond: parseFloat(sessionStorage.getItem('bal-diamond') || 20150000),
+      flash:   parseFloat(sessionStorage.getItem('bal-flash')   || 20150000),
+    };
+
+    function formatBalance(n) {
+      if (n >= 1000000) return (n / 1000000).toFixed(2) + 'M';
+      if (n >= 1000)    return (n / 1000).toFixed(1) + 'K';
+      return n.toString();
+    }
+
+    function refreshBalanceDisplay() {
+      document.getElementById('bal-koin').textContent    = formatBalance(balances.koin);
+      document.getElementById('bal-diamond').textContent = formatBalance(balances.diamond);
+      document.getElementById('bal-flash').textContent   = formatBalance(balances.flash);
+    }
+
+    function openTopup(type) {
+      topupCurrency = type;
+      var cfg = topupConfig[type];
+
+      // Header
+      document.getElementById('topup-title').textContent = cfg.title;
+      document.getElementById('topup-balance-val').textContent = formatBalance(balances[type]);
+      var iconWrap = document.getElementById('topup-icon-wrap');
+      iconWrap.innerHTML = '<img src="' + cfg.icon + '" alt="' + type + '" />';
+      iconWrap.style.background = cfg.color + '22';
+      iconWrap.style.borderColor = cfg.color;
+
+      // Packages
+      var pkgHtml = '';
+      cfg.packages.forEach(function(p, i) {
+        var badge = p.best ? '<span class="pkg-badge best">TERBAIK</span>' :
+                    p.popular ? '<span class="pkg-badge popular">POPULER</span>' : '';
+        pkgHtml += '<div class="topup-pkg' + (p.best ? ' pkg-best' : p.popular ? ' pkg-popular' : '') + '" onclick="buyPackage(' + i + ')" style="--pkg-color:' + cfg.color + '">' +
+          badge +
+          '<div class="pkg-amount">' + p.label + '</div>' +
+          '<div class="pkg-icon"><img src="' + cfg.icon + '" /></div>' +
+          (p.bonus ? '<div class="pkg-bonus">' + p.bonus + '</div>' : '') +
+          '<div class="pkg-price">' + p.price + '</div>' +
+        '</div>';
+      });
+      document.getElementById('topup-packages').innerHTML = pkgHtml;
+      document.getElementById('topup-custom-input').value = '';
+
+      // Show
+      document.getElementById('topup-overlay').classList.add('active');
+    }
+
+    function closeTopup() {
+      document.getElementById('topup-overlay').classList.remove('active');
+      topupCurrency = null;
+    }
+
+    function buyPackage(idx) {
+      var cfg = topupConfig[topupCurrency];
+      var pkg = cfg.packages[idx];
+      var total = pkg.amount + (parseInt(pkg.bonus) || 0);
+      // Simpan pilihan ke sessionStorage lalu arahkan ke deposit
+      sessionStorage.setItem('topup_currency', topupCurrency);
+      sessionStorage.setItem('topup_amount', pkg.amount);
+      sessionStorage.setItem('topup_bonus', pkg.bonus || '');
+      sessionStorage.setItem('topup_total', total);
+      sessionStorage.setItem('topup_price', pkg.price);
+      sessionStorage.setItem('topup_label', pkg.label);
+      closeTopup();
+      window.location = 'memberarea.html?page=deposit&topup=1';
+    }
+
+    function buyCustom() {
+      var val = parseInt(document.getElementById('topup-custom-input').value);
+      if (!val || val < 1) { showTopupToast('⚠️ Masukkan jumlah yang valid'); return; }
+      sessionStorage.setItem('topup_currency', topupCurrency);
+      sessionStorage.setItem('topup_amount', val);
+      sessionStorage.setItem('topup_bonus', '');
+      sessionStorage.setItem('topup_total', val);
+      sessionStorage.setItem('topup_price', '');
+      sessionStorage.setItem('topup_label', val.toLocaleString('id'));
+      closeTopup();
+      window.location = 'memberarea.html?page=deposit&topup=1';
+    }
+
+    function showTopupToast(msg) {
+      var t = document.getElementById('topup-toast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = 'topup-toast';
+        document.body.appendChild(t);
+      }
+      t.textContent = msg;
+      t.className = 'topup-toast show';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function() { t.className = 'topup-toast'; }, 2500);
+    }
+
+    refreshBalanceDisplay();
   </script>
 </body>
 </html>

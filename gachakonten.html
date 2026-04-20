@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pokemon Curved Card Gallery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Luckiest+Guy&family=SF+Pro+Rounded:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Luckiest+Guy&family=Bangers&family=SF+Pro+Rounded:wght@900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
-            background: url('backgroundgacha.png') center/cover no-repeat;
+            background: url('assets/images/backgrounds/backgroundgacha.png') center/cover no-repeat;
             background-color: #87ceeb;
             display: flex;
             justify-content: center;
@@ -513,7 +513,7 @@
             position: fixed;
             left: 50%;
             transform: translateX(-50%);
-            bottom: 147px;
+            bottom: 113px;
             z-index: 9002;
             flex-direction: row;
             gap: 8px;
@@ -530,7 +530,7 @@
             left: 120px;
             top: 100px;
             width: 800px;
-            height: 500px;
+            height: 540px;
             z-index: 9002;
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(14px);
@@ -568,12 +568,14 @@
         .gacha-result-panel .grp-close:hover { background: rgba(255,255,255,0.2); }
         .gacha-result-panel .grp-body {
             flex: 1; overflow: hidden; padding: 10px 12px;
+            scrollbar-width: none;
         }
+        .gacha-result-panel .grp-body::-webkit-scrollbar { display: none; }
 
         @media (max-width: 767px) {
             .gacha-result-panel {
                 right: 10px; left: 10px; width: auto;
-                top: auto; bottom: 90px;
+                top: auto; bottom: 166px;
                 transform: none;
                 max-height: 55vh;
             }
@@ -664,10 +666,21 @@
             position: fixed; inset: 0; z-index: 600;
             background: #000;
             display: none; align-items: center; justify-content: center;
+            overflow: hidden;
         }
         .intro-overlay.show { display: flex; }
         .intro-overlay video {
-            width: 100%; height: 100%; object-fit: cover;
+            width: calc(100% + 114px); height: calc(100% + 114px); object-fit: cover;
+            margin: -57px;
+        }
+        /* Mobile — video pas layar tanpa zoom berlebih */
+        @media (max-width: 767px) {
+            .intro-overlay video {
+                width: 100% !important;
+                height: 100% !important;
+                margin: 0 !important;
+                object-fit: cover !important;
+            }
         }
         .skip-btn {
             position: absolute;
@@ -731,11 +744,12 @@
             box-sizing: border-box;
             border: 1px solid #FFCC00;
             border-radius: 26px;
-            font-family: 'Luckiest Guy', cursive;
+            font-family: 'Bangers', cursive;
             font-style: normal;
             font-weight: 400;
-            font-size: 26px;
-            line-height: 26px;
+            font-size: 28px;
+            line-height: 1;
+            letter-spacing: 2px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -744,40 +758,40 @@
             flex: none;
         }
 
-        /* x1: Red bg, blue text, white stroke */
+        /* x1: Red bg, yellow text, white stroke */
         .gacha-btn.x1 {
             width: 155px;
             order: 0;
             flex-grow: 0;
             background: #E93854;
-            color: #0073FF;
-            -webkit-text-stroke: 3px #FFFFFF;
+            color: #FFD700;
+            -webkit-text-stroke: 1.5px #FFFFFF;
             paint-order: stroke fill;
             box-shadow: 0 4px 15px rgba(233,56,84,0.4);
         }
 
-        /* x10: Blue bg, blue text, white stroke */
+        /* x10: Blue bg, white text, gold stroke */
         .gacha-btn.x10 {
             width: 170px;
             order: 1;
             flex-grow: 0;
             background: #0073FF;
-            color: #0073FF;
-            -webkit-text-stroke: 3px #FFFFFF;
+            color: #FFFFFF;
+            -webkit-text-stroke: 1.5px #FFCC00;
             paint-order: stroke fill;
             box-shadow: 0 4px 15px rgba(0,115,255,0.4);
         }
 
-        /* x100: Blue bg, black text, gold stroke */
+        /* x100: Gold gradient, black text, red stroke */
         .gacha-btn.x100 {
             width: 195px;
             order: 2;
             flex-grow: 1;
-            background: #0073FF;
+            background: linear-gradient(135deg, #FFD700 0%, #FF9800 100%);
             color: #000000;
-            -webkit-text-stroke: 3px #FFCC00;
+            -webkit-text-stroke: 1.5px #E93854;
             paint-order: stroke fill;
-            box-shadow: 0 4px 15px rgba(0,115,255,0.4), 0 0 12px rgba(255,204,0,0.3);
+            box-shadow: 0 4px 15px rgba(255,152,0,0.5), 0 0 12px rgba(255,204,0,0.3);
         }
 
         .gacha-btn:hover { transform: translateY(-3px) scale(1.05); }
@@ -958,6 +972,26 @@
             .mobile-gacha-btns .gacha-btn.x10  { width: auto !important; }
             .mobile-gacha-btns .gacha-btn.x100 { width: auto !important; }
 
+            /* Button LEWATI mobile */
+            .gacha-btn-skip {
+                display: none;
+                font-family: 'Bangers', cursive;
+                font-size: 15px;
+                letter-spacing: 1px;
+                padding: 0 16px;
+                height: 38px;
+                background: rgba(0,0,0,0.55);
+                color: rgba(255,255,255,0.85);
+                border: 1.5px solid rgba(255,255,255,0.3);
+                border-radius: 20px;
+                cursor: pointer;
+                transition: background 0.2s;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+            .gacha-btn-skip:hover { background: rgba(255,255,255,0.15); }
+            .gacha-btn-skip.visible { display: inline-flex !important; align-items: center; justify-content: center; }
+
             /* Confirm popup */
             .confirm-box { padding: 24px; min-width: 280px; }
             .confirm-title { font-size: 26px; }
@@ -988,7 +1022,7 @@
     </style>
 </head>
 <body>
-    <div class="bg-video" style="background-image:url('backgroundgacha.png')"></div>
+    <div class="bg-video" style="background-image:url('assets/images/backgrounds/backgroundgacha.png')"></div>
 
     <!-- MOBILE GACHA BUTTONS (di luar scale-wrapper, fixed position) -->
     <div class="mobile-gacha-btns" id="mobileGachaBtns">
@@ -996,6 +1030,27 @@
         <button class="gacha-btn x10" data-pulls="10">GACHA x 10</button>
         <button class="gacha-btn x100" data-pulls="100">GACHA x 100</button>
     </div>
+
+    <!-- BUTTON LEWATI MOBILE — fixed center atas, muncul saat intro -->
+    <button id="mobileSkipBtn" onclick="skipIntroMobile()" style="
+        display:none;
+        position:fixed;
+        top:20px;
+        left:50%;
+        transform:translateX(-50%);
+        z-index:9999;
+        font-family:'Bangers',cursive;
+        font-size:18px;
+        letter-spacing:2px;
+        padding:8px 28px;
+        background:rgba(0,0,0,0.6);
+        color:#fff;
+        border:1.5px solid rgba(255,255,255,0.4);
+        border-radius:24px;
+        cursor:pointer;
+        backdrop-filter:blur(6px);
+        white-space:nowrap;
+    ">⏭ LEWATI</button>
 
     <div class="scale-wrapper" id="scaleWrapper">
         <div class="container" tabindex="0" id="mainContainer">
@@ -1011,7 +1066,7 @@
             <!-- User Profile -->
             <div class="user-profile">
                 <div class="avatar-container">
-                    <img src="icon/pokemon.png" alt="Avatar" class="avatar">
+                    <img src="assets/images/icons/icon/pokemon.png" alt="Avatar" class="avatar">
                 </div>
                 <div class="user-info">
                     <div class="username">Username</div>
@@ -1021,43 +1076,46 @@
 
             <!-- Currency Desktop -->
             <div class="currency-container">
-                <div class="currency-box coins">
-                    <div class="currency-icon"><img src="icon/koin.png" alt="Coins"></div>
-                    <div class="currency-amount">20.15M</div>
+                <div class="currency-box coins" onclick="openTopupGacha('koin')" style="cursor:pointer;">
+                    <div class="currency-icon"><img src="assets/images/icons/icon/koin.png" alt="Coins"></div>
+                    <div class="currency-amount" id="gc-desk-koin">20.15M</div>
                     <div class="add-btn"><span>+</span></div>
                 </div>
-                <div class="currency-box diamonds">
-                    <div class="currency-icon"><img src="icon/diamond.png" alt="Diamonds"></div>
-                    <div class="currency-amount">20.15M</div>
+                <div class="currency-box diamonds" onclick="openTopupGacha('diamond')" style="cursor:pointer;">
+                    <div class="currency-icon"><img src="assets/images/icons/icon/diamond.png" alt="Diamonds"></div>
+                    <div class="currency-amount" id="gc-desk-diamond">20.15M</div>
                     <div class="add-btn"><span>+</span></div>
                 </div>
-                <div class="currency-box flash">
-                    <div class="currency-icon"><img src="icon/flash.png" alt="Flash"></div>
-                    <div class="currency-amount">20.15M</div>
+                <div class="currency-box flash" onclick="openTopupGacha('flash')" style="cursor:pointer;">
+                    <div class="currency-icon"><img src="assets/images/icons/icon/flash.png" alt="Flash"></div>
+                    <div class="currency-amount" id="gc-desk-flash">20.15M</div>
                     <div class="add-btn"><span>+</span></div>
                 </div>
             </div>
 
             <!-- Currency Mobile -->
             <div class="mobile-currency-bar" id="mobileCurrency">
-                <div class="mobile-currency-item">
-                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Coins">
-                    <span>20.15M</span>
+                <div class="mobile-currency-item" onclick="openTopupGacha('koin')" style="cursor:pointer;">
+                    <img src="assets/images/icons/icon/koin.png" alt="Koin">
+                    <span id="gc-bal-koin">20.15M</span>
+                    <span style="background:#4caf50;color:#fff;border-radius:50%;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;">+</span>
                 </div>
-                <div class="mobile-currency-item">
-                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nugget.png" alt="Diamonds">
-                    <span>20.15M</span>
+                <div class="mobile-currency-item" onclick="openTopupGacha('diamond')" style="cursor:pointer;">
+                    <img src="assets/images/icons/icon/diamond.png" alt="Diamond">
+                    <span id="gc-bal-diamond">20.15M</span>
+                    <span style="background:#4caf50;color:#fff;border-radius:50%;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;">+</span>
                 </div>
-                <div class="mobile-currency-item">
-                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/thunderstone.png" alt="Flash">
-                    <span>20.15M</span>
+                <div class="mobile-currency-item" onclick="openTopupGacha('flash')" style="cursor:pointer;">
+                    <img src="assets/images/icons/icon/flash.png" alt="Flash">
+                    <span id="gc-bal-flash">20.15M</span>
+                    <span style="background:#4caf50;color:#fff;border-radius:50%;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;">+</span>
                 </div>
             </div>
 
             <!-- Legendary Video (ganti carousel) -->
             <div class="legendary-video-wrap">
                 <video autoplay loop muted playsinline>
-                    <source src="legendary.webm" type="video/webm" />
+                    <source src="assets/videos/legendary.webm" type="video/webm" />
                 </video>
             </div>
 
@@ -1084,7 +1142,7 @@
                     </div>
                 </div>
                 <div class="card-display-area">
-                    <img src="cardrun3.png" alt="Main Card" class="main-card" id="mainCardImg">
+                    <img src="assets/images/cards/cardrun3.png" alt="Main Card" class="main-card" id="mainCardImg">
                 </div>
                 <div class="panel-footer">
                     <div class="series-name">ARCANE SUMMON SERIES</div>
@@ -1100,7 +1158,7 @@
 
             <!-- Stage: Pokeball device — RIGHT side, BELOW panel box -->
             <div class="stage">
-                <img src="stage.png" alt="Stage">
+                <img src="assets/images/ui/stage.png" alt="Stage">
             </div>
 
             <!-- Gacha Buttons — RIGHT side, below panel -->
@@ -1137,18 +1195,18 @@
     <!-- ===== INTRO VIDEO OVERLAY ===== -->
     <div class="intro-overlay" id="introOverlay">
         <video id="introVideo" playsinline muted>
-            <source src="intro.webm" type="video/webm"/>
+            <source src="assets/videos/intro.webm" type="video/webm"/>
         </video>
         <button class="skip-btn" id="skipBtn">LEWATI</button>
     </div>
 
     <script>
         var cardData = [
-            { title: 'Pokemon Collection', rarity: 'COMMON',  stars: '⭐ 120', img: 'cardrun1.png', badgeBg: 'rgba(16,185,129,0.75)', badgeBorder: '#10B981' },
-            { title: 'Pokemon Edition',     rarity: 'RARE',    stars: '⭐ 340', img: 'cardrun2.png', badgeBg: 'rgba(59,130,246,0.75)',  badgeBorder: '#3B82F6' },
-            { title: 'Pokemon Card Pro',    rarity: 'EPIC',    stars: '⭐ 559', img: 'cardrun3.png', badgeBg: 'rgba(0,115,255,0.75)',   badgeBorder: '#0073FF' },
-            { title: 'Pokemon Premium',     rarity: 'LEGEND',  stars: '⭐ 880', img: 'cardrun1.png', badgeBg: 'rgba(245,158,11,0.75)',  badgeBorder: '#F59E0B' },
-            { title: 'Pokemon Ultimate',    rarity: 'MYTHIC',  stars: '⭐ 999', img: 'cardrun2.png', badgeBg: 'rgba(219,39,119,0.75)',  badgeBorder: '#DB2777' },
+            { title: 'Pokemon Collection', rarity: 'COMMON',  stars: '⭐ 120', img: 'assets/images/cards/cardrun1.png', badgeBg: 'rgba(16,185,129,0.75)', badgeBorder: '#10B981' },
+            { title: 'Pokemon Edition',     rarity: 'RARE',    stars: '⭐ 340', img: 'assets/images/cards/cardrun2.png', badgeBg: 'rgba(59,130,246,0.75)',  badgeBorder: '#3B82F6' },
+            { title: 'Pokemon Card Pro',    rarity: 'EPIC',    stars: '⭐ 559', img: 'assets/images/cards/cardrun3.png', badgeBg: 'rgba(0,115,255,0.75)',   badgeBorder: '#0073FF' },
+            { title: 'Pokemon Premium',     rarity: 'LEGEND',  stars: '⭐ 880', img: 'assets/images/cards/cardrun1.png', badgeBg: 'rgba(245,158,11,0.75)',  badgeBorder: '#F59E0B' },
+            { title: 'Pokemon Ultimate',    rarity: 'MYTHIC',  stars: '⭐ 999', img: 'assets/images/cards/cardrun2.png', badgeBg: 'rgba(219,39,119,0.75)',  badgeBorder: '#DB2777' },
         ];
 
         /* ===== RESPONSIVE SCALING ===== */
@@ -1157,7 +1215,7 @@
 
         /* ===== VIDEO SOURCE HELPER ===== */
         function getIntroVideoSource() {
-            return window.innerWidth <= 767 ? 'intromb.webm' : 'intro.webm';
+            return window.innerWidth <= 767 ? 'assets/videos/intromb.webm' : 'assets/videos/intro.webm';
         }
 
         function setIntroVideoSource() {
@@ -1221,7 +1279,7 @@
         }, { passive: true });
 
         /* ===== CARD PANEL NAVIGATION ===== */
-        var cardImgs = ['cardrun1.png','cardrun2.png','cardrun3.png'];
+        var cardImgs = ['assets/images/cards/cardrun1.png','assets/images/cards/cardrun2.png','assets/images/cards/cardrun3.png'];
         var dots = document.querySelectorAll('.dot');
         var totalCards = cardData.length;
         var activeIndex = 2, isAnimating = false, autoRotateTimer = null;
@@ -1333,7 +1391,12 @@
 
         // Mobile gacha buttons
         document.querySelectorAll('.mobile-gacha-btns .gacha-btn').forEach(function(b) {
-            b.addEventListener('click', function() { openConfirm(parseInt(this.dataset.pulls) || 1); });
+            b.addEventListener('click', function() {
+                // Tutup hasil gacha yang sedang tampil jika ada
+                var existing = document.getElementById('gachaResultPanel');
+                if (existing) closeGachaResult();
+                openConfirm(parseInt(this.dataset.pulls) || 1);
+            });
         });
 
         document.getElementById('confirmNo').addEventListener('click', function() {
@@ -1354,12 +1417,17 @@
             video.currentTime = 0;
             video.play().catch(function() {});
 
+            // Tampilkan button LEWATI di mobile saat intro berjalan
+            var mobileSkip = document.getElementById('mobileSkipBtn');
+            if (mobileSkip && window.innerWidth <= 767) {
+                mobileSkip.style.display = 'block';
+            }
+
             function onEnd() {
                 video.removeEventListener('ended', onEnd);
                 video.pause();
-                // Add zoom-out fade transition
+                if (mobileSkip) mobileSkip.style.display = 'none';
                 overlay.classList.add('zoom-out');
-                // Wait for animation to complete before showing gacha result
                 setTimeout(function() {
                     overlay.classList.remove('show', 'zoom-out');
                     showGachaResult(pulls);
@@ -1369,17 +1437,35 @@
             video.addEventListener('ended', onEnd);
 
             video.addEventListener('error', function() {
+                if (mobileSkip) mobileSkip.style.display = 'none';
                 overlay.classList.remove('show');
                 showGachaResult(pulls);
             }, { once: true });
         }
 
-        // Skip button event listener
+        // Fungsi skip untuk button mobile
+        function skipIntroMobile() {
+            var overlay = document.getElementById('introOverlay');
+            var video   = document.getElementById('introVideo');
+            var mobileSkip = document.getElementById('mobileSkipBtn');
+            if (video) video.pause();
+            if (mobileSkip) mobileSkip.style.display = 'none';
+            if (overlay) {
+                overlay.classList.add('zoom-out');
+                setTimeout(function() {
+                    overlay.classList.remove('show', 'zoom-out');
+                    showGachaResult(pendingPulls);
+                }, 800);
+            }
+        }
+
+        // Skip button event listener (desktop)
         document.getElementById('skipBtn').addEventListener('click', function() {
             var overlay = document.getElementById('introOverlay');
             var video   = document.getElementById('introVideo');
+            var mobileSkip = document.getElementById('mobileSkipBtn');
+            if (mobileSkip) mobileSkip.style.display = 'none';
             video.pause();
-            // Add zoom-out fade transition on skip
             overlay.classList.add('zoom-out');
             setTimeout(function() {
                 overlay.classList.remove('show', 'zoom-out');
@@ -1417,7 +1503,7 @@
                     '<button class="grp-close" onclick="closeGachaResult()">✕</button>' +
                 '</div>' +
                 '<div class="grp-body">' +
-                    '<iframe src="gacha-result.html?pulls=' + pulls + '" style="width:100%;height:440px;border:none;background:transparent;" scrolling="no"></iframe>' +
+                    '<iframe src="gacha-result.html?pulls=' + pulls + '" style="width:100%;height:480px;border:none;background:transparent;overflow:hidden;" scrolling="no"></iframe>' +
                 '</div>';
 
             var container = document.getElementById('mainContainer');
@@ -1437,7 +1523,7 @@
         }
 
         document.querySelectorAll('.add-btn').forEach(function (b) {
-            b.addEventListener('click', function () { showToast('💰', 'Add currency', 'Feature coming soon!'); });
+            // handled by parent onclick
         });
 
         document.getElementById('buyNowBtn').addEventListener('click', function () {
@@ -1453,6 +1539,125 @@
         });
 
         updatePanel(); updateDots(); startAutoRotate(); mainContainer.focus();
+    </script>
+
+    <!-- TOPUP MODAL (shared dengan index.html logic) -->
+    <script>
+        // Sync balance dari sessionStorage
+        var gcBalances = {
+            koin:    parseFloat(sessionStorage.getItem('bal-koin')    || 20150000),
+            diamond: parseFloat(sessionStorage.getItem('bal-diamond') || 20150000),
+            flash:   parseFloat(sessionStorage.getItem('bal-flash')   || 20150000),
+        };
+        function gcFormat(n) {
+            if (n >= 1000000) return (n/1000000).toFixed(2)+'M';
+            if (n >= 1000)    return (n/1000).toFixed(1)+'K';
+            return n.toString();
+        }
+        function gcRefreshDisplay() {
+            var k = document.getElementById('gc-bal-koin');
+            var d = document.getElementById('gc-bal-diamond');
+            var f = document.getElementById('gc-bal-flash');
+            if (k) k.textContent = gcFormat(gcBalances.koin);
+            if (d) d.textContent = gcFormat(gcBalances.diamond);
+            if (f) f.textContent = gcFormat(gcBalances.flash);
+            // Desktop
+            var dk = document.getElementById('gc-desk-koin');
+            var dd = document.getElementById('gc-desk-diamond');
+            var df = document.getElementById('gc-desk-flash');
+            if (dk) dk.textContent = gcFormat(gcBalances.koin);
+            if (dd) dd.textContent = gcFormat(gcBalances.diamond);
+            if (df) df.textContent = gcFormat(gcBalances.flash);
+        }
+        gcRefreshDisplay();
+
+        var gcTopupConfig = {
+            koin:    { title:'🪙 Top Up Koin',    icon:'assets/images/icons/icon/koin.png',    color:'#f59e0b',
+                packages:[{label:'1.000',amount:1000,price:'Rp 1.000',bonus:''},{label:'5.000',amount:5000,price:'Rp 4.500',bonus:'+500 Bonus'},{label:'10.000',amount:10000,price:'Rp 8.500',bonus:'+1.500 Bonus',popular:true},{label:'50.000',amount:50000,price:'Rp 40.000',bonus:'+10.000 Bonus'},{label:'100.000',amount:100000,price:'Rp 75.000',bonus:'+25.000 Bonus'},{label:'500.000',amount:500000,price:'Rp 350.000',bonus:'+150.000 Bonus',best:true}]},
+            diamond: { title:'💎 Top Up Diamond', icon:'assets/images/icons/icon/diamond.png', color:'#3b82f6',
+                packages:[{label:'60',amount:60,price:'Rp 15.000',bonus:''},{label:'300',amount:300,price:'Rp 70.000',bonus:'+30 Bonus'},{label:'980',amount:980,price:'Rp 200.000',bonus:'+80 Bonus',popular:true},{label:'1.980',amount:1980,price:'Rp 380.000',bonus:'+200 Bonus'},{label:'3.280',amount:3280,price:'Rp 600.000',bonus:'+400 Bonus'},{label:'6.480',amount:6480,price:'Rp 1.100.000',bonus:'+1.000 Bonus',best:true}]},
+            flash:   { title:'⚡ Top Up Flash',   icon:'assets/images/icons/icon/flash.png',   color:'#8b5cf6',
+                packages:[{label:'10',amount:10,price:'Rp 5.000',bonus:''},{label:'50',amount:50,price:'Rp 22.000',bonus:'+5 Bonus'},{label:'100',amount:100,price:'Rp 40.000',bonus:'+15 Bonus',popular:true},{label:'300',amount:300,price:'Rp 110.000',bonus:'+50 Bonus'},{label:'500',amount:500,price:'Rp 175.000',bonus:'+100 Bonus'},{label:'1.000',amount:1000,price:'Rp 320.000',bonus:'+250 Bonus',best:true}]},
+        };
+        var gcCurrentCurrency = null;
+
+        function openTopupGacha(type) {
+            gcCurrentCurrency = type;
+            var cfg = gcTopupConfig[type];
+            var overlay = document.getElementById('gcTopupOverlay');
+            if (!overlay) { buildGcTopupModal(); overlay = document.getElementById('gcTopupOverlay'); }
+            document.getElementById('gcTopupTitle').textContent = cfg.title;
+            document.getElementById('gcTopupBalance').textContent = gcFormat(gcBalances[type]);
+            document.getElementById('gcTopupIcon').src = cfg.icon;
+            var pkgHtml = '';
+            cfg.packages.forEach(function(p, i) {
+                var badge = p.best ? '<span style="position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:8px;font-weight:700;padding:2px 8px;border-radius:0 0 8px 8px;background:linear-gradient(90deg,#ffd700,#ff9800);color:#000;">TERBAIK</span>'
+                           : p.popular ? '<span style="position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:8px;font-weight:700;padding:2px 8px;border-radius:0 0 8px 8px;background:#3b82f6;color:#fff;">POPULER</span>' : '';
+                pkgHtml += '<div onclick="gcBuyPackage('+i+')" style="position:relative;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 6px 10px;text-align:center;cursor:pointer;transition:transform .2s;" onmouseover="this.style.transform=\'scale(1.04)\'" onmouseout="this.style.transform=\'scale(1)\'">'
+                    + badge
+                    + '<div style="font-family:Poppins,sans-serif;font-size:15px;font-weight:900;color:#fff;margin:8px 0 4px;">' + p.label + '</div>'
+                    + '<img src="' + cfg.icon + '" style="width:22px;height:22px;object-fit:contain;display:block;margin:0 auto 4px;"/>'
+                    + (p.bonus ? '<div style="font-size:9px;font-weight:700;color:#4ade80;margin-bottom:2px;">' + p.bonus + '</div>' : '')
+                    + '<div style="font-size:10px;color:rgba(255,255,255,0.55);">' + p.price + '</div>'
+                    + '</div>';
+            });
+            document.getElementById('gcTopupPackages').innerHTML = pkgHtml;
+            document.getElementById('gcTopupCustomInput').value = '';
+            overlay.style.display = 'flex';
+        }
+
+        function buildGcTopupModal() {
+            var html = '<div id="gcTopupOverlay" onclick="if(event.target===this)closeTopupGacha()" style="position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(6px);z-index:9999;display:none;align-items:center;justify-content:center;padding:16px;">'
+                + '<div style="background:linear-gradient(160deg,#1a1a2e,#16213e,#0f3460);border:1.5px solid rgba(255,255,255,0.12);border-radius:22px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto;padding:22px;position:relative;scrollbar-width:none;">'
+                + '<button onclick="closeTopupGacha()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.1);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;">✕</button>'
+                + '<div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">'
+                + '<div style="width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;"><img id="gcTopupIcon" src="" style="width:30px;height:30px;object-fit:contain;"/></div>'
+                + '<div><div id="gcTopupTitle" style="font-family:Poppins,sans-serif;font-size:17px;font-weight:700;color:#fff;"></div>'
+                + '<div style="font-size:12px;color:rgba(255,255,255,0.5);">Saldo: <span id="gcTopupBalance" style="color:#ffd700;font-weight:700;"></span></div></div></div>'
+                + '<div id="gcTopupPackages" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;"></div>'
+                + '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;">'
+                + '<div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:8px;">Atau masukkan jumlah:</div>'
+                + '<div style="display:flex;gap:8px;">'
+                + '<input id="gcTopupCustomInput" type="number" placeholder="0" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;color:#fff;font-size:14px;padding:10px 12px;outline:none;"/>'
+                + '<button onclick="gcBuyCustom()" style="background:linear-gradient(135deg,#ffd700,#ff9800);border:none;border-radius:10px;color:#000;font-weight:700;font-size:13px;padding:10px 18px;cursor:pointer;">Beli</button>'
+                + '</div></div>'
+                + '<div style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center;margin-top:12px;">💡 Pembelian menggunakan saldo Rupiah akun kamu</div>'
+                + '</div></div>';
+            document.body.insertAdjacentHTML('beforeend', html);
+        }
+
+        function closeTopupGacha() {
+            var o = document.getElementById('gcTopupOverlay');
+            if (o) o.style.display = 'none';
+        }
+
+        function gcBuyPackage(idx) {
+            var cfg = gcTopupConfig[gcCurrentCurrency];
+            var pkg = cfg.packages[idx];
+            var bonusNum = parseInt((pkg.bonus||'').replace(/[^0-9]/g,'')) || 0;
+            gcBalances[gcCurrentCurrency] += pkg.amount + bonusNum;
+            sessionStorage.setItem('bal-'+gcCurrentCurrency, gcBalances[gcCurrentCurrency]);
+            gcRefreshDisplay();
+            document.getElementById('gcTopupBalance').textContent = gcFormat(gcBalances[gcCurrentCurrency]);
+            // Redirect ke deposit
+            sessionStorage.setItem('topup_currency', gcCurrentCurrency);
+            sessionStorage.setItem('topup_label', pkg.label);
+            sessionStorage.setItem('topup_bonus', pkg.bonus||'');
+            sessionStorage.setItem('topup_price', pkg.price);
+            closeTopupGacha();
+            window.location = 'memberarea.html?page=deposit&topup=1';
+        }
+
+        function gcBuyCustom() {
+            var val = parseInt(document.getElementById('gcTopupCustomInput').value);
+            if (!val || val < 1) return;
+            sessionStorage.setItem('topup_currency', gcCurrentCurrency);
+            sessionStorage.setItem('topup_label', val.toLocaleString('id'));
+            sessionStorage.setItem('topup_bonus', '');
+            sessionStorage.setItem('topup_price', '');
+            closeTopupGacha();
+            window.location = 'memberarea.html?page=deposit&topup=1';
+        }
     </script>
 </body>
 </html>

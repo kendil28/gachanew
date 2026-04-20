@@ -46,8 +46,11 @@
       width: 72px !important;
       height: 72px !important;
     }
-    body.page-leaderboard .content-area {
-      margin-left: 110px !important;
+    /* Desktop only — di mobile content-area full width */
+    @media (min-width: 769px) {
+      body.page-leaderboard .content-area {
+        margin-left: 110px !important;
+      }
     }
 
     .shared-sidebar .sn-item {
@@ -260,35 +263,35 @@
   }
 
   var items = [
-    { label: 'HOME',             icon: 'icon/home.png',           action: "window.location='index.html'",                       page: 'home' },
-    { label: 'GACHA',            icon: 'icon/gacha.png',          action: "window.location='gacha.html'",                       page: 'gacha' },
-    { label: 'LEADERBOARD',      icon: 'icon/leaderboard.png',    action: "window.location='memberarea.html?page=leaderboard'", page: 'leaderboard' },
-    { label: 'LEGENDARY',        icon: 'icon/legendaryboard.png', action: "window.location='memberarea.html?page=legendary'",   page: 'legendary', legendary: true },
-    { label: 'SEMUA KARTU',      icon: 'icon/semuakartu.png',     action: "window.location='memberarea.html?page=koleksi'",     page: 'koleksi' },
-    { label: 'DEPOSIT',          icon: 'icon/deposit.png',        action: "window.location='memberarea.html?page=deposit'",     page: 'deposit' },
-    { label: 'WITHDRAW',         icon: 'icon/withdraw.png',       action: "window.location='memberarea.html?page=withdraw'",    page: 'withdraw' },
-    { label: 'PENGATURAN',       icon: 'icon/settingakun.png',    action: "window.location='memberarea.html?page=profile'",     page: 'profile' },
-    { label: 'KIRIM KARTU',      icon: 'icon/kirimkartu.png',     action: "window.location='memberarea.html?page=kirimkartu'",  page: 'kirimkartu' },
-    { label: 'KOLEKSI',          icon: 'icon/koleksisaya.png',    action: "window.location='memberarea.html?page=koleksi'",     page: 'koleksi' },
-    { label: 'JUAL KARTU',       icon: 'icon/jualkartu.png',      action: "window.location='memberarea.html?page=jualkartu'",   page: 'jualkartu' },
+    { label: 'HOME',             icon: 'assets/images/icons/icon/home.png',           action: "window.location='index.html'",                       page: 'home' },
+    { label: 'GACHA',            icon: 'assets/images/icons/icon/gacha.png',          action: "window.location='gacha.html'",                       page: 'gacha' },
+    { label: 'LEADERBOARD',      icon: 'assets/images/icons/icon/leaderboard.png',    action: "window.location='memberarea.html?page=leaderboard'", page: 'leaderboard' },
+    { label: 'LEGENDARY',        icon: 'assets/images/icons/icon/legendaryboard.png', action: "window.location='memberarea.html?page=legendary'",   page: 'legendary', legendary: true },
+    { label: 'SEMUA KARTU',      icon: 'assets/images/icons/icon/semuakartu.png',     action: "window.location='memberarea.html?page=koleksi'",     page: 'koleksi' },
+    { label: 'DEPOSIT',          icon: 'assets/images/icons/icon/deposit.png',        action: "window.location='memberarea.html?page=deposit'",     page: 'deposit' },
+    { label: 'WITHDRAW',         icon: 'assets/images/icons/icon/withdraw.png',       action: "window.location='memberarea.html?page=withdraw'",    page: 'withdraw' },
+    { label: 'PENGATURAN',       icon: 'assets/images/icons/icon/settingakun.png',    action: "window.location='memberarea.html?page=profile'",     page: 'profile' },
+    { label: 'KIRIM KARTU',      icon: 'assets/images/icons/icon/kirimkartu.png',     action: "window.location='memberarea.html?page=kirimkartu'",  page: 'kirimkartu' },
+    { label: 'KOLEKSI',          icon: 'assets/images/icons/icon/koleksisaya.png',    action: "window.location='memberarea.html?page=koleksi'",     page: 'koleksi' },
+    { label: 'JUAL KARTU',       icon: 'assets/images/icons/icon/jualkartu.png',      action: "window.location='memberarea.html?page=jualkartu'",   page: 'jualkartu' },
   ];
 
   // Items for sidebar (with dividers)
   var sidebarItems = [
-    { label: 'HOME',             icon: 'icon/home.png',           action: "window.location='index.html'",                       page: 'home' },
-    { label: 'GACHA',            icon: 'icon/gacha.png',          action: "window.location='gacha.html'",                       page: 'gacha' },
+    { label: 'HOME',             icon: 'assets/images/icons/icon/home.png',           action: "window.location='index.html'",                       page: 'home' },
+    { label: 'GACHA',            icon: 'assets/images/icons/icon/gacha.png',          action: "window.location='gacha.html'",                       page: 'gacha' },
     { divider: true },
-    { label: 'LEADERBOARD',      icon: 'icon/leaderboard.png',    action: "window.location='memberarea.html?page=leaderboard'", page: 'leaderboard' },
-    { label: 'LEGENDARY BOARD',  icon: 'icon/legendaryboard.png', action: "window.location='memberarea.html?page=legendary'",   page: 'legendary', legendary: true },
-    { label: 'SEMUA KARTU',      icon: 'icon/semuakartu.png',     action: "window.location='memberarea.html?page=koleksi'",     page: 'koleksi' },
+    { label: 'LEADERBOARD',      icon: 'assets/images/icons/icon/leaderboard.png',    action: "window.location='memberarea.html?page=leaderboard'", page: 'leaderboard' },
+    { label: 'LEGENDARY BOARD',  icon: 'assets/images/icons/icon/legendaryboard.png', action: "window.location='memberarea.html?page=legendary'",   page: 'legendary', legendary: true },
+    { label: 'SEMUA KARTU',      icon: 'assets/images/icons/icon/semuakartu.png',     action: "window.location='memberarea.html?page=koleksi'",     page: 'koleksi' },
     { divider: true },
-    { label: 'DEPOSIT',          icon: 'icon/deposit.png',        action: "window.location='memberarea.html?page=deposit'",     page: 'deposit' },
-    { label: 'WITHDRAW',         icon: 'icon/withdraw.png',       action: "window.location='memberarea.html?page=withdraw'",    page: 'withdraw' },
-    { label: 'PENGATURAN AKUN',  icon: 'icon/settingakun.png',    action: "window.location='memberarea.html?page=profile'",     page: 'profile' },
+    { label: 'DEPOSIT',          icon: 'assets/images/icons/icon/deposit.png',        action: "window.location='memberarea.html?page=deposit'",     page: 'deposit' },
+    { label: 'WITHDRAW',         icon: 'assets/images/icons/icon/withdraw.png',       action: "window.location='memberarea.html?page=withdraw'",    page: 'withdraw' },
+    { label: 'PENGATURAN AKUN',  icon: 'assets/images/icons/icon/settingakun.png',    action: "window.location='memberarea.html?page=profile'",     page: 'profile' },
     { divider: true },
-    { label: 'KIRIM KARTU FISIK',icon: 'icon/kirimkartu.png',     action: "window.location='memberarea.html?page=kirimkartu'",  page: 'kirimkartu' },
-    { label: 'KOLEKSI SAYA',     icon: 'icon/koleksisaya.png',    action: "window.location='memberarea.html?page=koleksi'",     page: 'koleksi' },
-    { label: 'JUAL KARTU',       icon: 'icon/jualkartu.png',      action: "window.location='memberarea.html?page=jualkartu'",   page: 'jualkartu' },
+    { label: 'KIRIM KARTU FISIK',icon: 'assets/images/icons/icon/kirimkartu.png',     action: "window.location='memberarea.html?page=kirimkartu'",  page: 'kirimkartu' },
+    { label: 'KOLEKSI SAYA',     icon: 'assets/images/icons/icon/koleksisaya.png',    action: "window.location='memberarea.html?page=koleksi'",     page: 'koleksi' },
+    { label: 'JUAL KARTU',       icon: 'assets/images/icons/icon/jualkartu.png',      action: "window.location='memberarea.html?page=jualkartu'",   page: 'jualkartu' },
   ];
 
   // ===== BUILD VERTICAL SIDEBAR =====

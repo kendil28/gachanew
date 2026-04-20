@@ -85,8 +85,12 @@
       .currency-item { padding: 3px 6px 3px 5px; gap: 3px; }
       .currency-item img { width: 16px; height: 16px; }
       .currency-item span { font-size: 9px; min-width: 28px; }
-      .btn-plus { display: none; }
-      .content-area { margin-left: 62px; }
+      /* btn-plus tetap tampil di mobile */
+      /* Full width, beri ruang untuk bottom nav */
+      .content-area { margin-left: 0 !important; }
+      .main-layout { overflow: visible; }
+      /* iframe tinggi penuh dikurangi topbar (~60px) dan bottom nav (~80px) */
+      .content-frame { height: calc(100vh - 60px - 80px); }
     }
     @media (max-width: 480px) {
       .topbar { padding: 5px 8px; gap: 4px; }
@@ -94,22 +98,25 @@
       .profile-avatar { width: 38px; height: 38px; }
       .profile-username { font-size: 9px; min-width: 76px; }
       .profile-id { font-size: 8px; min-width: 68px; }
-      .currency-item span { display: none; }
-      .currency-item img { width: 18px; height: 18px; }
-      .currency-item { padding: 4px; }
-      .content-area { margin-left: 52px; }
+      /* Perkecil tapi tetap tampil */
+      .currency-item span { font-size: 8px; min-width: 22px; display: block; }
+      .currency-item img { width: 14px; height: 14px; }
+      .currency-item { padding: 3px 4px; gap: 2px; }
+      .btn-plus { width: 14px; height: 14px; font-size: 10px; }
+      .content-area { margin-left: 0 !important; }
+      .content-frame { height: calc(100vh - 55px - 80px); }
     }
   </style>
 </head>
 <body>
 
-  <div class="bg" style="background-image:url('background.png')"></div>
+  <div class="bg" style="background-image:url('assets/images/backgrounds/background.png')"></div>
   <div class="bg-overlay"></div>
 
   <header class="topbar">
-    <div class="logo"><img src="logoweb.png" alt="GachaKeren"/></div>
+    <div class="logo"><img src="assets/images/ui/logoweb.png" alt="GachaKeren"/></div>
     <div class="profile">
-      <div class="profile-avatar"><img src="icon/pokemon.png" alt="avatar" class="avatar-img"/></div>
+      <div class="profile-avatar"><img src="assets/images/icons/icon/pokemon.png" alt="avatar" class="avatar-img"/></div>
       <div class="profile-card">
         <div class="profile-username">Username</div>
         <div class="profile-id">ID 608</div>
@@ -117,9 +124,9 @@
     </div>
     <div class="topbar-right">
       <div class="currencies">
-        <div class="currency-item"><img src="icon/koin.png"/><span>20.15M</span><button class="btn-plus">+</button></div>
-        <div class="currency-item"><img src="icon/diamond.png"/><span>20.15M</span><button class="btn-plus">+</button></div>
-        <div class="currency-item"><img src="icon/flash.png"/><span>20.15M</span><button class="btn-plus">+</button></div>
+        <div class="currency-item"><img src="assets/images/icons/icon/koin.png" alt="koin"/><span id="ma-bal-koin">20.15M</span><button class="btn-plus" onclick="openTopupMA('koin')">+</button></div>
+        <div class="currency-item"><img src="assets/images/icons/icon/diamond.png" alt="diamond"/><span id="ma-bal-diamond">20.15M</span><button class="btn-plus" onclick="openTopupMA('diamond')">+</button></div>
+        <div class="currency-item"><img src="assets/images/icons/icon/flash.png" alt="flash"/><span id="ma-bal-flash">20.15M</span><button class="btn-plus" onclick="openTopupMA('flash')">+</button></div>
       </div>
     </div>
   </header>
@@ -127,7 +134,7 @@
   <div class="main-layout">
     <div class="content-area">
       <iframe id="contentFrame" class="content-frame"
-        src="GACHA BARU/GACHA BARU/pages/deposit.html"
+        src="pages/deposit.html"
         frameborder="0" scrolling="auto"></iframe>
     </div>
   </div>
@@ -135,9 +142,9 @@
   <script>
     (function() {
       var pageMap = {
-        'deposit':    'GACHA BARU/GACHA BARU/pages/deposit.html',
-        'withdraw':   'GACHA BARU/GACHA BARU/pages/withdraw.html',
-        'profile':    'GACHA BARU/GACHA BARU/pages/profile.html',
+        'deposit':    'pages/deposit.html',
+        'withdraw':   'pages/withdraw.html',
+        'profile':    'pages/profile.html',
         'leaderboard':'pages/leaderboard.html',
         'legendary':  'pages/legendary-board.html',
         'koleksi':    'pages/semua-kartu.html',
@@ -151,5 +158,111 @@
     })();
   </script>
   <script src="js/sidebar-nav.js"></script>
+
+  <!-- TOPUP SYSTEM -->
+  <script>
+    var maBalances = {
+      koin:    parseFloat(sessionStorage.getItem('bal-koin')    || 20150000),
+      diamond: parseFloat(sessionStorage.getItem('bal-diamond') || 20150000),
+      flash:   parseFloat(sessionStorage.getItem('bal-flash')   || 20150000),
+    };
+    function maFormat(n) {
+      if (n >= 1000000) return (n/1000000).toFixed(2)+'M';
+      if (n >= 1000)    return (n/1000).toFixed(1)+'K';
+      return n.toString();
+    }
+    function maRefresh() {
+      var k = document.getElementById('ma-bal-koin');
+      var d = document.getElementById('ma-bal-diamond');
+      var f = document.getElementById('ma-bal-flash');
+      if (k) k.textContent = maFormat(maBalances.koin);
+      if (d) d.textContent = maFormat(maBalances.diamond);
+      if (f) f.textContent = maFormat(maBalances.flash);
+    }
+    maRefresh();
+
+    var maTopupConfig = {
+      koin:    { title:'🪙 Top Up Koin',    icon:'assets/images/icons/icon/koin.png',    color:'#f59e0b',
+        packages:[{label:'1.000',amount:1000,price:'Rp 1.000',bonus:''},{label:'5.000',amount:5000,price:'Rp 4.500',bonus:'+500 Bonus'},{label:'10.000',amount:10000,price:'Rp 8.500',bonus:'+1.500 Bonus',popular:true},{label:'50.000',amount:50000,price:'Rp 40.000',bonus:'+10.000 Bonus'},{label:'100.000',amount:100000,price:'Rp 75.000',bonus:'+25.000 Bonus'},{label:'500.000',amount:500000,price:'Rp 350.000',bonus:'+150.000 Bonus',best:true}]},
+      diamond: { title:'💎 Top Up Diamond', icon:'assets/images/icons/icon/diamond.png', color:'#3b82f6',
+        packages:[{label:'60',amount:60,price:'Rp 15.000',bonus:''},{label:'300',amount:300,price:'Rp 70.000',bonus:'+30 Bonus'},{label:'980',amount:980,price:'Rp 200.000',bonus:'+80 Bonus',popular:true},{label:'1.980',amount:1980,price:'Rp 380.000',bonus:'+200 Bonus'},{label:'3.280',amount:3280,price:'Rp 600.000',bonus:'+400 Bonus'},{label:'6.480',amount:6480,price:'Rp 1.100.000',bonus:'+1.000 Bonus',best:true}]},
+      flash:   { title:'⚡ Top Up Flash',   icon:'assets/images/icons/icon/flash.png',   color:'#8b5cf6',
+        packages:[{label:'10',amount:10,price:'Rp 5.000',bonus:''},{label:'50',amount:50,price:'Rp 22.000',bonus:'+5 Bonus'},{label:'100',amount:100,price:'Rp 40.000',bonus:'+15 Bonus',popular:true},{label:'300',amount:300,price:'Rp 110.000',bonus:'+50 Bonus'},{label:'500',amount:500,price:'Rp 175.000',bonus:'+100 Bonus'},{label:'1.000',amount:1000,price:'Rp 320.000',bonus:'+250 Bonus',best:true}]},
+    };
+    var maCurrentCurrency = null;
+
+    function openTopupMA(type) {
+      maCurrentCurrency = type;
+      var cfg = maTopupConfig[type];
+      var overlay = document.getElementById('maTopupOverlay');
+      if (!overlay) { buildMATopupModal(); overlay = document.getElementById('maTopupOverlay'); }
+      document.getElementById('maTopupTitle').textContent = cfg.title;
+      document.getElementById('maTopupBalance').textContent = maFormat(maBalances[type]);
+      document.getElementById('maTopupIcon').src = cfg.icon;
+      var pkgHtml = '';
+      cfg.packages.forEach(function(p, i) {
+        var badge = p.best ? '<span style="position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:8px;font-weight:700;padding:2px 8px;border-radius:0 0 8px 8px;background:linear-gradient(90deg,#ffd700,#ff9800);color:#000;">TERBAIK</span>'
+                   : p.popular ? '<span style="position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:8px;font-weight:700;padding:2px 8px;border-radius:0 0 8px 8px;background:#3b82f6;color:#fff;">POPULER</span>' : '';
+        pkgHtml += '<div onclick="maBuyPackage('+i+')" style="position:relative;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 6px 10px;text-align:center;cursor:pointer;transition:transform .2s;" onmouseover="this.style.transform=\'scale(1.04)\'" onmouseout="this.style.transform=\'scale(1)\'">'
+          + badge
+          + '<div style="font-family:Poppins,sans-serif;font-size:15px;font-weight:900;color:#fff;margin:8px 0 4px;">' + p.label + '</div>'
+          + '<img src="' + cfg.icon + '" style="width:22px;height:22px;object-fit:contain;display:block;margin:0 auto 4px;"/>'
+          + (p.bonus ? '<div style="font-size:9px;font-weight:700;color:#4ade80;margin-bottom:2px;">' + p.bonus + '</div>' : '')
+          + '<div style="font-size:10px;color:rgba(255,255,255,0.55);">' + p.price + '</div>'
+          + '</div>';
+      });
+      document.getElementById('maTopupPackages').innerHTML = pkgHtml;
+      document.getElementById('maTopupCustomInput').value = '';
+      overlay.style.display = 'flex';
+    }
+
+    function buildMATopupModal() {
+      var html = '<div id="maTopupOverlay" onclick="if(event.target===this)closeTopupMA()" style="position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(6px);z-index:9999;display:none;align-items:center;justify-content:center;padding:16px;">'
+        + '<div style="background:linear-gradient(160deg,#1a1a2e,#16213e,#0f3460);border:1.5px solid rgba(255,255,255,0.12);border-radius:22px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto;padding:22px;position:relative;scrollbar-width:none;">'
+        + '<button onclick="closeTopupMA()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.1);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;">✕</button>'
+        + '<div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">'
+        + '<div style="width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;"><img id="maTopupIcon" src="" style="width:30px;height:30px;object-fit:contain;"/></div>'
+        + '<div><div id="maTopupTitle" style="font-family:Poppins,sans-serif;font-size:17px;font-weight:700;color:#fff;"></div>'
+        + '<div style="font-size:12px;color:rgba(255,255,255,0.5);">Saldo: <span id="maTopupBalance" style="color:#ffd700;font-weight:700;"></span></div></div></div>'
+        + '<div id="maTopupPackages" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;"></div>'
+        + '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;">'
+        + '<div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:8px;">Atau masukkan jumlah:</div>'
+        + '<div style="display:flex;gap:8px;">'
+        + '<input id="maTopupCustomInput" type="number" placeholder="0" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;color:#fff;font-size:14px;padding:10px 12px;outline:none;"/>'
+        + '<button onclick="maBuyCustom()" style="background:linear-gradient(135deg,#ffd700,#ff9800);border:none;border-radius:10px;color:#000;font-weight:700;font-size:13px;padding:10px 18px;cursor:pointer;">Beli</button>'
+        + '</div></div>'
+        + '<div style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center;margin-top:12px;">💡 Pembelian menggunakan saldo Rupiah akun kamu</div>'
+        + '</div></div>';
+      document.body.insertAdjacentHTML('beforeend', html);
+    }
+
+    function closeTopupMA() {
+      var o = document.getElementById('maTopupOverlay');
+      if (o) o.style.display = 'none';
+    }
+
+    function maBuyPackage(idx) {
+      var cfg = maTopupConfig[maCurrentCurrency];
+      var pkg = cfg.packages[idx];
+      sessionStorage.setItem('topup_currency', maCurrentCurrency);
+      sessionStorage.setItem('topup_label', pkg.label);
+      sessionStorage.setItem('topup_bonus', pkg.bonus||'');
+      sessionStorage.setItem('topup_price', pkg.price);
+      closeTopupMA();
+      // Arahkan ke deposit
+      document.getElementById('contentFrame').src = 'pages/deposit.html?topup=1';
+    }
+
+    function maBuyCustom() {
+      var val = parseInt(document.getElementById('maTopupCustomInput').value);
+      if (!val || val < 1) return;
+      sessionStorage.setItem('topup_currency', maCurrentCurrency);
+      sessionStorage.setItem('topup_label', val.toLocaleString('id'));
+      sessionStorage.setItem('topup_bonus', '');
+      sessionStorage.setItem('topup_price', '');
+      closeTopupMA();
+      document.getElementById('contentFrame').src = 'pages/deposit.html?topup=1';
+    }
+  </script>
 </body>
 </html>

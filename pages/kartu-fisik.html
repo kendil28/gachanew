@@ -11,8 +11,8 @@
 body {
   font-family: 'Poppins', sans-serif;
   background: transparent; color: #fff;
-  min-height: 100vh; overflow-y: auto; overflow-x: hidden;
-  padding: 24px 24px 40px;
+  min-height: 100vh; width: 100%; overflow-y: auto; overflow-x: hidden;
+  padding: 16px 12px 100px 12px;
 }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
@@ -115,8 +115,19 @@ tr:hover td { background: rgba(255,255,255,0.03); }
 .badge-sent    { background: rgba(0,230,118,0.2); color: #00e676; }
 .badge-done    { background: rgba(96,165,250,0.2); color: #60a5fa; }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
+  body { padding: 8px 8px 20px; }
   .form-row { grid-template-columns: 1fr; }
+  h1.page-title { font-size: 18px; }
+  .page-subtitle { font-size: 12px; margin-bottom: 16px; }
+  .tabs { gap: 0; }
+  .tab-btn { font-size: 12px; padding: 10px 8px; }
+  .card-selector-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
+  .btn-submit { font-size: 14px; padding: 12px; }
+}
+@media (max-width: 480px) {
+  body { padding: 6px 6px 16px; }
+  .card-selector-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 6px; }
 }
 </style>
 </head>

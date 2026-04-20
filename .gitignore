@@ -1,0 +1,12 @@
+# Folder lama - tidak perlu di-push ke git
+GACHA BARU/
+
+# File sementara & sistem
+*.psd
+*.tmp
+*.log
+Thumbs.db
+.DS_Store
+
+# VS Code
+.vscode/
