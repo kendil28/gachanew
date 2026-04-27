@@ -25,17 +25,17 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #FFFFFF;
+            background: transparent;
             z-index: -1;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
+            background: transparent;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         .particles { display: none; }
@@ -43,41 +43,39 @@
         /* ===================== DESKTOP ===================== */
         .edit-profile-konten {
             position: relative;
-            width: 698px;
-            height: 456px;
+            width: 1000px;
+            height: 700px;
             z-index: 1;
+            overflow: hidden;
         }
 
         .background {
             position: absolute;
-            width: 698px;
-            height: 380px;
+            width: 1000px;
+            height: 600px;
             left: 0px;
-            top: 76px;
+            top: 100px;
             z-index: 1;
         }
 
         .background-rect {
             position: absolute;
-            width: 698px;
-            height: 380px;
+            width: 1000px;
+            height: 600px;
             left: 0px;
             top: 0px;
             border-radius: 40px;
             overflow: hidden;
-            background-image: url('https://z-cdn-media.chatglm.cn/files/060d2158-e4a3-4ae0-a19b-b9c8491dbfe5.png?auth_key=1876633373-3f990c81f0e9484fbd644d2f583e750e-0-afff45b185666f2ad040c995bc130ac8');
-            background-size: cover;
-            background-position: center;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+            background: transparent;
         }
 
         /* === Karakter: di depan form === */
         .profile-icon {
-            position: absolute;
-            width: 257px;
-            height: 456px;
-            left: 123px;
-            top: 0px;
+            position: fixed;
+            width: 400px;
+            height: 720px;
+            left: 210px;
+            top: 26px;
             z-index: 6;
             pointer-events: none;
         }
@@ -94,15 +92,18 @@
         /* === Sidebar === */
         .sidebar-buttons {
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
             padding: 0px;
-            gap: 10px;
+            gap: 14px;
             position: absolute;
-            width: 70px;
-            height: 390px;
-            left: 16px;
-            top: 40px;
+            width: auto;
+            height: auto;
+            left: 50%;
+            top: 564px;
+            transform: translateX(-50%);
+            margin-left: 76px;
             z-index: 5;
         }
 
@@ -162,10 +163,11 @@
         /* === Form Panel === */
         .edit-profile-form {
             position: absolute;
-            width: 401px;
+            width: 500px;
             height: 405px;
             left: 280px;
-            top: 31px;
+            top: 145px;
+            margin-left: 152px;
             z-index: 4;
         }
 
@@ -173,13 +175,13 @@
             box-sizing: border-box;
             position: absolute;
             left: 0; right: 0; top: 0; bottom: 0;
-            background: rgba(255, 255, 255, 0.82);
-            border: 0.5px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             box-shadow: 
                 0 8px 32px rgba(0,0,0,0.1),
-                inset 0 1px 0 rgba(255,255,255,0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+                inset 0 1px 0 rgba(255,255,255,0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border-radius: 30px;
             overflow: hidden;
         }
@@ -208,10 +210,10 @@
             position: absolute;
             width: 310px;
             height: auto;
-            max-height: 348px;
             left: 82px;
             top: 46px;
             bottom: 11px;
+            overflow: hidden;
         }
 
         .form-title { width: auto; flex-shrink: 0; }
@@ -545,11 +547,13 @@
         .toast.error { background: rgba(192, 57, 43, 0.95); }
 
         /* ===================== MOBILE ===================== */
-        @media (max-width: 749px) {
+        @media (max-width: 768px) {
             body {
                 align-items: flex-start;
                 background: #FFFFFF;
                 height: 100vh;
+                margin: 0;
+                padding: 0;
             }
 
             .edit-profile-konten {
@@ -557,35 +561,38 @@
                 height: auto;
                 display: flex;
                 flex-direction: column;
-                padding-bottom: 32px;
+                padding-bottom: 100px;
+                min-height: 100vh;
             }
 
             .background {
                 position: relative;
                 width: 100%;
-                height: 200px;
+                height: 180px;
                 top: 0;
                 flex-shrink: 0;
+                background: linear-gradient(135deg, #3B7DD8 0%, #2A5FAA 100%);
             }
 
             .background-rect {
                 width: 100%;
-                height: 200px;
-                border-radius: 0 0 24px 24px;
+                height: 180px;
+                border-radius: 0 0 20px 20px;
+                background: inherit;
             }
 
             /* Karakter di mobile: kecil di atas area background */
             .profile-icon {
                 position: relative;
-                width: 120px;
-                height: 180px;
+                width: 100px;
+                height: 140px;
                 left: 50%;
-                top: 0;
+                top: -40px;
                 bottom: auto;
                 transform: translateX(-50%);
                 z-index: 6;
                 pointer-events: none;
-                margin-top: -60px;
+                margin-bottom: -30px;
             }
 
             .profile-icon img {
@@ -598,43 +605,87 @@
             }
 
             .sidebar-buttons {
-                position: relative;
+                position: fixed;
+                top: 0;
+                left: 0;
                 width: 100%;
                 height: auto;
-                left: 0;
-                top: 0;
                 flex-direction: row;
                 overflow-x: auto;
-                gap: 8px;
-                padding: 14px 16px;
-                z-index: 5;
+                gap: 10px;
+                padding: 12px 20px;
+                z-index: 100;
                 flex-shrink: 0;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
+                background: rgba(59, 125, 216, 0.98);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid rgba(255,255,255,0.2);
             }
 
             .sidebar-buttons::-webkit-scrollbar { display: none; }
 
             .sidebar-btn {
                 flex-shrink: 0;
-                width: 62px;
-                height: 52px;
-                gap: 3px;
-                border-radius: 10px;
+                width: 70px;
+                height: 56px;
+                gap: 4px;
+                border-radius: 12px;
+                background: rgba(255, 255, 255, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.3);
             }
 
             .sidebar-btn:hover { transform: translateY(-2px) scale(1.02); }
-            .sidebar-btn .btn-icon { width: 26px; height: 22px; }
-            .sidebar-btn .btn-label { font-size: 7px; line-height: 9px; }
-            .pokemon-icon { width: 38px; height: 22px; }
+            .sidebar-btn .btn-icon { width: 26px; height: 24px; }
+            .sidebar-btn .btn-label { font-size: 8px; line-height: 10px; padding: 0 2px; }
+            .pokemon-icon { width: 38px; height: 24px; }
+
+            .sidebar-btn.active {
+                background: rgba(255, 255, 255, 0.9);
+                color: #3B7DD8;
+                border-color: rgba(255, 255, 255, 0.9);
+            }
+
+            .sidebar-btn.active .btn-label {
+                color: #3B7DD8;
+            }
+
+            .edit-profile-konten {
+                padding-top: 90px;
+            }
+
+            .background {
+                position: relative;
+                width: 100%;
+                height: 160px;
+                top: 0;
+                flex-shrink: 0;
+                background: linear-gradient(135deg, #3B7DD8 0%, #2A5FAA 100%);
+                margin-top: 0;
+            }
+
+            .profile-icon {
+                position: relative;
+                width: 90px;
+                height: 120px;
+                left: 50%;
+                top: -30px;
+                bottom: auto;
+                transform: translateX(-50%);
+                z-index: 6;
+                pointer-events: none;
+                margin-bottom: -20px;
+                margin-top: 0;
+            }
 
             .edit-profile-form {
                 position: relative;
-                width: calc(100% - 32px);
+                width: calc(100% - 40px);
                 height: auto;
-                left: 16px;
+                left: 20px;
                 top: 0;
-                margin-top: 8px;
+                margin-top: 16px;
+                margin-bottom: 20px;
                 z-index: 4;
             }
 
@@ -642,6 +693,10 @@
                 position: relative;
                 border-radius: 20px;
                 overflow: visible;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(59, 125, 216, 0.2);
+                box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             }
 
             .form-card::before { border-radius: 20px; }
@@ -653,10 +708,10 @@
                 left: 20px;
                 top: 0;
                 bottom: auto;
-                padding: 20px 0 24px;
+                padding: 25px 0 30px;
             }
 
-            .form-content .save-btn-wrap { margin-top: 14px; }
+            .form-content .save-btn-wrap { margin-top: 20px; }
 
             .level-content {
                 position: relative;
@@ -664,7 +719,7 @@
                 left: 20px;
                 top: 0;
                 bottom: auto;
-                padding: 20px 0 24px;
+                padding: 25px 0 30px;
                 overflow: visible;
             }
 
@@ -674,26 +729,233 @@
                 left: 20px;
                 top: 0;
                 bottom: auto;
-                padding: 20px 0 24px;
+                padding: 25px 0 30px;
                 overflow: visible;
             }
 
-            .field-group { width: 100%; }
+            .field-group { 
+                width: 100%; 
+                margin-bottom: 16px;
+            }
             .field-input-wrap { width: 100%; }
             .select-wrap { width: 100%; }
-            .error-note { width: 100%; }
+            .error-note { width: 100%; margin-bottom: 12px; }
             .save-btn-wrap { width: 100%; }
+
+            .field-input {
+                font-size: 14px !important;
+                padding: 0 16px !important;
+                height: 45px !important;
+                line-height: 45px !important;
+            }
+
+            .select-wrap select {
+                font-size: 14px !important;
+                padding: 0 32px 0 16px !important;
+                height: 45px !important;
+                line-height: 45px !important;
+            }
+
+            .field-label {
+                font-size: 13px !important;
+                margin-bottom: 6px !important;
+            }
+
+            .save-btn {
+                font-size: 14px !important;
+                height: 45px !important;
+                font-weight: 600 !important;
+            }
+
+            .form-title h2 {
+                font-size: 18px !important;
+                margin-bottom: 20px !important;
+            }
 
             .data-table-wrap {
                 width: 100%;
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
+                border-radius: 12px;
+                margin-top: 16px;
             }
 
-            .data-table { min-width: 420px; }
-            .ref-row-input { width: 100%; }
+            .data-table { 
+                min-width: 500px; 
+                font-size: 12px !important;
+            }
+            
+            .data-table thead th {
+                font-size: 11px !important;
+                padding: 8px 10px !important;
+            }
+            
+            .data-table tbody td {
+                font-size: 11px !important;
+                padding: 8px 10px !important;
+            }
 
-            .toast { left: 16px; right: 16px; }
+            .ref-row-input { width: 100%; }
+            .ref-row-value {
+                font-size: 12px !important;
+                padding: 0 16px !important;
+                height: 45px !important;
+                line-height: 45px !important;
+            }
+            .ref-salin-btn {
+                height: 45px !important;
+                width: 70px !important;
+                font-size: 11px !important;
+            }
+
+            .toast { 
+                left: 20px; 
+                right: 20px; 
+                font-size: 14px !important;
+                padding: 16px 20px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .edit-profile-konten {
+                padding-top: 80px;
+                padding-bottom: 120px;
+            }
+
+            .background {
+                height: 140px;
+            }
+
+            .background-rect {
+                height: 140px;
+                border-radius: 0 0 16px 16px;
+            }
+
+            .profile-icon {
+                width: 70px;
+                height: 100px;
+                top: -25px;
+                margin-bottom: -15px;
+            }
+
+            .sidebar-buttons {
+                position: fixed;
+                top: 0;
+                left: 0;
+                padding: 10px 16px;
+                gap: 8px;
+                z-index: 100;
+            }
+
+            .sidebar-btn {
+                width: 60px;
+                height: 48px;
+                gap: 2px;
+                border-radius: 10px;
+                background: rgba(255, 255, 255, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+            }
+
+            .sidebar-btn .btn-icon { width: 24px; height: 20px; }
+            .sidebar-btn .btn-label { font-size: 7px; line-height: 8px; }
+            .pokemon-icon { width: 34px; height: 20px; }
+
+            .sidebar-btn.active {
+                background: rgba(255, 255, 255, 0.9);
+                color: #3B7DD8;
+                border-color: rgba(255, 255, 255, 0.9);
+            }
+
+            .sidebar-btn.active .btn-label {
+                color: #3B7DD8;
+            }
+
+            .edit-profile-form {
+                width: calc(100% - 32px);
+                left: 16px;
+                margin-top: 14px;
+                margin-bottom: 16px;
+            }
+
+            .form-content {
+                width: calc(100% - 32px);
+                left: 16px;
+                padding: 20px 0 25px;
+            }
+
+            .level-content {
+                width: calc(100% - 32px);
+                left: 16px;
+                padding: 20px 0 25px;
+            }
+
+            .ref-content {
+                width: calc(100% - 32px);
+                left: 16px;
+                padding: 20px 0 25px;
+            }
+
+            .field-input {
+                font-size: 13px !important;
+                padding: 0 12px !important;
+                height: 40px !important;
+                line-height: 40px !important;
+            }
+
+            .select-wrap select {
+                font-size: 13px !important;
+                padding: 0 28px 0 12px !important;
+                height: 40px !important;
+                line-height: 40px !important;
+            }
+
+            .field-label {
+                font-size: 12px !important;
+            }
+
+            .save-btn {
+                font-size: 13px !important;
+                height: 40px !important;
+            }
+
+            .form-title h2 {
+                font-size: 16px !important;
+                margin-bottom: 16px !important;
+            }
+
+            .data-table { 
+                min-width: 450px; 
+                font-size: 11px !important;
+            }
+            
+            .data-table thead th {
+                font-size: 10px !important;
+                padding: 6px 8px !important;
+            }
+            
+            .data-table tbody td {
+                font-size: 10px !important;
+                padding: 6px 8px !important;
+            }
+
+            .ref-row-value {
+                font-size: 11px !important;
+                padding: 0 12px !important;
+                height: 40px !important;
+                line-height: 40px !important;
+            }
+            .ref-salin-btn {
+                height: 40px !important;
+                width: 60px !important;
+                font-size: 10px !important;
+            }
+
+            .toast { 
+                left: 16px; 
+                right: 16px; 
+                font-size: 13px !important;
+                padding: 14px 18px !important;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -703,8 +965,10 @@
             }
         }
     </style>
+<link rel="stylesheet" href="../css/header.css" />
 </head>
 <body>
+<script src="../js/header.js"></script>
 
     <div class="fullscreen-bg"></div>
 
@@ -1033,9 +1297,6 @@
                 var panel = document.getElementById(id);
                 if (panel) panel.style.display = id === panelId ? 'block' : 'none';
             });
-            if (window.innerWidth <= 749) {
-                btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            }
         }
 
         function showToast(message, isError) {
@@ -1103,5 +1364,6 @@
             }
         }
     </script>
+
 </body>
 </html>

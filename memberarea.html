@@ -15,118 +15,62 @@
     html, body {
       width: 100%; height: 100%;
       font-family: 'Poppins', sans-serif;
-      overflow: hidden; background: #000;
+      overflow: hidden; background: transparent;
       display: flex; flex-direction: column;
       position: relative; z-index: 1;
     }
 
     /* BG */
     .bg { position: fixed; inset: 0; background-size: cover; background-position: center; z-index: 0; }
-    .bg-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
-
-    /* TOPBAR */
-    .topbar {
-      display: flex; align-items: center; gap: 12px;
-      padding: 10px 18px; position: relative; z-index: 10; flex-shrink: 0;
-    }
-    .logo img { height: 60px; filter: drop-shadow(0 2px 8px rgba(0,0,0,.5)); }
-    .profile { display: flex; align-items: center; position: relative; margin-left: 8px; }
-    .profile-avatar {
-      width: 72px; height: 72px; border-radius: 50%;
-      border: 4px solid #e53935; background: #1a1a1a;
-      overflow: hidden; flex-shrink: 0; z-index: 2;
-      box-shadow: 0 0 0 3px #fff, 0 4px 12px rgba(0,0,0,.5);
-    }
-    .avatar-img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-    .profile-card { display: flex; flex-direction: column; margin-left: -16px; z-index: 1; }
-    .profile-username {
-      background: #e53935; color: #fff; font-size: 14px; font-weight: 700;
-      padding: 5px 18px 5px 24px;
-      clip-path: polygon(0 0,100% 0,92% 100%,0 100%); min-width: 150px;
-    }
-    .profile-id {
-      background: #fffced; color: #1a1a1a; font-size: 11px; font-weight: 700;
-      padding: 3px 18px 3px 24px;
-      clip-path: polygon(0 0,92% 0,84% 100%,0 100%); min-width: 130px;
-      border-left: 3px solid transparent;
-    }
-    .topbar-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
-    .currencies { display: flex; gap: 10px; }
-    .currency-item {
-      display: flex; align-items: center; gap: 6px;
-      background: rgba(0,0,0,.6); border-radius: 30px;
-      padding: 5px 10px 5px 6px; border: 2px solid rgba(255,255,255,.2);
-    }
-    .currency-item img { width: 28px; height: 28px; object-fit: contain; }
-    .currency-item span { color: #fff; font-size: 13px; font-weight: 700; min-width: 44px; }
-    .btn-plus {
-      background: #4caf50; color: #fff; border: none; border-radius: 50%;
-      width: 22px; height: 22px; font-size: 16px; font-weight: 900;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-    }
+    /* bg-overlay dihapus — header transparan */
 
     /* LAYOUT */
-    .main-layout { flex: 1; display: flex; position: relative; z-index: 5; overflow: hidden; }
+    .main-layout { flex: 1; display: flex; position: relative; z-index: 5; overflow: hidden; min-height: 0; }
 
     /* CONTENT AREA */
-    .content-area { flex: 1; position: relative; overflow: hidden; margin-left: 92px; }
-    .content-frame { width: 100%; height: 100%; border: none; display: block; }
+    .content-area { flex: 1; position: relative; overflow: hidden; margin-left: 88px; min-height: 0; }
+    .content-frame { width: 100%; height: 100%; border: none; display: block; min-height: 0; background: transparent; }
+    .content-frame::-webkit-scrollbar { width: 8px; opacity: 0; }
+    .content-frame::-webkit-scrollbar-track { background: transparent; }
+    .content-frame::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 4px; opacity: 0; }
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
-      .topbar { padding: 6px 10px; gap: 6px; }
-      .logo img { height: 40px; }
-      .profile-avatar { width: 46px; height: 46px; border-width: 3px; }
-      .profile-card { margin-left: -10px; }
-      .profile-username { font-size: 10px; padding: 3px 14px 3px 16px; min-width: 90px; }
-      .profile-id { font-size: 9px; padding: 2px 12px 2px 14px; min-width: 80px; }
-      .topbar-right { flex-direction: column; align-items: flex-end; gap: 3px; }
-      .currencies { flex-direction: column; gap: 3px; }
-      .currency-item { padding: 3px 6px 3px 5px; gap: 3px; }
-      .currency-item img { width: 16px; height: 16px; }
-      .currency-item span { font-size: 9px; min-width: 28px; }
-      /* btn-plus tetap tampil di mobile */
-      /* Full width, beri ruang untuk bottom nav */
       .content-area { margin-left: 0 !important; }
-      .main-layout { overflow: visible; }
-      /* iframe tinggi penuh dikurangi topbar (~60px) dan bottom nav (~80px) */
-      .content-frame { height: calc(100vh - 60px - 80px); }
+      .main-layout { overflow: hidden; }
+      .content-frame { height: 100%; }
     }
     @media (max-width: 480px) {
-      .topbar { padding: 5px 8px; gap: 4px; }
-      .logo img { height: 34px; }
-      .profile-avatar { width: 38px; height: 38px; }
-      .profile-username { font-size: 9px; min-width: 76px; }
-      .profile-id { font-size: 8px; min-width: 68px; }
-      /* Perkecil tapi tetap tampil */
-      .currency-item span { font-size: 8px; min-width: 22px; display: block; }
-      .currency-item img { width: 14px; height: 14px; }
-      .currency-item { padding: 3px 4px; gap: 2px; }
-      .btn-plus { width: 14px; height: 14px; font-size: 10px; }
       .content-area { margin-left: 0 !important; }
-      .content-frame { height: calc(100vh - 55px - 80px); }
+      .content-frame { height: 100%; }
     }
   </style>
+  <link rel="stylesheet" href="css/header.css" />
 </head>
 <body>
 
-  <div class="bg" style="background-image:url('assets/images/backgrounds/background.png')"></div>
-  <div class="bg-overlay"></div>
+  <div class="bg" style="background-image:url('assets/images/backgrounds/background.png');background-size:cover;background-position:center;"></div>
 
-  <header class="topbar">
-    <div class="logo"><img src="assets/images/ui/logoweb.png" alt="GachaKeren"/></div>
-    <div class="profile">
-      <div class="profile-avatar"><img src="assets/images/icons/icon/pokemon.png" alt="avatar" class="avatar-img"/></div>
-      <div class="profile-card">
-        <div class="profile-username">Username</div>
-        <div class="profile-id">ID 608</div>
+  <!-- SHARED HEADER -->
+  <header class="shared-header">
+    <div class="sh-logo"><img src="assets/images/ui/logoweb.png" alt="GachaKeren"/></div>
+    <div class="sh-auth-buttons" id="sh-auth-buttons">
+      <button class="sh-btn-login" onclick="shOpenAuth('login')">LOGIN</button>
+      <button class="sh-btn-register" onclick="shOpenAuth('register')">REGISTER</button>
+    </div>
+    <div class="sh-profile" id="sh-profile-section" style="display:none;">
+      <div class="sh-profile-avatar"><img src="assets/images/icons/icon/pokemon.png" alt="avatar" class="sh-avatar-img"/></div>
+      <div class="sh-profile-card">
+        <div class="sh-profile-username" id="sh-username-display">Username</div>
+        <div class="sh-profile-id" id="sh-user-id-display">ID 608</div>
       </div>
     </div>
-    <div class="topbar-right">
-      <div class="currencies">
-        <div class="currency-item"><img src="assets/images/icons/icon/koin.png" alt="koin"/><span id="ma-bal-koin">20.15M</span><button class="btn-plus" onclick="openTopupMA('koin')">+</button></div>
-        <div class="currency-item"><img src="assets/images/icons/icon/diamond.png" alt="diamond"/><span id="ma-bal-diamond">20.15M</span><button class="btn-plus" onclick="openTopupMA('diamond')">+</button></div>
-        <div class="currency-item"><img src="assets/images/icons/icon/flash.png" alt="flash"/><span id="ma-bal-flash">20.15M</span><button class="btn-plus" onclick="openTopupMA('flash')">+</button></div>
+    <button class="sh-btn-logout" id="sh-btn-logout" style="display:none;" onclick="shHandleLogout()">KELUAR</button>
+    <div class="sh-topbar-right">
+      <div class="sh-currencies">
+        <div class="sh-currency-item" onclick="shOpenTopup('koin')"><img src="assets/images/icons/icon/koin.png" alt="koin"/><span id="sh-bal-koin">20.15M</span><button class="sh-btn-plus" onclick="event.stopPropagation();shOpenTopup('koin')">+</button></div>
+        <div class="sh-currency-item" onclick="shOpenTopup('diamond')"><img src="assets/images/icons/icon/diamond.png" alt="diamond"/><span id="sh-bal-diamond">20.15M</span><button class="sh-btn-plus" onclick="event.stopPropagation();shOpenTopup('diamond')">+</button></div>
+        <div class="sh-currency-item" onclick="shOpenTopup('flash')"><img src="assets/images/icons/icon/flash.png" alt="flash"/><span id="sh-bal-flash">20.15M</span><button class="sh-btn-plus" onclick="event.stopPropagation();shOpenTopup('flash')">+</button></div>
       </div>
     </div>
   </header>
@@ -149,11 +93,47 @@
         'legendary':  'pages/legendary-board.html',
         'koleksi':    'pages/semua-kartu.html',
         'kirimkartu': 'pages/kartu-fisik.html',
-        'jualkartu':  'pages/kartu-fisik.html',
+        'jualkartu':  'pages/jual-kartu.html',
       };
       var page = new URLSearchParams(window.location.search).get('page');
       if (page && pageMap[page]) {
         document.getElementById('contentFrame').src = pageMap[page];
+      }
+
+      // Set background sesuai halaman
+      var bgMap = {
+        'deposit':     'assets/images/backgrounds/depositbg.png',
+        'withdraw':    'assets/images/backgrounds/depositbg.png',
+        'leaderboard': 'assets/images/backgrounds/leaderboard.png',
+        'legendary':   'assets/images/backgrounds/legendarybg.png',
+        'profile':     'assets/images/backgrounds/akunbg.png.png',
+        'koleksi':     'assets/images/backgrounds/semuabg.png',
+        'jualkartu':   'assets/images/backgrounds/jualkartu.png',
+        'kirimkartu':  'assets/images/backgrounds/kirimkartufisik.png',
+      };
+      var bg = document.querySelector('.bg');
+      if (bg && page && bgMap[page]) {
+        bg.style.backgroundImage = "url('" + bgMap[page] + "')";
+      }
+
+      // Set frosted glass blur effect hanya untuk legendary page
+      var frame = document.querySelector('.content-frame');
+      if (frame) {
+        if (page === 'legendary') {
+          frame.style.background = 'transparent';
+          frame.style.backdropFilter = 'none';
+          frame.style.webkitBackdropFilter = 'none';
+          frame.style.overflow = 'auto';
+          frame.setAttribute('scrolling', 'auto');
+        } else if (page === 'profile') {
+          frame.style.overflow = 'hidden';
+          frame.setAttribute('scrolling', 'auto');
+        } else {
+          frame.style.background = 'transparent';
+          frame.style.backdropFilter = 'none';
+          frame.style.webkitBackdropFilter = 'none';
+          frame.setAttribute('scrolling', 'auto');
+        }
       }
     })();
   </script>
@@ -263,6 +243,19 @@
       closeTopupMA();
       document.getElementById('contentFrame').src = 'pages/deposit.html?topup=1';
     }
+  </script>
+  <script src="js/header.js"></script>
+  <script>
+    // Saat refresh/reload, kembali ke HOME
+    (function() {
+      var isReload = false;
+      if (window.performance) {
+        var nav = window.performance.getEntriesByType && window.performance.getEntriesByType('navigation');
+        if (nav && nav.length > 0 && nav[0].type === 'reload') isReload = true;
+        if (!isReload && window.performance.navigation && window.performance.navigation.type === 1) isReload = true;
+      }
+      if (isReload) window.location.replace('index.html');
+    })();
   </script>
 </body>
 </html>

@@ -1,372 +1,650 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Koleksi Saya - GachaKeren</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Luckiest+Guy&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Koleksi Saya - Kartu Fisik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Rowdies:wght@400;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 'nunito': ['Nunito', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg: #FFF8EE;
+            --fg: #2D3436;
+            --muted: #8D6E63;
+            --accent: #FF6B6B;
+            --golden: #FFD93D;
+            --card: #FFFFFF;
+            --border: #F0E0CC;
+            --forest: #6BCB77;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: transparent;
+            color: var(--fg);
+            min-height: 100vh;
+        }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background: transparent;
-  min-height: 100vh;
-  width: 100%;
-  overflow-y: auto; overflow-x: hidden;
-  padding: 16px 12px 100px 12px;
-  color: #fff;
-}
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
+        .page-bg {
+            display: none;
+        }
 
-/* ===== MAIN PANEL ===== */
-.lb-panel {
-  max-width: 100%;
-  margin: 0 auto;
-  background: linear-gradient(160deg, #43a047 0%, #388e3c 40%, #2e7d32 100%);
-  border-radius: 28px;
-  border: 3px solid rgba(76,175,80,0.6);
-  box-shadow:
-    0 0 0 2px rgba(255,255,255,0.15),
-    0 8px 40px rgba(20,80,30,0.5),
-    inset 0 1px 0 rgba(255,255,255,0.2);
-  overflow: hidden;
-  padding-bottom: 20px;
-  position: relative;
-  z-index: 1;
-}
+        /* === TAB NAV === */
+        @property --snake-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+        @keyframes snakeRun { to { --snake-angle: 360deg; } }
+        @keyframes iconFloat {
+            0%,100% { transform: translateY(0px); }
+            50%     { transform: translateY(-5px); }
+        }
+        @keyframes iconShake {
+            0%   { transform: rotate(0deg) scale(1); }
+            15%  { transform: rotate(-12deg) scale(1.1); }
+            30%  { transform: rotate(10deg) scale(1.15); }
+            45%  { transform: rotate(-8deg) scale(1.1); }
+            60%  { transform: rotate(6deg) scale(1.05); }
+            75%  { transform: rotate(-4deg); }
+            90%  { transform: rotate(2deg); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+        @keyframes starPop {
+            0%,100% { opacity:0; transform:scale(0.2) rotate(0deg); }
+            30%     { opacity:1; transform:scale(1.5) rotate(25deg); }
+            60%     { opacity:0.6; transform:scale(0.9) rotate(-15deg); }
+            80%     { opacity:0; transform:scale(0.3) rotate(40deg); }
+        }
 
-/* ===== TABS ===== */
-.lb-tabs {
-  display: flex;
-  background: #FFFFFF;
-  border-bottom: 3px solid rgba(76,175,80,0.3);
-  padding: 0 8px;
-  gap: 4px;
-}
-.lb-tab {
-  flex: 1;
-  padding: 14px 8px;
-  text-align: center;
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 20px;
-  color: rgba(76,175,80,0.6);
-  cursor: pointer;
-  border-radius: 12px 12px 0 0;
-  transition: all 0.2s;
-  letter-spacing: 0.5px;
-  position: relative;
-  top: 3px;
-}
-.lb-tab:hover { color: #43a047; background: rgba(67,160,71,0.05); }
-.lb-tab.active {
-  background: linear-gradient(180deg, #43a047 0%, #388e3c 100%);
-  color: #fff;
-  box-shadow: 0 -2px 12px rgba(76,175,80,0.5);
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-}
+        .tab-nav {
+            display: flex; gap: 16px;
+            background: transparent;
+            border-radius: 0; padding: 0;
+            box-shadow: none;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            position: relative;
+            overflow: visible;
+        }
 
-/* ===== HEADER BAR ===== */
-.lb-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px;
-  background: rgba(60,60,60,0.5);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-.lb-title {
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 28px;
-  color: #FFD700;
-  text-shadow: 0 0 16px rgba(255,215,0,0.6);
-}
-.lb-subtitle {
-  font-size: 14px;
-  color: rgba(255,255,255,0.6);
-}
+        .tab-btn {
+            flex: 1; min-width: 60px;
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            outline: none;
+            font-family: 'Nunito', sans-serif;
+            font-size: 10px; font-weight: 800;
+            color: rgba(255,255,255,0.75);
+            cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            padding: 0;
+            position: relative;
+        }
 
-/* ===== CONTENT ===== */
-.lb-content {
-  display: flex;
-  gap: 16px;
-  padding: 16px 20px;
-}
+        /* === ICON WRAPPER — tempat semua animasi === */
+        .tab-btn .icon-wrap {
+            position: relative;
+            width: 56px; height: 56px;
+        }
+        .game-header::before {
+            content: ''; position: absolute; top: -40px; right: -40px;
+            width: 160px; height: 160px; background: rgba(255,255,255,0.1); border-radius: 50%;
+        }
+        .game-header::after {
+            content: ''; position: absolute; bottom: -30px; left: 15%;
+            width: 100px; height: 100px; background: rgba(255,255,255,0.06); border-radius: 50%;
+        }
+        @media (min-width: 1024px) {
+            .game-header { padding: 28px 48px !important; }
+            .game-header::before { width: 240px; height: 240px; top: -80px; right: -80px; }
+            .game-header::after { width: 160px; height: 160px; bottom: -50px; }
+        }
+        .step-badge {
+            background: rgba(255,255,255,0.25); backdrop-filter: blur(4px);
+            border: 2px solid rgba(255,255,255,0.4); border-radius: 24px;
+            padding: 5px 16px; font-size: 13px; font-weight: 800; color: #fff;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .particle {
+            position: absolute; border-radius: 50%; pointer-events: none; opacity: 0;
+            animation: particleFloat 4s ease-in-out infinite;
+        }
+        @keyframes particleFloat {
+            0% { opacity: 0; transform: translateY(0) scale(0); }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.3; }
+            100% { opacity: 0; transform: translateY(-60px) scale(1); }
+        }
 
-/* ===== CARD GRID ===== */
-.card-grid-wrap {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+        /* ===== TAB NAV ===== */
+        .tab-nav {
+            display: flex; gap: 6px;
+            background: rgba(10, 5, 30, 0.85);
+            border-radius: 16px; padding: 10px 8px 8px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+            flex-wrap: wrap;
+            margin-top: 28px;
+            position: relative;
+        }
 
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 14px;
-}
+        /* ===== BUTTON ===== */
+        .tab-btn {
+            flex: 1; min-width: 70px;
+            padding: 10px 6px 10px;
+            border: none; border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            font-family: 'Nunito', sans-serif;
+            font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 5px;
+            position: relative;
+            padding-top: 32px;
+            overflow: hidden;
+            transition: color 0.3s, background 0.3s;
+            /* border animasi ular */
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
 
-.card-item {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  overflow: hidden;
-  transition: transform 0.25s, box-shadow 0.25s;
-  cursor: pointer;
-  position: relative;
-}
-.card-item::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(255,255,255,0.08) 0%, transparent 60%);
-}
-.card-item:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(76,175,80,0.3);
-  border-color: rgba(76,175,80,0.4);
-}
-.card-item.r-legendary:hover { box-shadow: 0 8px 24px rgba(255,215,0,0.4); }
-.card-item.r-epic:hover      { box-shadow: 0 8px 24px rgba(192,132,252,0.4); }
-.card-item.r-rare:hover      { box-shadow: 0 8px 24px rgba(96,165,250,0.4); }
+        /* Icon menggantung */
+        .tab-btn img {
+            width: 48px; height: 48px; object-fit: contain;
+            opacity: 1;
+            position: absolute;
+            top: -20px; left: 50%;
+            transform: translateX(-50%);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+            transition: transform 0.2s ease, filter 0.2s ease;
+            z-index: 2;
+        }
 
-.card-item img {
-  width: 100%;
-  height: 180px;
-  object-fit: contain;
-  display: block;
-  padding: 8px;
-  background: rgba(0,0,0,0.2);
-}
+        /* ===== SNAKE LIGHT BORDER ===== */
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 14px;
+            padding: 2px;
+            background: conic-gradient(
+                from var(--angle, 0deg),
+                transparent 0deg,
+                transparent 60deg,
+                rgba(255,255,255,0.9) 90deg,
+                rgba(180,120,255,0.8) 120deg,
+                rgba(255,200,50,0.9) 150deg,
+                transparent 180deg,
+                transparent 360deg
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: snakeRotate 2.5s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 0;
+        }
 
-.card-item .card-rarity-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 4px 8px;
-  font-size: 9px;
-  font-weight: 700;
-  text-align: center;
-  letter-spacing: 0.5px;
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-}
-.card-item.r-legendary { border-color: #FFD700; }
-.card-item.r-legendary .card-rarity-bar { background: rgba(255,215,0,0.85); color: #000; }
-.card-item.r-epic      { border-color: #c084fc; }
-.card-item.r-epic .card-rarity-bar      { background: rgba(192,132,252,0.85); color: #fff; }
-.card-item.r-rare      { border-color: #60a5fa; }
-.card-item.r-rare .card-rarity-bar      { background: rgba(96,165,250,0.85); color: #fff; }
-.card-item.r-common .card-rarity-bar    { background: rgba(80,80,80,0.85); color: #fff; }
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
 
-/* ===== STATS PANEL ===== */
-.stats-panel {
-  flex: 0 0 280px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+        @keyframes snakeRotate {
+            to { --angle: 360deg; }
+        }
 
-.stat-box {
-  background: rgba(0,0,0,0.15);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  padding: 16px;
-}
-.stat-box-title {
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 18px;
-  color: #FFD700;
-  margin-bottom: 12px;
-}
-.stat-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.stat-row:last-child { border-bottom: none; }
-.stat-label { font-size: 13px; color: rgba(255,255,255,0.7); }
-.stat-value {
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 16px;
-  color: #a5d6a7;
-}
+        /* Ripple wave on hover */
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            top: -20px; left: 50%;
+            transform: translateX(-50%) scale(0);
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            pointer-events: none;
+            opacity: 0;
+            z-index: 1;
+        }
 
-/* Empty state */
-.no-result {
-  text-align: center;
-  padding: 60px 20px;
-  color: rgba(255,255,255,0.4);
-}
-.no-result i {
-  font-size: 64px;
-  margin-bottom: 16px;
-  color: rgba(76,175,80,0.3);
-  animation: float 3s ease-in-out infinite;
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-.no-result p { font-size: 16px; font-weight: 600; }
+        @keyframes rippleWave {
+            0%   { transform: translateX(-50%) scale(0.5); opacity: 0.7; }
+            100% { transform: translateX(-50%) scale(4); opacity: 0; }
+        }
+        @keyframes shake {
+            0%   { transform: translateX(-50%) rotate(0deg); }
+            15%  { transform: translateX(-50%) rotate(-12deg) scale(1.1); }
+            30%  { transform: translateX(-50%) rotate(10deg) scale(1.15); }
+            45%  { transform: translateX(-50%) rotate(-8deg) scale(1.1); }
+            60%  { transform: translateX(-50%) rotate(6deg) scale(1.05); }
+            75%  { transform: translateX(-50%) rotate(-4deg); }
+            90%  { transform: translateX(-50%) rotate(2deg); }
+            100% { transform: translateX(-50%) rotate(0deg); }
+        }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 640px) {
-  body { padding: 8px 8px 20px; }
-  .lb-content { flex-direction: column; gap: 12px; padding: 12px 10px; }
-  .stats-panel { flex: none; width: 100%; }
-  .card-grid-wrap { width: 100%; }
-  .lb-tab { font-size: 11px; padding: 8px 4px; }
-  .lb-header { flex-direction: column; gap: 8px; text-align: center; padding: 10px 12px; }
-  .lb-title { font-size: 20px; }
-  .lb-panel { max-width: 100%; border-radius: 20px; }
-  .card-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-  .stat-box-title { font-size: 16px; }
-  .stat-label { font-size: 12px; }
-  .stat-value { font-size: 14px; }
-}
-@media (max-width: 480px) {
-  body { padding: 6px 6px 16px; }
-  .lb-tab { font-size: 10px; padding: 7px 3px; }
-  .card-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
-  .lb-title { font-size: 18px; }
-  .card-item img { height: 150px; }
-}
-</style>
+        .tab-btn:hover::before { opacity: 1; }
+        .tab-btn:hover::after { animation: rippleWave 0.6s ease-out forwards; }
+        .tab-btn:hover img { animation: shake 0.5s ease forwards; filter: drop-shadow(0 0 10px rgba(255,255,255,0.9)); }
+        .tab-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
+        /* Snake border SELALU jalan di semua button */
+        .tab-btn::before { opacity: 1; animation: snakeRotate 3s linear infinite; }
+
+        /* Hover: ripple + shake */
+        .tab-btn:hover::after { animation: rippleWave 0.6s ease-out forwards; }
+        .tab-btn:hover img { animation: shake 0.5s ease forwards; filter: drop-shadow(0 0 10px rgba(255,255,255,0.9)); }
+        .tab-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
+        /* Active: snake lebih cepat + glow */
+        .tab-btn.active {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+            box-shadow: 0 0 24px rgba(180,120,255,0.4), 0 0 8px rgba(255,200,50,0.3);
+        }
+        .tab-btn.active::before { animation: snakeRotate 1.2s linear infinite; }
+        .tab-btn.active img {
+            transform: translateX(-50%) scale(1.15);
+            filter: drop-shadow(0 0 12px rgba(255,255,255,0.8));
+        }
+
+        /* ===== BINTANG BLINK ===== */
+        .star-particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 10;
+            font-size: 10px;
+            animation: starBlink var(--dur, 2s) ease-in-out var(--delay, 0s) infinite;
+            opacity: 0;
+        }
+        @keyframes starBlink {
+            0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+            30%       { opacity: 1; transform: scale(1.3) rotate(20deg); }
+            60%       { opacity: 0.6; transform: scale(0.9) rotate(-10deg); }
+            80%       { opacity: 0; transform: scale(0.4) rotate(30deg); }
+        }
+
+        @media (min-width: 768px) {
+            .tab-btn img { width: 56px; height: 56px; top: -24px; }
+            .tab-btn::after { width: 56px; height: 56px; top: -24px; }
+            .tab-btn { font-size: 11px; padding-top: 38px; }
+            .tab-nav { margin-top: 32px; }
+        }
+        @media (min-width: 1024px) {
+            .tab-btn img { width: 64px; height: 64px; top: -28px; }
+            .tab-btn::after { width: 64px; height: 64px; top: -28px; }
+            .tab-btn { font-size: 12px; padding-top: 44px; }
+            .tab-nav { margin-top: 36px; }
+        }
+
+        .section-card {
+            background: var(--card); border-radius: 20px; padding: 20px;
+            box-shadow: 0 2px 16px rgba(141,110,99,0.08);
+            border: 1.5px solid rgba(240,224,204,0.6);
+        }
+        @media (min-width: 768px) { .section-card { padding: 24px; border-radius: 24px; } }
+        @media (min-width: 1024px) { .section-card { padding: 28px; } }
+
+        .section-title {
+            font-size: 16px; font-weight: 800; color: var(--fg);
+            display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+        }
+        @media (min-width: 768px) { .section-title { font-size: 18px; margin-bottom: 20px; } }
+
+        .icon-circle {
+            width: 32px; height: 32px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; color: #fff; flex-shrink: 0;
+        }
+        @media (min-width: 768px) { .icon-circle { width: 36px; height: 36px; font-size: 15px; } }
+
+        .card-scroll {
+            max-height: 360px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 4px;
+        }
+        @media (min-width: 768px) { .card-scroll { max-height: 420px; } }
+        @media (min-width: 1024px) { .card-scroll { max-height: 480px; } }
+
+        .card-scroll::-webkit-scrollbar { width: 5px; }
+        .card-scroll::-webkit-scrollbar-track { background: transparent; }
+        .card-scroll::-webkit-scrollbar-thumb {
+            background: #E0D5C8; border-radius: 3px;
+        }
+        .card-scroll::-webkit-scrollbar-thumb:hover { background: #C4A882; }
+
+        .pokemon-card {
+            position: relative; border-radius: 12px; overflow: hidden;
+            cursor: pointer; border: 2.5px solid transparent;
+            background: var(--card); box-shadow: 0 2px 8px rgba(141,110,99,0.1);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .pokemon-card:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 6px 20px rgba(141,110,99,0.18);
+        }
+        .pokemon-card.r-legendary { border-color: #FFD700; }
+        .pokemon-card.r-legendary:hover { box-shadow: 0 6px 20px rgba(255,215,0,0.4); }
+        .pokemon-card.r-epic { border-color: #c084fc; }
+        .pokemon-card.r-epic:hover { box-shadow: 0 6px 20px rgba(192,132,252,0.4); }
+        .pokemon-card.r-rare { border-color: #60a5fa; }
+        .pokemon-card.r-rare:hover { box-shadow: 0 6px 20px rgba(96,165,250,0.4); }
+
+        .card-art {
+            height: 62px; position: relative;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+        @media (min-width: 768px) { .card-art { height: 80px; } }
+        @media (min-width: 1024px) { .card-art { height: 100px; } }
+
+        .card-art::before {
+            content: ''; position: absolute; inset: 0; opacity: 0.15;
+            background: repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(255,255,255,0.3) 6px, rgba(255,255,255,0.3) 12px);
+        }
+        .card-art img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 1;
+        }
+
+        .type-badge {
+            display: inline-block; padding: 1px 5px; border-radius: 6px;
+            font-size: 7px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.3px; color: #fff;
+        }
+        @media (min-width: 768px) { .type-badge { font-size: 8px; padding: 1px 7px; } }
+        @media (min-width: 1024px) { .type-badge { font-size: 9px; padding: 2px 8px; } }
+
+        .card-name {
+            font-size: 8px; font-weight: 800; color: var(--fg);
+            line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        @media (min-width: 768px) { .card-name { font-size: 10px; } }
+        @media (min-width: 1024px) { .card-name { font-size: 11px; } }
+
+        .card-rarity { font-size: 7px; font-weight: 800; letter-spacing: 0.3px; }
+        @media (min-width: 768px) { .card-rarity { font-size: 8px; } }
+        @media (min-width: 1024px) { .card-rarity { font-size: 9px; } }
+
+        .card-bottom { padding: 5px 6px 6px; }
+        @media (min-width: 768px) { .card-bottom { padding: 6px 8px 8px; } }
+        @media (min-width: 1024px) { .card-bottom { padding: 7px 10px 9px; } }
+
+        .stats-box {
+            background: #FFF8EE; border-radius: 16px;
+            padding: 16px; border: 1.5px solid var(--border);
+        }
+        @media (min-width: 768px) { .stats-box { padding: 20px; border-radius: 20px; } }
+        .stats-title {
+            font-size: 16px; font-weight: 800; color: var(--fg);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        @media (min-width: 768px) { .stats-title { font-size: 18px; margin-bottom: 16px; } }
+        .stats-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 0; border-bottom: 1px solid var(--border);
+        }
+        .stats-row:last-child { border-bottom: none; }
+        .stats-label {
+            font-size: 12px; font-weight: 600; color: var(--muted);
+        }
+        @media (min-width: 768px) { .stats-label { font-size: 13px; } }
+        .stats-value {
+            font-size: 14px; font-weight: 800; color: var(--fg);
+        }
+        @media (min-width: 768px) { .stats-value { font-size: 15px; } }
+
+        .empty-state { text-align: center; padding: 48px 20px; }
+        .empty-state .icon-big { font-size: 52px; color: #E0D5C8; margin-bottom: 14px; }
+        @media (min-width: 768px) { .empty-state { padding: 64px 20px; } .empty-state .icon-big { font-size: 64px; } }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #E0D5C8; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #C4A882; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="lb-panel">
+<div class="page-bg"></div>
 
-  <!-- TABS -->
-  <div class="lb-tabs">
-    <div class="lb-tab active" onclick="switchTab('all',this)">All</div>
-    <div class="lb-tab" onclick="switchTab('legendary',this)">⭐ Legendary</div>
-    <div class="lb-tab" onclick="switchTab('epic',this)">💎 Epic</div>
-    <div class="lb-tab" onclick="switchTab('rare',this)">🔵 Rare</div>
-    <div class="lb-tab" onclick="switchTab('common',this)">⚪ Common</div>
-  </div>
+<div class="relative z-[1] min-h-screen flex flex-col">
 
-  <!-- HEADER -->
-  <div class="lb-header">
-    <div>
-      <div class="lb-title">📦 Koleksi Saya</div>
-      <div class="lb-subtitle">Kartu-kartu yang kamu miliki saat ini</div>
+    <!-- Header -->
+    <header class="game-header" style="padding: 16px 20px 20px;">
+        <div class="relative z-10 max-w-6xl mx-auto">
+            <div class="flex items-center justify-between gap-4 flex-wrap">
+                <div>
+                    <h1 class="text-white text-xl sm:text-2xl lg:text-3xl font-black tracking-tight">Koleksi Saya</h1>
+                    <p class="text-white/80 text-xs sm:text-sm font-semibold mt-0.5 lg:mt-1">110 Kartu</p>
+                    <p class="text-white/80 text-xs sm:text-sm font-semibold mt-1">Total Networth: Rp 16.318.000</p>
+                </div>
+                <div class="step-badge">
+                    <i class="fa-solid fa-layer-group" style="font-size:11px"></i>
+                    <span id="totalCardsBadge">110 Kartu</span>
+                </div>
+            </div>
+            <div class="particle" style="width:8px;height:8px;background:rgba(255,255,255,0.4);left:8%;bottom:0;animation-delay:0s"></div>
+            <div class="particle" style="width:6px;height:6px;background:rgba(255,255,255,0.3);left:25%;bottom:0;animation-delay:1s"></div>
+            <div class="particle" style="width:10px;height:10px;background:rgba(255,255,255,0.2);left:55%;bottom:0;animation-delay:2s"></div>
+            <div class="particle" style="width:5px;height:5px;background:rgba(255,255,255,0.35);left:78%;bottom:0;animation-delay:0.5s"></div>
+        </div>
+    </header>
+
+    <!-- Konten utama -->
+    <div class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-5 sm:py-6 lg:py-8">
+
+        <!-- Tab -->
+        <nav class="tab-nav mb-5 sm:mb-6 lg:mb-8" id="tabNav" aria-label="Navigasi rarity">
+            <button class="tab-btn active" onclick="switchTab('all')" id="tabAll">
+                <img src="../assets/images/icons/icon/allcard.png" alt="Semua">
+                <span>Semua</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('common')" id="tabCommon">
+                <img src="../assets/images/icons/icon/common.png" alt="Common">
+                <span>Common</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('uncommon')" id="tabUncommon">
+                <img src="../assets/images/icons/icon/uncommon.png" alt="Uncommon">
+                <span>Uncommon</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('rare')" id="tabRare">
+                <img src="../assets/images/icons/icon/rare.png" alt="Rare">
+                <span>Rare</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('superrare')" id="tabSuperrare">
+                <img src="../assets/images/icons/icon/superrare.png" alt="Super Rare">
+                <span>Super Rare</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('ultrarare')" id="tabUltrarare">
+                <img src="../assets/images/icons/icon/ultrarare.png" alt="Ultra Rare">
+                <span>Ultra Rare</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('legendary')" id="tabLegendary">
+                <img src="../assets/images/icons/icon/legendary.png" alt="Legendary">
+                <span>Legendary</span>
+            </button>
+        </nav>
+
+        <!-- Grid Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
+
+            <!-- Card Grid -->
+            <section class="section-card lg:col-span-3">
+                <div class="section-title">
+                    <div class="icon-circle" style="background: linear-gradient(135deg, #FF6B6B, #FF8E53)">
+                        <i class="fa-solid fa-cards-blank"></i>
+                    </div>
+                    Koleksi Kartu
+                </div>
+                <div class="card-scroll">
+                    <div class="grid grid-cols-4 gap-2 sm:gap-2.5 lg:gap-3" id="cardsGrid"></div>
+                </div>
+            </section>
+
+            <!-- Stats Panel -->
+            <div class="flex flex-col gap-5 sm:gap-6 lg:gap-6 lg:col-span-1">
+                <section class="stats-box">
+                    <div class="stats-title">
+                        <i class="fa-solid fa-chart-simple" style="color:var(--accent)"></i>
+                        Statistics
+                    </div>
+                    <div class="stats-row">
+                        <span class="stats-label">Total Cards</span>
+                        <span class="stats-value" id="totalCards">110</span>
+                    </div>
+                    <div class="stats-row">
+                        <span class="stats-label">Legendary</span>
+                        <span class="stats-value" id="legendaryCount">2</span>
+                    </div>
+                    <div class="stats-row">
+                        <span class="stats-label">Epic</span>
+                        <span class="stats-value" id="epicCount">3</span>
+                    </div>
+                    <div class="stats-row">
+                        <span class="stats-label">Rare</span>
+                        <span class="stats-value" id="rareCount">4</span>
+                    </div>
+                    <div class="stats-row">
+                        <span class="stats-label">Common</span>
+                        <span class="stats-value" id="commonCount">3</span>
+                    </div>
+                </section>
+
+                <section class="stats-box">
+                    <div class="stats-title">
+                        <i class="fa-solid fa-gem" style="color:var(--golden)"></i>
+                        Total Value
+                    </div>
+                    <div class="stats-row">
+                        <span class="stats-label">Estimasi Nilai</span>
+                        <span class="stats-value">Rp 16.318.000</span>
+                    </div>
+                    <div class="stats-row">
+                        <span class="stats-label">Kartu Langka</span>
+                        <span class="stats-value">2</span>
+                    </div>
+                </section>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- CONTENT -->
-  <div class="lb-content">
-
-    <!-- CARD GRID -->
-    <div class="card-grid-wrap">
-      <div class="card-grid" id="cardsGrid">
-        <!-- Cards generated by JS -->
-      </div>
-    </div>
-
-    <!-- STATS PANEL -->
-    <div class="stats-panel">
-      <div class="stat-box">
-        <div class="stat-box-title">📊 Statistics</div>
-        <div class="stat-row">
-          <span class="stat-label">Total Cards</span>
-          <span class="stat-value" id="totalCards">12</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Legendary</span>
-          <span class="stat-value" id="legendaryCount">2</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Epic</span>
-          <span class="stat-value" id="epicCount">3</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Rare</span>
-          <span class="stat-value" id="rareCount">4</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Common</span>
-          <span class="stat-value" id="commonCount">3</span>
-        </div>
-      </div>
-
-      <div class="stat-box">
-        <div class="stat-box-title">💰 Total Value</div>
-        <div class="stat-row">
-          <span class="stat-label">Estimasi Nilai</span>
-          <span class="stat-value">💎 15,000</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Kartu Langka</span>
-          <span class="stat-value">2</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
+    <footer class="relative z-10 text-center py-4 sm:py-6" style="color: var(--muted)">
+        <p class="text-xs font-semibold">TCG Card Collection &mdash; Koleksimu, Hartamu</p>
+    </footer>
 </div>
 
 <script>
 var allCards = [
-  { img:'../pokemon-cards/_-Cek9cr07LvG455A07v4j33ALumZ-wNPbekp55EdRY.jpeg', name:'Charizard EX',   rarity:'legendary' },
-  { img:'../pokemon-cards/73l51yZHpPLOIK2kg8gsba2FRbX5ubrJYivG1ZY6OUA.jpeg', name:'Pikachu VMAX',  rarity:'epic' },
-  { img:'../pokemon-cards/bZni2XH1SLoFVa7ukQs-6c3hXmwGyafUR5QgNo8Wt3w.jpeg', name:'Mewtwo V',      rarity:'rare' },
-  { img:'../pokemon-cards/DBmUtJ_x_jMEixXyo65Ob-HNHFKumWwQaNlwDXZ6n54.jpeg', name:'Bulbasaur',     rarity:'common' },
-  { img:'../pokemon-cards/gLERjG8bFekOCdkkNuc6_21v9eC38rdc5kKFg0-x3DE.jpeg', name:'Gengar V',      rarity:'rare' },
-  { img:'../pokemon-cards/Hc7QMiT980rB_6MEvb9rJ6gRoOwgGGGcYfeT9dvqLxE.jpeg', name:'Lugia VSTAR',   rarity:'epic' },
-  { img:'../pokemon-cards/if192uydcn9LCIe1lnq4r4y1esXyp6qi2z3LGYwMh5s.jpeg', name:'Squirtle',      rarity:'common' },
-  { img:'../pokemon-cards/LVWlk2uXaNGS4nioPF7Ofe3L5NENFz3HqCyhMKsOQkQ.jpeg', name:'Eevee V',       rarity:'rare' },
-  { img:'../pokemon-cards/m13qNSEFwa0fwsXI6xC-69CqnH1V11Y0VCqFEwn6p2w.jpeg', name:'Rayquaza EX',   rarity:'legendary' },
-  { img:'../pokemon-cards/mJUwvTc4AUZwZaP4PzL6AyeiIAbYzNRKvkwDKEwsZEA.jpeg', name:'Charmander',    rarity:'common' },
-  { img:'../pokemon-cards/npPSLO51S39hPtX5rzoZHXKX2_0xrWbWeKhVv9SeiHI.jpeg', name:'Umbreon VMAX',  rarity:'epic' },
-  { img:'../pokemon-cards/Qaj3__4-GUuZ8QJmdSEC9gVki-ei_x72iLJAICZRtj0.jpeg', name:'Snorlax V',     rarity:'rare' },
+  { img:'../pokemon-cards/_-Cek9cr07LvG455A07v4j33ALumZ-wNPbekp55EdRY.jpeg', name:'Mega Charizard X ex', rarity:'legendary' },
+  { img:'../pokemon-cards/m13qNSEFwa0fwsXI6xC-69CqnH1V11Y0VCqFEwn6p2w.jpeg', name:'Oricorio ex',         rarity:'legendary' },
+  { img:'../pokemon-cards/Hc7QMiT980rB_6MEvb9rJ6gRoOwgGGGcYfeT9dvqLxE.jpeg', name:'Meloetta Art Rare',   rarity:'ultrarare' },
+  { img:'../pokemon-cards/npPSLO51S39hPtX5rzoZHXKX2_0xrWbWeKhVv9SeiHI.jpeg', name:'Haunter Art Rare',    rarity:'ultrarare' },
+  { img:'../pokemon-cards/U2US8ECIxX-OQdC-LqQ9LjU3kmJQsBq1LAfZJruZUog.jpeg', name:'Charcadet Art Rare',  rarity:'superrare' },
+  { img:'../pokemon-cards/ZU7OBcSwBOxbGU9vXkHLGTUOOpXQVrkOet4IhOVGcEo.jpeg', name:'Alakazam Art Rare',   rarity:'superrare' },
+  { img:'../pokemon-cards/sm3H9lQ21tcMGix-eCMmk3m7nAt5WV7G6xamc8HqqvI.jpeg', name:'Dragonite V',         rarity:'rare' },
+  { img:'../pokemon-cards/Qaj3__4-GUuZ8QJmdSEC9gVki-ei_x72iLJAICZRtj0.jpeg', name:'Tyranitar V',         rarity:'rare' },
+  { img:'../pokemon-cards/LVWlk2uXaNGS4nioPF7Ofe3L5NENFz3HqCyhMKsOQkQ.jpeg', name:'Metang',              rarity:'uncommon' },
+  { img:'../pokemon-cards/bZni2XH1SLoFVa7ukQs-6c3hXmwGyafUR5QgNo8Wt3w.jpeg', name:'Kirlia',              rarity:'uncommon' },
+  { img:'../pokemon-cards/73l51yZHpPLOIK2kg8gsba2FRbX5ubrJYivG1ZY6OUA.jpeg', name:'Pikachu',             rarity:'common' },
+  { img:'../pokemon-cards/mJUwvTc4AUZwZaP4PzL6AyeiIAbYzNRKvkwDKEwsZEA.jpeg', name:'Charmander',          rarity:'common' },
 ];
 
 var currentFilter = 'all';
-var rarityLabel = { legendary:'⭐ LEGENDARY', epic:'💎 EPIC', rare:'🔵 RARE', common:'⚪ COMMON' };
+var rarityColors = {
+  legendary:'#FFD700', ultrarare:'#f59e0b', superrare:'#a855f7',
+  rare:'#60a5fa', uncommon:'#22c55e', common:'#94a3b8'
+};
 
-function switchTab(type, btn) {
+/* ===== BINTANG BLINK ===== */
+var starChars = ['✦','✧','★','✩','✫','✬','✭','✮','⭐','💫'];
+function spawnStars(nav) {
+  // hapus bintang lama
+  nav.querySelectorAll('.star-particle').forEach(function(s){ s.remove(); });
+  var w = nav.offsetWidth, h = nav.offsetHeight + 40;
+  for (var i = 0; i < 18; i++) {
+    var s = document.createElement('span');
+    s.className = 'star-particle';
+    s.textContent = starChars[Math.floor(Math.random() * starChars.length)];
+    var colors = ['#FFD700','#fff','#c084fc','#60a5fa','#f59e0b','#22c55e','#FF6B6B'];
+    s.style.color = colors[Math.floor(Math.random() * colors.length)];
+    s.style.left = (Math.random() * 100) + '%';
+    s.style.top  = (Math.random() * 100) + '%';
+    s.style.setProperty('--dur',   (1.5 + Math.random() * 2.5) + 's');
+    s.style.setProperty('--delay', (Math.random() * 2) + 's');
+    s.style.fontSize = (8 + Math.random() * 10) + 'px';
+    nav.appendChild(s);
+  }
+}
+
+function switchTab(type) {
   currentFilter = type;
-  document.querySelectorAll('.lb-tab').forEach(function(t){ t.classList.remove('active'); });
-  btn.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(function(t){ t.classList.remove('active'); });
+  var tabId = 'tab' + type.charAt(0).toUpperCase() + type.slice(1);
+  var el = document.getElementById(tabId);
+  if (el) el.classList.add('active');
   renderCards();
 }
 
 function renderCards() {
-  var filtered = currentFilter === 'all' ? allCards : allCards.filter(function(c) { return c.rarity === currentFilter; });
+  var filtered = currentFilter === 'all' ? allCards : allCards.filter(function(c){ return c.rarity === currentFilter; });
   var grid = document.getElementById('cardsGrid');
   if (filtered.length === 0) {
-    grid.innerHTML = '<div class="no-result"><i class="fas fa-box-open"></i><p>Belum ada kartu di koleksi ini</p></div>';
+    grid.innerHTML = '<div class="empty-state col-span-4"><div class="icon-big"><i class="fa-solid fa-box-open"></i></div><p class="font-bold text-base sm:text-lg" style="color:var(--fg)">Belum ada kartu</p><p class="text-xs sm:text-sm font-semibold mt-1" style="color:var(--muted)">Koleksi ini masih kosong</p></div>';
     return;
   }
   grid.innerHTML = filtered.map(function(c) {
-    return '<div class="card-item r-' + c.rarity + '">' +
+    var color = rarityColors[c.rarity] || '#808080';
+    return '<div class="pokemon-card r-' + c.rarity + '">' +
+      '<div class="card-art" style="background:linear-gradient(135deg,' + color + ',rgba(255,255,255,0.3))">' +
       '<img src="' + c.img + '" alt="' + c.name + '" loading="lazy"/>' +
-      '<div class="card-rarity-bar">' + rarityLabel[c.rarity] + '</div>' +
-    '</div>';
+      '</div>' +
+      '<div class="card-bottom">' +
+      '<span class="type-badge" style="background:' + color + '">' + c.rarity.toUpperCase() + '</span>' +
+      '<p class="card-name">' + c.name + '</p>' +
+      '</div></div>';
   }).join('');
 }
 
 function updateStats() {
   document.getElementById('totalCards').textContent = allCards.length;
-  document.getElementById('legendaryCount').textContent = allCards.filter(function(c) { return c.rarity === 'legendary'; }).length;
-  document.getElementById('epicCount').textContent = allCards.filter(function(c) { return c.rarity === 'epic'; }).length;
-  document.getElementById('rareCount').textContent = allCards.filter(function(c) { return c.rarity === 'rare'; }).length;
-  document.getElementById('commonCount').textContent = allCards.filter(function(c) { return c.rarity === 'common'; }).length;
+  document.getElementById('totalCardsBadge').textContent = allCards.length + ' Kartu';
+  document.getElementById('legendaryCount').textContent = allCards.filter(function(c){ return c.rarity==='legendary'; }).length;
+  document.getElementById('epicCount').textContent = allCards.filter(function(c){ return c.rarity==='ultrarare'||c.rarity==='superrare'; }).length;
+  document.getElementById('rareCount').textContent = allCards.filter(function(c){ return c.rarity==='rare'; }).length;
+  document.getElementById('commonCount').textContent = allCards.filter(function(c){ return c.rarity==='uncommon'||c.rarity==='common'; }).length;
 }
 
 renderCards();
 updateStats();
-</script>
 
-</div><!-- /lb-panel -->
+// Spawn bintang setelah DOM siap
+window.addEventListener('load', function() {
+  var nav = document.getElementById('tabNav');
+  if (nav) {
+    spawnStars(nav);
+    // refresh bintang tiap 6 detik
+    setInterval(function(){ spawnStars(nav); }, 6000);
+  }
+});
+</script>
 
 </body>
 </html>

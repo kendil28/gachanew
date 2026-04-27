@@ -1,312 +1,484 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kartu Fisik - GachaKeren</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+<title>Cartoon Gacha - Kirim Kartu Fisik</title>
+<link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family: 'Poppins', sans-serif;
-  background: transparent; color: #fff;
-  min-height: 100vh; width: 100%; overflow-y: auto; overflow-x: hidden;
-  padding: 16px 12px 100px 12px;
-}
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
-
-h1.page-title {
-  font-size: 22px; font-weight: 900; color: #fff;
-  margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
-}
-.page-subtitle { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 28px; }
-
-/* Tabs */
-.tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid rgba(255,255,255,0.1); }
-.tab-btn {
-  padding: 12px 28px; background: transparent;
-  border: none; color: rgba(255,255,255,0.5);
-  font-size: 13px; font-weight: 700; cursor: pointer;
-  border-bottom: 3px solid transparent; margin-bottom: -2px;
-  transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px;
-}
-.tab-btn:hover { color: #fff; }
-.tab-btn.active { color: #FFD700; border-bottom-color: #FFD700; }
-.tab-pane { display: none; }
-.tab-pane.active { display: block; animation: fadeIn 0.3s; }
-@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-
-/* Card */
-.card {
-  background: rgba(30,30,30,0.9); border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.08);
-  overflow: hidden; margin-bottom: 20px;
-  backdrop-filter: blur(10px);
-}
-.card-header {
-  padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08);
-  font-size: 14px; font-weight: 700; color: #FFD700;
-  display: flex; align-items: center; gap: 8px;
-}
-.card-body { padding: 20px; }
-
-/* Form */
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-.form-row.single { grid-template-columns: 1fr; }
-.form-group { display: flex; flex-direction: column; gap: 6px; }
-label { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.5px; }
-.form-control {
-  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
-  color: #fff; padding: 11px 14px; border-radius: 10px; font-size: 13px;
-  font-family: 'Poppins', sans-serif; transition: 0.2s; outline: none;
-}
-.form-control:focus { border-color: #FFD700; box-shadow: 0 0 0 2px rgba(255,215,0,0.1); }
-select.form-control option { background: #1e1e1e; }
-
-/* Card selector */
-.card-selector-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 12px; margin-bottom: 16px;
-}
-.card-select-item {
-  border-radius: 10px; overflow: hidden; cursor: pointer;
-  border: 2px solid rgba(255,255,255,0.1); transition: all 0.2s;
-  position: relative;
-}
-.card-select-item:hover { border-color: #FFD700; transform: scale(1.04); }
-.card-select-item.selected { border-color: #FFD700; box-shadow: 0 0 12px rgba(255,215,0,0.4); }
-.card-select-item img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
-.card-select-item .check {
-  position: absolute; top: 6px; right: 6px;
-  width: 22px; height: 22px; border-radius: 50%;
-  background: #FFD700; color: #000; font-size: 12px;
-  display: none; align-items: center; justify-content: center;
-}
-.card-select-item.selected .check { display: flex; }
-
-/* Info box */
-.info-box {
-  background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.2);
-  border-radius: 10px; padding: 14px 16px; margin-bottom: 16px;
-  font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.8;
-}
-.info-box i { color: #FFD700; margin-right: 6px; }
-
-/* Submit */
-.btn-submit {
-  width: 100%; padding: 14px; border-radius: 12px;
-  background: linear-gradient(135deg, #FFD700, #FFA000);
-  border: none; color: #000; font-size: 15px; font-weight: 700;
-  cursor: pointer; transition: all 0.25s; letter-spacing: 0.5px;
-  font-family: 'Poppins', sans-serif;
-}
-.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,215,0,0.4); }
-
-/* History table */
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th { padding: 12px 14px; text-align: left; color: rgba(255,255,255,0.5); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-td { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.85); }
-tr:hover td { background: rgba(255,255,255,0.03); }
-.badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-.badge-process { background: rgba(255,165,0,0.2); color: #FFA500; }
-.badge-sent    { background: rgba(0,230,118,0.2); color: #00e676; }
-.badge-done    { background: rgba(96,165,250,0.2); color: #60a5fa; }
-
-@media (max-width: 640px) {
-  body { padding: 8px 8px 20px; }
-  .form-row { grid-template-columns: 1fr; }
-  h1.page-title { font-size: 18px; }
-  .page-subtitle { font-size: 12px; margin-bottom: 16px; }
-  .tabs { gap: 0; }
-  .tab-btn { font-size: 12px; padding: 10px 8px; }
-  .card-selector-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
-  .btn-submit { font-size: 14px; padding: 12px; }
-}
-@media (max-width: 480px) {
-  body { padding: 6px 6px 16px; }
-  .card-selector-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 6px; }
-}
+:root{--btn-radius:12px;--card-radius:20px;--input-radius:10px;--glossy-size:14px;--outline-color:#2a1b0e;--shadow-hard:5px 5px 0px rgba(0,0,0,0.35)}
+body{background:transparent;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;font-family:'Rowdies',cursive;padding:20px;box-sizing:border-box}
+.deposit-container{position:relative;width:100%;max-width:700px;background:rgba(255,255,255,0.15);border:4px solid transparent;background-image:linear-gradient(rgba(255,255,255,0.15),rgba(255,255,255,0.15)),linear-gradient(45deg,#ff6b6b,#feca57,#48dbfb,#ff9ff3);background-origin:border-box;background-clip:padding-box,border-box;border-radius:25px;padding:30px;box-sizing:border-box;backdrop-filter:blur(15px);box-shadow:0 0 30px rgba(255,107,107,0.3),0 0 60px rgba(252,202,87,0.2),10px 10px 0px rgba(0,0,0,0.2);animation:containerGlow 3s ease-in-out infinite alternate}
+@keyframes containerGlow{0%{box-shadow:0 0 30px rgba(255,107,107,0.3),0 0 60px rgba(252,202,87,0.2),10px 10px 0px rgba(0,0,0,0.2)}100%{box-shadow:0 0 40px rgba(72,219,251,0.4),0 0 80px rgba(255,159,243,0.3),10px 10px 0px rgba(0,0,0,0.2)}}
+.header{position:relative;width:100%;margin-bottom:30px;z-index:2}
+.header-bg{position:absolute;width:100%;height:65px;bottom:0;left:0;background:linear-gradient(169.13deg,#ff6b6b 0%,#feca57 50%,#48dbfb 100%);border:4px solid transparent;background-image:linear-gradient(169.13deg,#ff6b6b 0%,#feca57 50%,#48dbfb 100%),linear-gradient(45deg,#ff9ff3,#feca57,#48dbfb);background-origin:border-box;background-clip:padding-box,border-box;border-radius:12px 12px 24px 24px;box-sizing:border-box;z-index:1;box-shadow:var(--shadow-hard);animation:headerPulse 2s ease-in-out infinite}
+@keyframes headerPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+.header-tabs{position:relative;width:100%;display:flex;justify-content:space-between;gap:12px;z-index:3}
+.tab-btn{position:relative;flex:1;height:70px;border-radius:16px;border:4px solid transparent;color:#FFF;font-family:'Rowdies',cursive;font-weight:700;font-size:1.2rem;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px;box-sizing:border-box;box-shadow:var(--shadow-hard);transition:all 0.3s cubic-bezier(0.4,0,0.2,1);text-shadow:2px 2px 0px rgba(0,0,0,0.5);background:#888;filter:brightness(0.7);overflow:hidden}
+.tab-btn::before{content:'';position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.3),transparent);transform:translateX(-100%);transition:transform 0.6s;z-index:-1}
+.tab-btn:hover::before{transform:translateX(100%)}
+.tab-btn.active-main{filter:brightness(1.2);transform:translateY(-5px) scale(1.05);box-shadow:0 10px 25px rgba(0,0,0,0.4),0 0 20px rgba(255,255,255,0.3);animation:tabGlow 2s ease-in-out infinite}
+@keyframes tabGlow{0%,100%{box-shadow:0 10px 25px rgba(0,0,0,0.4),0 0 20px rgba(255,255,255,0.3)}50%{box-shadow:0 10px 25px rgba(0,0,0,0.4),0 0 30px rgba(255,255,255,0.5)}}
+.tab-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0px rgba(0,0,0,0.35)}
+.tab-btn::after{content:'';position:absolute;width:var(--glossy-size);height:calc(var(--glossy-size)*1.8);top:8px;left:10px;background:linear-gradient(143.13deg,#FFF 20%,rgba(255,255,255,0) 53.65%);border-radius:50%}
+.tab-blue{background:linear-gradient(135deg,#667eea 0%,#764ba2 50%,#48dbfb 100%);border-color:transparent}
+.tab-purple{background:linear-gradient(135deg,#a855f7 0%,#ec4899 50%,#f472b6 100%);border-color:transparent}
+.tab-green{background:linear-gradient(135deg,#10b981 0%,#34d399 50%,#6ee7b7 100%);border-color:transparent}
+.title{width:100%;text-align:center;font-size:2.2rem;line-height:100%;letter-spacing:-0.05em;color:#fff;-webkit-text-stroke:2px var(--outline-color);margin-bottom:25px;paint-order:stroke fill;text-shadow:4px 4px 0px rgba(0,0,0,0.3)}
+.form-card{position:relative;width:100%;background:linear-gradient(135deg,#fff9e6 0%,#fef3c7 50%,#fde68a 100%);border:5px solid transparent;background-image:linear-gradient(135deg,#fff9e6 0%,#fef3c7 50%,#fde68a 100%),linear-gradient(45deg,#ff6b6b,#feca57,#48dbfb,#ff9ff3);background-origin:border-box;background-clip:padding-box,border-box;border-radius:var(--card-radius);box-sizing:border-box;padding:45px 35px 55px 35px;box-shadow:0 10px 30px rgba(0,0,0,0.2),0 0 20px rgba(252,202,87,0.3);overflow:visible;animation:cardFloat 4s ease-in-out infinite}
+@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.corner{position:absolute;width:110px;height:auto;z-index:5;pointer-events:none;filter:drop-shadow(3px 3px 0px rgba(0,0,0,0.2)) brightness(1.2)}
+.corner-tl{top:-18px;left:-18px;transform:rotate(0deg);animation:cornerGlow 3s ease-in-out infinite}
+.corner-tr{top:-18px;right:-18px;transform:rotate(90deg);animation:cornerGlow 3s ease-in-out infinite 0.5s}
+.corner-br{bottom:-25px;right:-18px;transform:rotate(180deg);animation:cornerGlow 3s ease-in-out infinite 1s}
+.corner-bl{bottom:-25px;left:-18px;transform:rotate(-90deg);animation:cornerGlow 3s ease-in-out infinite 1.5s}
+@keyframes cornerGlow{0%,100%{filter:drop-shadow(3px 3px 0px rgba(0,0,0,0.2)) brightness(1.2)}50%{filter:drop-shadow(3px 3px 0px rgba(0,0,0,0.2)) brightness(1.5) drop-shadow(0 0 10px rgba(255,255,255,0.5))}}
+.main-content-section{display:none}.main-content-section.active-main-content{display:block}
+.form-group{margin-bottom:25px}
+.label-bold{font-weight:700;font-size:1.1rem;color:#2a1b0e;display:block;margin-bottom:8px}
+.label-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:5px}
+.note{font-weight:300;font-size:0.8rem;color:#5a4530}
+.input-box{width:100%;height:55px;background:linear-gradient(135deg,#fff 0%,#f8fafc 100%);border:3px solid transparent;background-image:linear-gradient(135deg,#fff 0%,#f8fafc 100%),linear-gradient(45deg,#ff6b6b,#feca57,#48dbfb);background-origin:border-box;background-clip:padding-box,border-box;border-radius:var(--input-radius);box-sizing:border-box;font-family:'Rowdies',cursive;font-weight:400;font-size:1.3rem;color:#2a1b0e;padding:0 15px;outline:none;box-shadow:inset 2px 2px 0px rgba(0,0,0,0.1),0 0 10px rgba(252,202,87,0.2);transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}
+.input-box:focus{box-shadow:inset 2px 2px 0px rgba(0,0,0,0.1),0 0 20px rgba(72,219,251,0.4),0 0 30px rgba(72,219,251,0.2);transform:scale(1.02)}
+.select-container{position:relative;width:100%}
+.select-container::after{content:'▼';position:absolute;right:15px;top:50%;transform:translateY(-50%);font-size:1.2rem;color:var(--outline-color);pointer-events:none}
+.select-box{width:100%;height:55px;background:linear-gradient(135deg,#fff 0%,#f8fafc 100%);border:3px solid transparent;background-image:linear-gradient(135deg,#fff 0%,#f8fafc 100%),linear-gradient(45deg,#ff6b6b,#feca57,#48dbfb);background-origin:border-box;background-clip:padding-box,border-box;border-radius:var(--input-radius);box-sizing:border-box;font-family:'Rowdies',cursive;font-weight:400;font-size:1.2rem;color:#2a1b0e;padding:0 15px;outline:none;appearance:none;-webkit-appearance:none;cursor:pointer;box-shadow:inset 2px 2px 0px rgba(0,0,0,0.1),0 0 10px rgba(252,202,87,0.2);transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}
+.select-box:focus{box-shadow:inset 2px 2px 0px rgba(0,0,0,0.1),0 0 20px rgba(72,219,251,0.4),0 0 30px rgba(72,219,251,0.2);transform:scale(1.02)}
+.card-selector{display:flex;gap:12px;overflow-x:auto;padding:10px 0;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:10px}
+.card-selector::-webkit-scrollbar{display:none}
+.card-item{flex-shrink:0;width:100px;height:140px;border-radius:12px;border:3px solid var(--outline-color);cursor:pointer;position:relative;overflow:hidden;box-shadow:3px 3px 0px rgba(0,0,0,0.2);transition:all 0.3s cubic-bezier(0.4,0,0.2,1);background:#e0e0e0}
+.card-item img{width:100%;height:100%;object-fit:cover;border-radius:9px}
+.card-item .card-name-overlay{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);color:#fff;font-size:0.55rem;font-weight:700;text-align:center;padding:4px 2px;border-radius:0 0 9px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-item.selected{border-color:#feca57;transform:translateY(-5px) scale(1.05);box-shadow:0 8px 20px rgba(0,0,0,0.3),0 0 15px rgba(252,202,87,0.4);animation:cardSelectGlow 2s ease-in-out infinite}
+@keyframes cardSelectGlow{0%,100%{box-shadow:0 8px 20px rgba(0,0,0,0.3),0 0 15px rgba(252,202,87,0.4)}50%{box-shadow:0 8px 20px rgba(0,0,0,0.3),0 0 25px rgba(72,219,251,0.5)}}
+.card-item:active{transform:translate(2px,2px);box-shadow:1px 1px 0px rgba(0,0,0,0.2)}
+.selected-card-info{background:#fff;border:3px solid var(--outline-color);border-radius:15px;padding:15px 20px;margin-bottom:20px;box-shadow:4px 4px 0px rgba(0,0,0,0.15);display:flex;gap:15px;align-items:center}
+.selected-card-info img{width:70px;height:95px;object-fit:cover;border-radius:8px;border:2px solid var(--outline-color)}
+.selected-card-detail{flex:1}
+.selected-card-detail .card-title{font-weight:700;font-size:1.1rem;color:var(--outline-color);margin-bottom:4px}
+.selected-card-detail .card-rarity{display:inline-block;padding:2px 10px;border-radius:20px;font-weight:700;font-size:0.7rem}
+.rarity-legendary{background:linear-gradient(135deg,#FFD700,#FF6B6B);color:#fff;text-shadow:1px 1px 0px rgba(0,0,0,0.3)}
+.rarity-epic{background:linear-gradient(135deg,#a855f7,#ec4899);color:#fff;text-shadow:1px 1px 0px rgba(0,0,0,0.3)}
+.rarity-rare{background:linear-gradient(135deg,#3b82f6,#06b6d4);color:#fff;text-shadow:1px 1px 0px rgba(0,0,0,0.3)}
+.selected-card-detail .card-market-price{font-weight:300;font-size:0.8rem;color:#5a4530;margin-top:4px}
+.wallet-box{background:#fff;border:3px solid var(--outline-color);border-radius:15px;padding:15px 20px;margin-bottom:20px;box-shadow:4px 4px 0px rgba(0,0,0,0.15);display:flex;flex-direction:column;gap:10px}
+.wallet-label-row{display:flex;justify-content:space-between;align-items:center}
+.wallet-label{font-weight:700;font-size:0.9rem;color:var(--outline-color);text-transform:uppercase}
+.wallet-balance-right{font-weight:700;font-size:1.1rem;color:#d62828}
+.balance-text-label{color:#666;font-size:0.9rem;margin-right:5px}
+.action-buttons{display:flex;gap:20px}
+.action-btn{flex:1;height:65px;border:4px solid transparent;font-family:'Rowdies',cursive;font-weight:700;font-size:1.4rem;cursor:pointer;box-shadow:6px 6px 0px rgba(0,0,0,0.3),0 0 15px rgba(252,202,87,0.3);transition:all 0.3s cubic-bezier(0.4,0,0.2,1);overflow:hidden;position:relative}
+.action-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);transition:left 0.6s}
+.action-btn:hover::before{left:100%}
+.action-btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 8px 25px rgba(0,0,0,0.4),0 0 25px rgba(255,255,255,0.3)}
+.action-btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0px rgba(0,0,0,0.3)}
+.reset-btn{background:linear-gradient(135deg,#ff6b6b 0%,#feca57 50%,#ff8e53 100%);border-radius:35px;color:#fff;text-shadow:2px 2px 0px rgba(0,0,0,0.3)}
+.proses-btn{background:linear-gradient(135deg,#10b981 0%,#34d399 50%,#6ee7b7 100%);border-radius:35px;color:var(--outline-color);text-shadow:1px 1px 0px rgba(255,255,255,0.4);animation:prosesPulse 2s ease-in-out infinite}
+@keyframes prosesPulse{0%,100%{box-shadow:6px 6px 0px rgba(0,0,0,0.3),0 0 15px rgba(16,185,129,0.3)}50%{box-shadow:6px 6px 0px rgba(0,0,0,0.3),0 0 25px rgba(16,185,129,0.5)}}
+.cartoon-table-wrapper{overflow-x:auto;margin-bottom:20px}
+.cartoon-table{width:100%;min-width:500px;border:3px solid var(--outline-color);border-radius:15px;overflow:hidden;box-shadow:4px 4px 0px rgba(0,0,0,0.15);background:#fff}
+.ct-header{display:flex;background:linear-gradient(169.13deg,#7B9FE0 24.38%,#3a5da8 94.32%);border-bottom:3px solid var(--outline-color)}
+.ct-cell{flex:1;padding:12px 10px;text-align:center;font-size:0.9rem;color:#fff;font-weight:700;text-shadow:1px 1px 0px rgba(0,0,0,0.2)}
+.ct-row{display:flex;border-bottom:2px solid rgba(0,0,0,0.06)}
+.ct-row:last-child{border-bottom:none}
+.ct-row .ct-cell{color:var(--outline-color);text-shadow:none;font-weight:400;font-size:0.85rem}
+.ct-row:nth-child(even){background:rgba(0,0,0,0.02)}
+.ct-body{display:flex;justify-content:center;align-items:center;min-height:120px;padding:20px}
+.ct-empty{color:#888;font-weight:400;font-size:1rem}
+.badge{display:inline-block;font-weight:700;font-size:0.7rem;padding:3px 10px;border-radius:20px}
+.badge-sukses{background:linear-gradient(135deg,#10b981,#34d399);color:#fff;text-shadow:1px 1px 0px rgba(0,0,0,0.2)}
+.badge-pending{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:var(--outline-color)}
+.badge-gagal{background:linear-gradient(135deg,#ef4444,#f87171);color:#fff;text-shadow:1px 1px 0px rgba(0,0,0,0.2)}
+.toast{position:fixed;top:20px;right:20px;left:auto;background:rgba(30,70,30,0.95);color:#fff;padding:15px 25px;border-radius:15px;font-family:'Rowdies',cursive;font-size:1rem;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.3);transform:translateY(-120%);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);z-index:1000;display:flex;align-items:center;gap:10px}
+.toast.show{transform:translateY(0)}
+.toast.error{background:rgba(192,57,43,0.95)}
+textarea.input-box{height:auto;min-height:80px;padding:12px 15px;resize:none;line-height:1.5}
+.card-scroll{max-height:360px;overflow-y:auto;overflow-x:hidden;padding-right:4px;scrollbar-width:thin;scrollbar-color:#E0D5C8 transparent}
+.card-scroll::-webkit-scrollbar{width:5px}.card-scroll::-webkit-scrollbar-track{background:transparent}.card-scroll::-webkit-scrollbar-thumb{background:#E0D5C8;border-radius:3px}
+.card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.pokemon-card{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;border:3px solid var(--outline-color);background:#fff;box-shadow:3px 3px 0px rgba(0,0,0,0.2);transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}
+.pokemon-card:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 6px 20px rgba(0,0,0,0.2)}
+.pokemon-card.selected{border-color:#feca57;box-shadow:0 0 0 2px rgba(252,202,87,0.3),0 6px 20px rgba(252,202,87,0.2);transform:translateY(-3px) scale(1.04);animation:cardSelectGlow 2s ease-in-out infinite}
+.pokemon-card .check-mark{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#10b981,#34d399);display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;transform:scale(0);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);z-index:3}
+.pokemon-card.selected .check-mark{transform:scale(1)}
+.card-art{height:70px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.card-art img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.type-badge{display:inline-block;padding:1px 5px;border-radius:6px;font-size:7px;font-weight:700;text-transform:uppercase;color:#fff}
+.card-name{font-size:8px;font-weight:700;color:var(--outline-color);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-rarity{font-size:7px;font-weight:700}
+.card-bottom{padding:5px 6px 6px}
+.counter-badge{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:12px;background:linear-gradient(135deg,#ff6b6b,#feca57);color:#fff;font-size:12px;font-weight:700;padding:0 7px;box-shadow:2px 2px 0px rgba(0,0,0,0.2)}
+.counter-badge.zero{background:#e0e0e0;color:#888;box-shadow:none}
+.expedition-option{border:3px solid var(--outline-color);border-radius:var(--input-radius);padding:14px 16px;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:12px;background:#fff;box-shadow:3px 3px 0px rgba(0,0,0,0.15);margin-bottom:10px}
+.expedition-option:hover{border-color:#feca57}
+.expedition-option.active{border-color:#feca57;background:linear-gradient(135deg,rgba(252,202,87,0.08),rgba(255,107,107,0.04));box-shadow:0 0 15px rgba(252,202,87,0.2)}
+.expedition-radio{width:22px;height:22px;border-radius:50%;border:3px solid var(--outline-color);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.expedition-option.active .expedition-radio{border-color:#feca57}
+.expedition-radio .inner{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,#ff6b6b,#feca57);transform:scale(0);transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1)}
+.expedition-option.active .expedition-radio .inner{transform:scale(1)}
+.info-box{background:#fff;border:3px solid var(--outline-color);border-radius:var(--input-radius);padding:14px 16px;box-shadow:3px 3px 0px rgba(0,0,0,0.15)}
+.info-row{display:flex;align-items:flex-start;gap:8px;font-size:0.85rem;font-weight:400;color:#5a4530;line-height:1.5}
+.info-row .dot{width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,#ff6b6b,#feca57);margin-top:6px;flex-shrink:0}
+.action-btn-full{width:100%;height:65px;border:4px solid transparent;font-family:'Rowdies',cursive;font-weight:700;font-size:1.4rem;cursor:pointer;box-shadow:6px 6px 0px rgba(0,0,0,0.3),0 0 15px rgba(252,202,87,0.3);transition:all 0.3s cubic-bezier(0.4,0,0.2,1);overflow:hidden;position:relative;border-radius:35px;background:linear-gradient(135deg,#ff6b6b 0%,#feca57 50%,#ff8e53 100%);color:#fff;text-shadow:2px 2px 0px rgba(0,0,0,0.3)}
+.action-btn-full::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);transition:left 0.6s}
+.action-btn-full:hover::before{left:100%}
+.action-btn-full:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 8px 25px rgba(0,0,0,0.4),0 0 25px rgba(255,255,255,0.3)}
+.action-btn-full:active{transform:translate(3px,3px);box-shadow:2px 2px 0px rgba(0,0,0,0.3)}
+.action-btn-full:disabled{opacity:0.5;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.total-price{text-align:center;font-weight:700;font-size:1rem;color:var(--outline-color);margin-top:12px}
+.total-price span{color:#d62828}
+.card-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity 0.3s}
+.card-modal.show{opacity:1;pointer-events:auto}
+.card-modal-content{background:#fff;border:5px solid transparent;background-image:linear-gradient(#fff,#fff),linear-gradient(45deg,#ff6b6b,#feca57,#48dbfb,#ff9ff3);background-origin:border-box;background-clip:padding-box,border-box;border-radius:24px;padding:16px;max-width:420px;width:calc(100% - 24px);box-shadow:0 20px 60px rgba(0,0,0,0.3);transform:scale(0.9);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);display:flex;gap:16px;align-items:flex-start;position:relative}
+.card-modal.show .card-modal-content{transform:scale(1)}
+.modal-card-image{width:140px;flex-shrink:0;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15)}
+.modal-card-details{flex:1;display:flex;flex-direction:column}
+.modal-card-name{font-size:1rem;font-weight:700;color:var(--outline-color);margin-bottom:6px}
+.modal-card-type{display:inline-flex;padding:4px 12px;border-radius:16px;font-size:0.7rem;font-weight:700;color:#fff;margin-bottom:12px;align-self:flex-start}
+.modal-card-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;padding:12px;background:#fff9e6;border-radius:12px;border:2px solid var(--outline-color)}
+.modal-info-item{text-align:center}
+.modal-info-label{font-size:0.6rem;font-weight:700;color:#5a4530;text-transform:uppercase;margin-bottom:2px}
+.modal-info-value{font-size:0.75rem;font-weight:700;color:var(--outline-color)}
+.modal-close{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,0.05);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:#5a4530;transition:all 0.2s}
+.modal-close:hover{background:rgba(0,0,0,0.1)}
+.modal-select-btn{width:100%;padding:10px;border-radius:12px;background:linear-gradient(135deg,#ff6b6b,#ff8e53);border:none;color:#fff;font-family:'Rowdies',cursive;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.3s;box-shadow:3px 3px 0px rgba(0,0,0,0.2);margin-top:auto}
+.modal-select-btn:hover{transform:translateY(-2px)}
+.modal-select-btn.selected{background:linear-gradient(135deg,#10b981,#34d399)}
+.scroll-hint{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;font-size:0.7rem;font-weight:400;color:#5a4530;animation:bounceHint 2s ease-in-out infinite}
+@keyframes bounceHint{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@media(max-width:768px){.deposit-container{padding:20px}.tab-btn{height:60px;font-size:0.9rem}.header-bg{height:55px}.title{font-size:1.8rem}.input-box,.select-box{height:50px;font-size:1rem}.action-btn{height:55px;font-size:1.1rem}.corner{width:90px}.card-item{width:85px;height:120px}.selected-card-info{flex-direction:column;text-align:center}.selected-card-info img{width:80px;height:110px}}
+@media(max-width:480px){.deposit-container{padding:15px;border-radius:20px;border-width:3px}.header-tabs{flex-wrap:wrap;gap:8px}.tab-btn{flex-basis:calc(50% - 8px);height:55px;font-size:1rem}.tab-btn.active-main{transform:translateY(-3px)}.header-bg{height:115px;bottom:-60px;z-index:0}.title{font-size:1.6rem;-webkit-text-stroke:1px var(--outline-color)}.form-card{padding:45px 15px 35px 15px}.corner{width:75px}.corner-tl{top:-12px;left:-12px}.corner-tr{top:-12px;right:-12px}.corner-br{bottom:-18px;right:-12px}.corner-bl{bottom:-18px;left:-12px}.action-buttons{flex-direction:column-reverse}.card-item{width:75px;height:105px}.selected-card-info img{width:60px;height:80px}}
 </style>
 </head>
 <body>
-
-<h1 class="page-title"><i class="fas fa-shipping-fast"></i> Kartu Fisik</h1>
-<p class="page-subtitle">Kirim kartu digital kamu menjadi kartu fisik ke alamatmu</p>
-
-<div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('kirim', this)">Kirim Kartu</button>
-  <button class="tab-btn" onclick="switchTab('riwayat', this)">Riwayat Pengiriman</button>
+<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="cFill" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#FFB7BC"/><stop offset="1" stop-color="#E8455A"/></linearGradient><linearGradient id="cStroke" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#2a1b0e"/><stop offset="1" stop-color="#4a0e1c"/></linearGradient></defs></svg>
+<div class="deposit-container">
+<div class="header"><div class="header-bg"></div>
+<div class="header-tabs">
+<button class="tab-btn tab-blue active-main" data-main-target="main-kirim">KIRIM KARTU</button>
+<button class="tab-btn tab-purple" data-main-target="main-riwayat">RIWAYAT</button>
+</div></div>
+<div class="title">POKÉMON GACHA</div>
+<div class="form-card">
+<div class="corner corner-tl"><svg viewBox="0 0 390 401" fill="none"><path d="M363.792 0.5C364.513 0.500053 365.173 0.652718 365.775 0.999023C367.785 2.15445 372.501 5.08197 377.197 9.56348C381.897 14.0479 386.546 20.0587 388.479 27.3779C390.405 34.6761 389.646 43.3312 383.433 53.1602C377.208 63.0059 365.505 74.0345 345.534 86.0176C323.855 99.0254 311.689 112.78 304.628 127.019C297.573 141.246 295.638 155.915 294.351 170.691C291.775 200.255 291.775 230.303 259.015 258.969C226.211 287.672 197.567 287.658 170.92 292.471C157.594 294.878 144.774 298.497 132.272 307.565C119.774 316.631 107.636 331.112 95.6055 355.172C84.4276 377.527 73.286 389.902 62.8203 395.794C52.3826 401.67 42.5655 401.127 33.9248 397.523C25.2613 393.91 17.7749 387.216 12.0791 380.79C6.38801 374.37 2.51373 368.252 1.06641 365.839C0.680811 365.196 0.500033 364.477 0.5 363.708V110.001C0.500054 49.526 49.525 0.501171 110 0.500977L363.792 0.5Z" fill="url(#cFill)" stroke="url(#cStroke)" stroke-width="5"/></svg></div>
+<div class="corner corner-tr"><svg viewBox="0 0 390 401" fill="none"><path d="M363.792 0.5C364.513 0.500053 365.173 0.652718 365.775 0.999023C367.785 2.15445 372.501 5.08197 377.197 9.56348C381.897 14.0479 386.546 20.0587 388.479 27.3779C390.405 34.6761 389.646 43.3312 383.433 53.1602C377.208 63.0059 365.505 74.0345 345.534 86.0176C323.855 99.0254 311.689 112.78 304.628 127.019C297.573 141.246 295.638 155.915 294.351 170.691C291.775 200.255 291.775 230.303 259.015 258.969C226.211 287.672 197.567 287.658 170.92 292.471C157.594 294.878 144.774 298.497 132.272 307.565C119.774 316.631 107.636 331.112 95.6055 355.172C84.4276 377.527 73.286 389.902 62.8203 395.794C52.3826 401.67 42.5655 401.127 33.9248 397.523C25.2613 393.91 17.7749 387.216 12.0791 380.79C6.38801 374.37 2.51373 368.252 1.06641 365.839C0.680811 365.196 0.500033 364.477 0.5 363.708V110.001C0.500054 49.526 49.525 0.501171 110 0.500977L363.792 0.5Z" fill="url(#cFill)" stroke="url(#cStroke)" stroke-width="5"/></svg></div>
+<div class="corner corner-br"><svg viewBox="0 0 390 401" fill="none"><path d="M363.792 0.5C364.513 0.500053 365.173 0.652718 365.775 0.999023C367.785 2.15445 372.501 5.08197 377.197 9.56348C381.897 14.0479 386.546 20.0587 388.479 27.3779C390.405 34.6761 389.646 43.3312 383.433 53.1602C377.208 63.0059 365.505 74.0345 345.534 86.0176C323.855 99.0254 311.689 112.78 304.628 127.019C297.573 141.246 295.638 155.915 294.351 170.691C291.775 200.255 291.775 230.303 259.015 258.969C226.211 287.672 197.567 287.658 170.92 292.471C157.594 294.878 144.774 298.497 132.272 307.565C119.774 316.631 107.636 331.112 95.6055 355.172C84.4276 377.527 73.286 389.902 62.8203 395.794C52.3826 401.67 42.5655 401.127 33.9248 397.523C25.2613 393.91 17.7749 387.216 12.0791 380.79C6.38801 374.37 2.51373 368.252 1.06641 365.839C0.680811 365.196 0.500033 364.477 0.5 363.708V110.001C0.500054 49.526 49.525 0.501171 110 0.500977L363.792 0.5Z" fill="url(#cFill)" stroke="url(#cStroke)" stroke-width="5"/></svg></div>
+<div class="corner corner-bl"><svg viewBox="0 0 390 401" fill="none"><path d="M363.792 0.5C364.513 0.500053 365.173 0.652718 365.775 0.999023C367.785 2.15445 372.501 5.08197 377.197 9.56348C381.897 14.0479 386.546 20.0587 388.479 27.3779C390.405 34.6761 389.646 43.3312 383.433 53.1602C377.208 63.0059 365.505 74.0345 345.534 86.0176C323.855 99.0254 311.689 112.78 304.628 127.019C297.573 141.246 295.638 155.915 294.351 170.691C291.775 200.255 291.775 230.303 259.015 258.969C226.211 287.672 197.567 287.658 170.92 292.471C157.594 294.878 144.774 298.497 132.272 307.565C119.774 316.631 107.636 331.112 95.6055 355.172C84.4276 377.527 73.286 389.902 62.8203 395.794C52.3826 401.67 42.5655 401.127 33.9248 397.523C25.2613 393.91 17.7749 387.216 12.0791 380.79C6.38801 374.37 2.51373 368.252 1.06641 365.839C0.680811 365.196 0.500033 364.477 0.5 363.708V110.001C0.500054 49.526 49.525 0.501171 110 0.500977L363.792 0.5Z" fill="url(#cFill)" stroke="url(#cStroke)" stroke-width="5"/></svg></div>
+<div id="main-kirim" class="main-content-section active-main-content">
+<div class="form-group">
+<span class="label-bold">Pilih Kartu untuk Dicetak</span>
+<span class="note">Pilih kartu yang ingin dicetak fisik (maks. 5 kartu)</span>
+<div class="card-scroll">
+<div class="card-grid" id="cardGrid"></div>
 </div>
-
-<!-- TAB KIRIM -->
-<div class="tab-pane active" id="tab-kirim">
-
-  <div class="card">
-    <div class="card-header"><i class="fas fa-cards-blank"></i> Pilih Kartu</div>
-    <div class="card-body">
-      <p style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:12px;">Pilih kartu yang ingin dicetak fisik (maks. 5 kartu)</p>
-      <div class="card-selector-grid" id="cardSelectorGrid"></div>
-      <p id="selectedCount" style="font-size:12px;color:#FFD700;margin-top:4px;">0 kartu dipilih</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header"><i class="fas fa-map-marker-alt"></i> Alamat Pengiriman</div>
-    <div class="card-body">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Nama Penerima</label>
-          <input type="text" class="form-control" placeholder="Nama lengkap"/>
-        </div>
-        <div class="form-group">
-          <label>Nomor HP</label>
-          <input type="tel" class="form-control" placeholder="08xxxxxxxxxx"/>
-        </div>
-      </div>
-      <div class="form-row single">
-        <div class="form-group">
-          <label>Alamat Lengkap</label>
-          <textarea class="form-control" rows="3" placeholder="Jalan, nomor rumah, RT/RW..."></textarea>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Kota / Kabupaten</label>
-          <input type="text" class="form-control" placeholder="Kota"/>
-        </div>
-        <div class="form-group">
-          <label>Kode Pos</label>
-          <input type="text" class="form-control" placeholder="12345"/>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Provinsi</label>
-          <select class="form-control">
-            <option value="">Pilih Provinsi</option>
-            <option>DKI Jakarta</option><option>Jawa Barat</option>
-            <option>Jawa Tengah</option><option>Jawa Timur</option>
-            <option>Bali</option><option>Sumatera Utara</option>
-            <option>Sulawesi Selatan</option><option>Kalimantan Timur</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Ekspedisi</label>
-          <select class="form-control">
-            <option>JNE Regular</option><option>JNE YES</option>
-            <option>J&T Express</option><option>SiCepat REG</option>
-            <option>Anteraja</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="info-box">
-    <i class="fas fa-info-circle"></i> Biaya cetak kartu fisik: <strong>Rp 15.000/kartu</strong><br>
-    <i class="fas fa-clock"></i> Estimasi produksi: <strong>3-5 hari kerja</strong><br>
-    <i class="fas fa-truck"></i> Ongkos kirim ditanggung pembeli sesuai ekspedisi pilihan
-  </div>
-
-  <button class="btn-submit" onclick="submitOrder()">
-    <i class="fas fa-paper-plane"></i> &nbsp; KIRIM PESANAN
-  </button>
+<div class="scroll-hint" id="scrollHint">
+<i class="fa-solid fa-chevron-down" style="font-size:10px"></i>
+<span>Scroll untuk melihat lebih banyak</span>
 </div>
-
-<!-- TAB RIWAYAT -->
-<div class="tab-pane" id="tab-riwayat">
-  <div class="card">
-    <div class="card-header"><i class="fas fa-history"></i> Riwayat Pengiriman</div>
-    <div class="card-body">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Tanggal</th>
-              <th>Kartu</th>
-              <th>Alamat</th>
-              <th>Ekspedisi</th>
-              <th>No. Resi</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>12 Apr 2026</td>
-              <td>Charizard EX</td>
-              <td>Jakarta Selatan</td>
-              <td>JNE REG</td>
-              <td>JNE123456789</td>
-              <td><span class="badge badge-sent">Dikirim</span></td>
-            </tr>
-            <tr>
-              <td>05 Mar 2026</td>
-              <td>Mew EX, Pikachu VMAX</td>
-              <td>Bandung</td>
-              <td>J&T Express</td>
-              <td>JT987654321</td>
-              <td><span class="badge badge-done">Selesai</span></td>
-            </tr>
-            <tr>
-              <td>18 Apr 2026</td>
-              <td>Rayquaza EX</td>
-              <td>Surabaya</td>
-              <td>SiCepat REG</td>
-              <td>-</td>
-              <td><span class="badge badge-process">Diproses</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+<p class="note" id="selectedText" style="text-align:center;margin-top:10px">0 kartu dipilih</p>
 </div>
-
+<div class="form-group">
+<span class="label-bold">Alamat Pengiriman</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">
+<div style="grid-column:1/-1">
+<input type="text" class="input-box" placeholder="Nama Penerima" id="inputNama">
+</div>
+<input type="tel" class="input-box" placeholder="Nomor HP" id="inputHP" maxlength="15">
+<input type="text" class="input-box" placeholder="Kode Pos" id="inputKodePos" maxlength="5">
+<div style="grid-column:1/-1">
+<textarea class="input-box" placeholder="Alamat Lengkap" id="inputAlamat"></textarea>
+</div>
+<input type="text" class="input-box" placeholder="Kota / Kabupaten" id="inputKota">
+<div class="select-container">
+<select class="select-box" id="inputProvinsi">
+<option value="" disabled selected>Pilih Provinsi</option>
+<option>DKI Jakarta</option><option>Jawa Barat</option><option>Jawa Tengah</option><option>Jawa Timur</option><option>Banten</option><option>DI Yogyakarta</option><option>Bali</option><option>Sumatera Utara</option><option>Sumatera Selatan</option><option>Sulawesi Selatan</option><option>Kalimantan Timur</option><option>Lainnya</option>
+</select>
+</div>
+</div>
+</div>
+<div class="form-group">
+<span class="label-bold">Ekspedisi</span>
+<div class="expedition-option active" onclick="selectExpedition(this,'JNE Regular','Rp 15.000')">
+<div class="expedition-radio"><div class="inner"></div></div>
+<div style="flex:1">
+<div style="font-weight:700;font-size:0.9rem;color:var(--outline-color)">JNE Regular</div>
+<div style="font-size:0.8rem;color:#5a4530">3-5 hari kerja</div>
+</div>
+<div style="font-weight:700;font-size:0.9rem;color:#d62828">Rp 15.000</div>
+</div>
+<div class="expedition-option" onclick="selectExpedition(this,'J&T Express','Rp 12.000')">
+<div class="expedition-radio"><div class="inner"></div></div>
+<div style="flex:1">
+<div style="font-weight:700;font-size:0.9rem;color:var(--outline-color)">J&T Express</div>
+<div style="font-size:0.8rem;color:#5a4530">3-4 hari kerja</div>
+</div>
+<div style="font-weight:700;font-size:0.9rem;color:#d62828">Rp 12.000</div>
+</div>
+<div class="expedition-option" onclick="selectExpedition(this,'SiCepat REG','Rp 13.000')">
+<div class="expedition-radio"><div class="inner"></div></div>
+<div style="flex:1">
+<div style="font-weight:700;font-size:0.9rem;color:var(--outline-color)">SiCepat REG</div>
+<div style="font-size:0.8rem;color:#5a4530">2-4 hari kerja</div>
+</div>
+<div style="font-weight:700;font-size:0.9rem;color:#d62828">Rp 13.000</div>
+</div>
+</div>
+<div class="info-box">
+<div class="info-row">
+<div class="dot"></div>
+<span>Biaya cetak: <strong style="color:#d62828">Rp 15.000/kartu</strong></span>
+</div>
+<div class="info-row">
+<div class="dot"></div>
+<span>Produksi: <strong style="color:var(--outline-color)">3-5 hari kerja</strong></span>
+</div>
+<div class="info-row">
+<div class="dot"></div>
+<span>Ongkir ditanggung pembeli</span>
+</div>
+</div>
+<button class="action-btn-full" id="btnSubmit" onclick="submitOrder()">
+<i class="fa-solid fa-paper-plane"></i> KIRIM PESANAN
+</button>
+<div class="total-price" id="totalPrice">Total: Rp 15.000</div>
+</div>
+<div id="main-riwayat" class="main-content-section">
+<div class="cartoon-table-wrapper"><div class="cartoon-table">
+<div class="ct-header"><div class="ct-cell">Kartu</div><div class="ct-cell">Harga Jual</div><div class="ct-cell">Tanggal</div><div class="ct-cell">Status</div></div>
+<div class="ct-row"><div class="ct-cell">Charizard</div><div class="ct-cell">Rp 4.500.000</div><div class="ct-cell">25 Apr 2026</div><div class="ct-cell"><span class="badge badge-sukses">SUKSES</span></div></div>
+<div class="ct-row"><div class="ct-cell">Pikachu</div><div class="ct-cell">Rp 400.000</div><div class="ct-cell">24 Apr 2026</div><div class="ct-cell"><span class="badge badge-pending">PENDING</span></div></div>
+<div class="ct-row"><div class="ct-cell">Gengar</div><div class="ct-cell">Rp 1.200.000</div><div class="ct-cell">22 Apr 2026</div><div class="ct-cell"><span class="badge badge-gagal">GAGAL</span></div></div>
+</div></div></div>
+</div></div>
+<div class="toast" id="toast"><span id="toastMsg"></span></div>
+<div class="card-modal" id="cardModal">
+<div class="card-modal-content" style="position:relative;">
+<button class="modal-close" onclick="closeCardModal()">
+<i class="fa-solid fa-xmark"></i>
+</button>
+<img src="" alt="" class="modal-card-image" id="modalCardImage">
+<div class="modal-card-details">
+<h2 class="modal-card-name" id="modalCardName"></h2>
+<span class="modal-card-type" id="modalCardType"></span>
+<div class="modal-card-info">
+<div class="modal-info-item">
+<div class="modal-info-label">Rarity</div>
+<div class="modal-info-value" id="modalCardRarity"></div>
+</div>
+<div class="modal-info-item">
+<div class="modal-info-label">Type</div>
+<div class="modal-info-value" id="modalCardTypeValue"></div>
+</div>
+</div>
+<button class="modal-select-btn" id="modalSelectBtn" onclick="toggleCardFromModal()">
+<span id="modalSelectText">Pilih Kartu</span>
+</button>
+</div>
+</div>
+</div>
 <script>
-// Card selector
-var myCards = [
-  { img:'../pokemon-cards/_-Cek9cr07LvG455A07v4j33ALumZ-wNPbekp55EdRY.jpeg', name:'Charizard EX' },
-  { img:'../pokemon-cards/m13qNSEFwa0fwsXI6xC-69CqnH1V11Y0VCqFEwn6p2w.jpeg', name:'Rayquaza EX' },
-  { img:'../pokemon-cards/ZA8TA0g5foXDKfBjuSl0_-L7j9_VE_3zsGNw2S-oDA0.jpeg', name:'Mew EX' },
-  { img:'../pokemon-cards/73l51yZHpPLOIK2kg8gsba2FRbX5ubrJYivG1ZY6OUA.jpeg', name:'Pikachu VMAX' },
-  { img:'../pokemon-cards/Hc7QMiT980rB_6MEvb9rJ6gRoOwgGGGcYfeT9dvqLxE.jpeg', name:'Lugia VSTAR' },
-  { img:'../pokemon-cards/npPSLO51S39hPtX5rzoZHXKX2_0xrWbWeKhVv9SeiHI.jpeg', name:'Umbreon VMAX' },
+const pokemonCards=[
+{name:'Charizard EX',type:'Fire',typeColor:'#FF6B35',gradient:'linear-gradient(135deg,#FF6B35,#FF9F43,#FFD93D)',icon:'',rarity:'EX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png'},
+{name:'Rayquaza EX',type:'Dragon',typeColor:'#6C5CE7',gradient:'linear-gradient(135deg,#6C5CE7,#A29BFE,#74B9FF)',icon:'',rarity:'EX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/384.png'},
+{name:'Mew EX',type:'Psychic',typeColor:'#FD79A8',gradient:'linear-gradient(135deg,#FD79A8,#FDCB6E,#E17055)',icon:'',rarity:'EX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/151.png'},
+{name:'Pikachu VMAX',type:'Electric',typeColor:'#F9CA24',gradient:'linear-gradient(135deg,#F9CA24,#FFD93D,#F0932B)',icon:'',rarity:'VMAX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png'},
+{name:'Lugia VSTAR',type:'Water',typeColor:'#74B9FF',gradient:'linear-gradient(135deg,#74B9FF,#A29BFE,#DFE6E9)',icon:'',rarity:'VSTAR',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/249.png'},
+{name:'Umbreon VMAX',type:'Dark',typeColor:'#636E72',gradient:'linear-gradient(135deg,#2D3436,#636E72,#B2BEC3)',icon:'',rarity:'VMAX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/197.png'},
+{name:'Gengar VMAX',type:'Ghost',typeColor:'#A29BFE',gradient:'linear-gradient(135deg,#2D1B69,#6C5CE7,#A29BFE)',icon:'',rarity:'VMAX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png'},
+{name:'Mewtwo EX',type:'Psychic',typeColor:'#E056A0',gradient:'linear-gradient(135deg,#B83280,#E056A0,#FDCB6E)',icon:'',rarity:'EX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png'},
+{name:'Blaziken EX',type:'Fire',typeColor:'#E74C3C',gradient:'linear-gradient(135deg,#C0392B,#E74C3C,#F39C12)',icon:'',rarity:'EX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/257.png'},
+{name:'Gardevoir EX',type:'Fairy',typeColor:'#FF85A2',gradient:'linear-gradient(135deg,#FF6B81,#FF85A2,#FFC0CB)',icon:'',rarity:'EX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/282.png'},
+{name:'Eevee VMAX',type:'Normal',typeColor:'#C4A882',gradient:'linear-gradient(135deg,#D4A76A,#C4A882,#E8D5B7)',icon:'',rarity:'VMAX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png'},
+{name:'Gyarados EX',type:'Water',typeColor:'#3498DB',gradient:'linear-gradient(135deg,#2471A3,#3498DB,#85C1E9)',icon:'',rarity:'EX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/130.png'},
+{name:'Lucario VSTAR',type:'Fighting',typeColor:'#5D6D7E',gradient:'linear-gradient(135deg,#2C3E50,#5D6D7E,#AEB6BF)',icon:'',rarity:'VSTAR',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/448.png'},
+{name:'Dragonite V',type:'Dragon',typeColor:'#F39C12',gradient:'linear-gradient(135deg,#E67E22,#F39C12,#F7DC6F)',icon:'',rarity:'V',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/149.png'},
+{name:'Absol VMAX',type:'Dark',typeColor:'#4A4A4A',gradient:'linear-gradient(135deg,#1A1A2E,#4A4A4A,#8E8E8E)',icon:'',rarity:'VMAX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/359.png'},
+{name:'Sylveon VMAX',type:'Fairy',typeColor:'#FFB8D0',gradient:'linear-gradient(135deg,#FF69B4,#FFB8D0,#FFF0F5)',icon:'',rarity:'VMAX',img:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/700.png'}
 ];
-var selected = [];
-
-var grid = document.getElementById('cardSelectorGrid');
-grid.innerHTML = myCards.map(function(c, i) {
-  return '<div class="card-select-item" onclick="toggleCard(' + i + ', this)">' +
-    '<img src="' + c.img + '" alt="' + c.name + '" loading="lazy"/>' +
-    '<div class="check"><i class="fas fa-check"></i></div>' +
-  '</div>';
-}).join('');
-
-function toggleCard(i, el) {
-  var idx = selected.indexOf(i);
-  if (idx === -1) {
-    if (selected.length >= 5) { alert('Maksimal 5 kartu'); return; }
-    selected.push(i); el.classList.add('selected');
-  } else {
-    selected.splice(idx, 1); el.classList.remove('selected');
-  }
-  document.getElementById('selectedCount').textContent = selected.length + ' kartu dipilih';
+let selectedCards=new Set();
+let selectedExpedition={name:'JNE Regular',cost:'Rp 15.000',numericCost:15000};
+let currentModalCardIndex=null;
+function renderCards(){
+const grid=document.getElementById('cardGrid');
+grid.innerHTML='';
+pokemonCards.forEach((card,index)=>{
+const isSelected=selectedCards.has(index);
+const el=document.createElement('div');
+el.className=`pokemon-card ${isSelected?'selected':''}`;
+el.onclick=()=>openCardModal(index);
+el.innerHTML(`
+<div class="check-mark"><i class="fa-solid fa-check"></i></div>
+<div class="card-art" style="background:${card.gradient}">
+<img src="${card.img}" alt="${card.name}" loading="lazy"/>
+</div>
+<div class="card-bottom">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px">
+<span class="type-badge" style="background:${card.typeColor}">${card.type}</span>
+<span class="card-rarity" style="color:${card.typeColor};font-size:7px">${card.rarity}</span>
+</div>
+<p class="card-name">${card.name}</p>
+</div>
+`);
+grid.appendChild(el);
+});
 }
-
-function switchTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  btn.classList.add('active');
+function openCardModal(index){
+currentModalCardIndex=index;
+const card=pokemonCards[index];
+const isSelected=selectedCards.has(index);
+document.getElementById('modalCardImage').src=card.img;
+document.getElementById('modalCardImage').alt=card.name;
+document.getElementById('modalCardName').textContent=card.name;
+document.getElementById('modalCardType').textContent=card.type;
+document.getElementById('modalCardType').style.background=card.typeColor;
+document.getElementById('modalCardRarity').textContent=card.rarity;
+document.getElementById('modalCardTypeValue').textContent=card.type;
+const btn=document.getElementById('modalSelectBtn');
+const btnText=document.getElementById('modalSelectText');
+if(isSelected){
+btn.classList.add('selected');
+btnText.textContent='Hapus Pilihan';
+}else{
+btn.classList.remove('selected');
+btnText.textContent='Pilih Kartu';
 }
-
-function submitOrder() {
-  if (selected.length === 0) { alert('Pilih minimal 1 kartu'); return; }
-  alert('Pesanan berhasil dikirim! Kami akan memproses dalam 1x24 jam.');
+document.getElementById('cardModal').classList.add('show');
+document.body.style.overflow='hidden';
 }
+function closeCardModal(){
+document.getElementById('cardModal').classList.remove('show');
+document.body.style.overflow='';
+currentModalCardIndex=null;
+}
+document.getElementById('cardModal').addEventListener('click',(e)=>{
+if(e.target.id==='cardModal'){closeCardModal();}
+});
+document.addEventListener('keydown',(e)=>{
+if(e.key==='Escape'){closeCardModal();}
+});
+function toggleCardFromModal(){
+if(currentModalCardIndex===null)return;
+if(selectedCards.has(currentModalCardIndex)){
+selectedCards.delete(currentModalCardIndex);
+}else{
+if(selectedCards.size>=5){
+showToast('Maksimal 5 kartu yang bisa dipilih',true);
+return;
+}
+selectedCards.add(currentModalCardIndex);
+}
+updateSelectionUI();
+closeCardModal();
+}
+function updateSelectionUI(){
+const count=selectedCards.size;
+const text=document.getElementById('selectedText');
+text.textContent=`${count} kartu dipilih`;
+const totalCetak=count*15000;
+const total=totalCetak+selectedExpedition.numericCost;
+document.getElementById('totalPrice').innerHTML=count>0
+?`Total: <span style="color:#d62828">Rp ${total.toLocaleString('id-ID')}</span> (Cetak ${count} kartu + Ongkir)`
+:`Total: Rp ${selectedExpedition.numericCost.toLocaleString('id-ID')}`;
+renderCards();
+}
+function selectExpedition(el,name,cost){
+document.querySelectorAll('.expedition-option').forEach(opt=>{
+opt.classList.remove('active');
+});
+el.classList.add('active');
+const numericCost=parseInt(cost.replace(/[^0-9]/g,''));
+selectedExpedition={name,cost,numericCost};
+updateSelectionUI();
+}
+function submitOrder(){
+const nama=document.getElementById('inputNama').value.trim();
+const hp=document.getElementById('inputHP').value.trim();
+const alamat=document.getElementById('inputAlamat').value.trim();
+const kota=document.getElementById('inputKota').value.trim();
+const kodePos=document.getElementById('inputKodePos').value.trim();
+const provinsi=document.getElementById('inputProvinsi').value;
+if(selectedCards.size===0){showToast('Pilih minimal 1 kartu untuk dicetak',true);return}
+if(!nama){showToast('Nama penerima belum diisi',true);return}
+if(!hp||hp.length<10){showToast('Nomor HP tidak valid',true);return}
+if(!alamat){showToast('Alamat lengkap belum diisi',true);return}
+if(!kota){showToast('Kota / Kabupaten belum diisi',true);return}
+if(!kodePos||kodePos.length<5){showToast('Kode pos tidak valid',true);return}
+if(!provinsi){showToast('Provinsi belum dipilih',true);return}
+const btn=document.getElementById('btnSubmit');
+btn.disabled=true;
+btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> MEMPROSES...';
+setTimeout(()=>{
+const cardNames=Array.from(selectedCards).map(i=>pokemonCards[i].name).join(', ');
+const totalCetak=selectedCards.size*15000;
+const total=totalCetak+selectedExpedition.numericCost;
+showToast(`Pesanan berhasil! ${selectedCards.size} kartu via ${selectedExpedition.name}`,false);
+setTimeout(()=>{
+selectedCards.clear();
+document.getElementById('inputNama').value='';
+document.getElementById('inputHP').value='';
+document.getElementById('inputAlamat').value='';
+document.getElementById('inputKota').value='';
+document.getElementById('inputKodePos').value='';
+document.getElementById('inputProvinsi').selectedIndex=0;
+updateSelectionUI();
+btn.disabled=false;
+btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> KIRIM PESANAN';
+switchTab('riwayat');
+const riwayatContent=document.getElementById('main-riwayat').querySelector('.ct-body');
+riwayatContent.innerHTML(`
+<div style="text-align:center;padding:20px">
+<div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#10b981,#34d399);display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px;box-shadow:0 4px 20px rgba(16,185,129,0.3)">
+<i class="fa-solid fa-check" style="color:#fff;font-size:26px"></i>
+</div>
+<p style="font-weight:700;font-size:1rem;color:var(--outline-color)">${selectedExpedition.name}</p>
+<p style="font-size:0.8rem;color:#5a4530;margin-top:4px">${cardNames}</p>
+</div>
+<div style="background:#fff;border:3px solid var(--outline-color);border-radius:15px;padding:16px 20px;box-shadow:3px 3px 0px rgba(0,0,0,0.15)">
+<div style="display:flex;justify-content:space-between;margin-bottom:10px">
+<span style="font-size:0.8rem;color:#5a4530">Ekspedisi</span>
+<span style="font-size:0.8rem;font-weight:700;color:var(--outline-color)">${selectedExpedition.name}</span>
+</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:10px">
+<span style="font-size:0.8rem;color:#5a4530">Total Bayar</span>
+<span style="font-size:0.8rem;font-weight:700;color:#d62828">Rp ${total.toLocaleString('id-ID')}</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font-size:0.8rem;color:#5a4530">Status</span>
+<span class="badge" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);color:var(--outline-color);font-size:0.7rem;padding:3px 12px">Diproses</span>
+</div>
+</div>
+`);
+},800);
+},1500);
+}
+function showToast(message,type='success'){
+const toast=document.getElementById('toast');
+const msgEl=document.getElementById('toastMsg');
+msgEl.textContent=message;
+toast.classList.remove('error');
+if(type!=='success')toast.classList.add('error');
+toast.classList.add('show');
+setTimeout(()=>toast.classList.remove('show'),3000);
+}
+function switchTab(tab){
+const isKirim=tab==='kirim';
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+btn.classList.toggle('active-main',isKirim&&btn.getAttribute('data-main-target')==='main-kirim');
+});
+document.querySelectorAll('.main-content-section').forEach(section=>{
+section.classList.toggle('active-main-content',isKirim&&section.id==='main-kirim');
+});
+}
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+btn.addEventListener('click',()=>{
+const target=btn.getAttribute('data-main-target');
+switchTab(target==='main-kirim'?'kirim':'riwayat');
+});
+});
+renderCards();
+updateSelectionUI();
 </script>
 </body>
 </html>

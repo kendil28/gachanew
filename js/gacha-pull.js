@@ -1,5 +1,4 @@
 /* ===== GACHA PULL ENGINE v3 ===== */
-(function() {
 
 var CARDS = [
   { img:'pokemon-cards/_-Cek9cr07LvG455A07v4j33ALumZ-wNPbekp55EdRY.jpeg',  name:'Charizard EX',   rarity:'legendary', type:'Fire',      hp:340, atk:330, series:'Scarlet & Violet' },
@@ -164,24 +163,37 @@ function showSummary(cards) {
 
 // ===== MAIN GACHA =====
 function doGacha(pulls) {
+  console.log('doGacha called with pulls:', pulls);
   var cards = [];
   for (var i = 0; i < pulls; i++) cards.push(rollCard());
+  console.log('Generated cards:', cards.length);
 
   var sorted = cards.slice().sort(function(a, b) {
     return RARITY_ORDER.indexOf(a.rarity) - RARITY_ORDER.indexOf(b.rarity);
   });
+  console.log('Sorted cards:', sorted);
 
   var grid = document.getElementById('gp-grid');
   var summaryEl = document.getElementById('gp-summary');
-  if (!grid) return;
+  console.log('Grid element:', grid);
+  console.log('Summary element:', summaryEl);
+  if (!grid) {
+    console.error('Grid element not found!');
+    return;
+  }
 
   var autoReveal = pulls > 1; // x10 & x100 langsung tampil semua
+  console.log('Auto reveal:', autoReveal);
 
   var html = '';
   sorted.forEach(function(card, i) {
-    html += makeCardHTML(card, i, i === 0, autoReveal);
+    var cardHtml = makeCardHTML(card, i, i === 0, autoReveal);
+    html += cardHtml;
+    console.log('Card HTML generated for index', i, ':', cardHtml.substring(0, 100) + '...');
   });
+  console.log('Final HTML length:', html.length);
   grid.innerHTML = html;
+  console.log('Grid innerHTML set');
 
   if (autoReveal) {
     // x10/x100: trigger efek untuk kartu terbaik (index 0) setelah animasi masuk
@@ -268,11 +280,34 @@ function animateParticles() {
 
 // ===== INIT =====
 window.addEventListener('DOMContentLoaded', function() {
+  console.log('Gacha pull script loaded');
   var pulls = parseInt(new URLSearchParams(location.search).get('pulls')) || 1;
+  console.log('Pulls:', pulls);
   var title = document.getElementById('gp-title');
-  if (title) title.textContent = 'GACHA × ' + pulls;
+  if (title) {
+    title.textContent = 'GACHA × ' + pulls;
+    console.log('Title updated');
+  }
   initCanvas();
   doGacha(pulls);
+  console.log('Gacha initialized');
 });
 
-})();
+// Also try immediate execution in case DOMContentLoaded already fired
+if (document.readyState === 'loading') {
+  // DOM is still loading, wait for event
+} else {
+  // DOM is already loaded, execute immediately
+  console.log('DOM already loaded, executing immediately');
+  var pulls = parseInt(new URLSearchParams(location.search).get('pulls')) || 1;
+  console.log('Pulls:', pulls);
+  var title = document.getElementById('gp-title');
+  if (title) {
+    title.textContent = 'GACHA × ' + pulls;
+    console.log('Title updated immediately');
+  }
+  initCanvas();
+  doGacha(pulls);
+  console.log('Gacha initialized immediately');
+}
+

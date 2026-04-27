@@ -91,7 +91,7 @@ html, body {
   position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
   width: 72px; height: 72px; display: flex; align-items: center; justify-content: center;
 }
-.nav-item .nav-icon-wrap.nav-icon-legendary { width: 96px; height: 96px; bottom: 28px; }
+.nav-item .nav-icon-wrap.nav-icon-legendary { width: 96px; height: 96px; bottom: 47px; }
 .nav-item .nav-icon-wrap.nav-icon-legendary img { width: 92px !important; height: 92px !important; }
 .nav-item .explosion { position: absolute; inset: 0; border-radius: 50%; z-index: 0; pointer-events: none; }
 .nav-item .explosion::before {

@@ -5,23 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>GachaKeren — Gacha</title>
   <link href="https://fonts.cdnfonts.com/css/super-starfish" rel="stylesheet">
+  <link rel="stylesheet" href="css/header.css?v=2.2" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 16px; }
     html, body { width: 100%; height: 100%; overflow: hidden; background: transparent; }
 
+    /* Header overlay di atas iframe */
+    .shared-header {
+      position: absolute !important;
+      top: 0; left: 0; right: 0;
+      z-index: 9999 !important;
+    }
+
     #gachaFrame {
-      position: fixed; inset: 0;
-      width: 100%; height: 100%;
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       border: none; display: block; z-index: 1;
     }
   </style>
 </head>
 <body>
 
-  <!-- GACHA CONTENT full layar -->
-  <iframe id="gachaFrame" src="gachakonten.html" frameborder="0" scrolling="no" style="border:none;outline:none;"></iframe>
+  <!-- SHARED HEADER -->
+  <header class="shared-header">
+    <div class="sh-logo"><img src="assets/images/ui/logoweb.png" alt="GachaKeren"/></div>
+    <div class="sh-auth-buttons" id="sh-auth-buttons">
+      <button class="sh-btn-login" onclick="shOpenAuth('login')">LOGIN</button>
+      <button class="sh-btn-register" onclick="shOpenAuth('register')">REGISTER</button>
+    </div>
+    <div class="sh-profile" id="sh-profile-section" style="display:none;">
+      <div class="sh-profile-avatar"><img src="assets/images/icons/icon/pokemon.png" alt="avatar" class="sh-avatar-img"/></div>
+      <div class="sh-profile-card">
+        <div class="sh-profile-username" id="sh-username-display">Username</div>
+        <div class="sh-profile-id" id="sh-user-id-display">ID 608</div>
+      </div>
+    </div>
+    <button class="sh-btn-logout" id="sh-btn-logout" style="display:none;" onclick="shHandleLogout()">KELUAR</button>
+    <div class="sh-topbar-right">
+      <div class="sh-currencies">
+        <div class="sh-currency-item" onclick="shOpenTopup('koin')"><img src="assets/images/icons/icon/koin.png" alt="koin"/><span id="sh-bal-koin">20.15M</span><button class="sh-btn-plus" onclick="event.stopPropagation();shOpenTopup('koin')">+</button></div>
+        <div class="sh-currency-item" onclick="shOpenTopup('diamond')"><img src="assets/images/icons/icon/diamond.png" alt="diamond"/><span id="sh-bal-diamond">20.15M</span><button class="sh-btn-plus" onclick="event.stopPropagation();shOpenTopup('diamond')">+</button></div>
+        <div class="sh-currency-item" onclick="shOpenTopup('flash')"><img src="assets/images/icons/icon/flash.png" alt="flash"/><span id="sh-bal-flash">20.15M</span><button class="sh-btn-plus" onclick="event.stopPropagation();shOpenTopup('flash')">+</button></div>
+      </div>
+    </div>
+  </header>
 
+  <!-- GACHA CONTENT full layar -->
+  <iframe id="gachaFrame" src="gachakonten.html" frameborder="0" scrolling="no" style="border:none;outline:none;flex:1;"></iframe>
+
+  <script src="js/header.js"></script>
+  <script>
+    // Saat refresh/reload, kembali ke HOME
+    if (performance.navigation && performance.navigation.type === 1) {
+      window.location.replace('index.html');
+    }
+    // Modern API
+    if (window.performance && window.performance.getEntriesByType) {
+      var navEntries = window.performance.getEntriesByType('navigation');
+      if (navEntries.length > 0 && navEntries[0].type === 'reload') {
+        window.location.replace('index.html');
+      }
+    }
+  </script>
   <script src="js/sidebar-nav.js"></script>
 </body>
 </html>

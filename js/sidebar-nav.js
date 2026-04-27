@@ -18,10 +18,10 @@
       gap: 4px;
       background: #f9d923;
       border-radius: 36px;
-      padding: 10px 6px;
+      padding: 9px 6px;
       box-shadow: 0 8px 32px rgba(0,0,0,.5);
-      width: 72px;
-      max-height: 460px;
+      width: 68px;
+      max-height: 423px;
       overflow-y: auto;
       overflow-x: visible;
       scrollbar-width: none;
@@ -30,26 +30,26 @@
 
     /* Larger sidebar for leaderboard page */
     body.page-leaderboard .shared-sidebar {
-      width: 90px !important;
-      padding: 14px 10px !important;
-      max-height: 560px !important;
+      width: 68px !important;
+      padding: 9px 6px !important;
+      max-height: 423px !important;
     }
     body.page-leaderboard .shared-sidebar .sn-item {
-      width: 72px !important;
-      height: 72px !important;
+      width: 51px !important;
+      height: 51px !important;
     }
     body.page-leaderboard .shared-sidebar .sn-item img {
-      width: 64px !important;
-      height: 64px !important;
+      width: 42px !important;
+      height: 42px !important;
     }
     body.page-leaderboard .shared-sidebar .sn-item.legendary img {
-      width: 72px !important;
-      height: 72px !important;
+      width: 50px !important;
+      height: 50px !important;
     }
     /* Desktop only — di mobile content-area full width */
     @media (min-width: 769px) {
       body.page-leaderboard .content-area {
-        margin-left: 110px !important;
+        margin-left: 92px !important;
       }
     }
 
@@ -60,7 +60,7 @@
       justify-content: center;
       cursor: pointer;
       position: relative;
-      width: 56px; height: 56px;
+      width: 51px; height: 51px;
       border-radius: 50%;
       transition: transform .15s;
       flex-shrink: 0;
@@ -71,13 +71,13 @@
       transform: scale(1.1);
     }
     .shared-sidebar .sn-item img {
-      width: 48px; height: 48px; object-fit: contain;
+      width: 42px; height: 42px; object-fit: contain;
       filter: drop-shadow(0 3px 8px rgba(0,0,0,.5));
       transition: transform .2s, filter .2s;
     }
-    .shared-sidebar .sn-item.legendary img { width: 58px; height: 58px; }
+    .shared-sidebar .sn-item.legendary img { width: 50px; height: 50px; }
     .shared-sidebar .sn-divider {
-      width: 40px; height: 1px;
+      width: 38px; height: 1px;
       background: rgba(0,0,0,0.15);
       flex-shrink: 0; margin: 2px 0;
     }
@@ -145,7 +145,7 @@
       background: #f9d923;
       border-radius: 999px;
       box-shadow: 0 6px 24px rgba(0,0,0,.5);
-      padding: 6px 8px;
+      padding: 1px 8px;
       overflow: visible;
     }
 
@@ -173,7 +173,7 @@
       justify-content: center;
       flex-shrink: 0;
       width: 64px;
-      padding: 6px 0;
+      padding: 2px 0;
       cursor: pointer;
       scroll-snap-align: start;
       position: relative;
@@ -189,7 +189,47 @@
       filter: drop-shadow(0 2px 6px rgba(0,0,0,.4));
       transition: transform .2s, filter .2s;
     }
-    .sbn-item.legendary img { width: 52px; height: 52px; }
+    .sbn-item.legendary img { width: 60px; height: 60px; }
+
+    /* Hover: icon bounce */
+    .sbn-item:hover img {
+      animation: sbnBounce 0.4s cubic-bezier(.34,1.8,.64,1) forwards;
+      filter: drop-shadow(0 0 8px rgba(255,220,0,.9)) drop-shadow(0 2px 6px rgba(0,0,0,.5));
+    }
+    @keyframes sbnBounce {
+      0%   { transform: scale(1) translateY(0); }
+      50%  { transform: scale(1.32) translateY(-8px); }
+      100% { transform: scale(1.22) translateY(0); }
+    }
+
+    /* Explosion effect */
+    .sbn-expl {
+      position: absolute; inset: 0; border-radius: 50%;
+      z-index: 0; pointer-events: none;
+    }
+    .sbn-expl::before {
+      content: ''; position: absolute; inset: -8px; border-radius: 50%;
+      background: radial-gradient(circle,rgba(255,240,80,1) 0%,rgba(255,140,0,.8) 40%,rgba(255,50,0,.4) 65%,transparent 80%);
+      opacity: 0; transform: scale(.2);
+    }
+    .sbn-expl::after {
+      content: ''; position: absolute; inset: -14px; border-radius: 50%;
+      border: 4px solid rgba(255,210,0,.95);
+      box-shadow: 0 0 12px rgba(255,180,0,.8);
+      opacity: 0; transform: scale(.15);
+    }
+    .sbn-item:hover .sbn-expl::before { animation: sbnExplCore .55s ease-out forwards; }
+    .sbn-item:hover .sbn-expl::after  { animation: sbnExplRing .65s ease-out forwards; }
+    @keyframes sbnExplCore {
+      0%  { opacity:0; transform:scale(.2); } 20%{ opacity:1; transform:scale(1); }
+      55% { opacity:.8; transform:scale(1.8); } 100%{ opacity:0; transform:scale(2.8); }
+    }
+    @keyframes sbnExplRing {
+      0%  { opacity:0; transform:scale(.15); border-width:6px; }
+      18% { opacity:1; transform:scale(.9);  border-width:4px; }
+      60% { opacity:.6; transform:scale(2);  border-width:2px; }
+      100%{ opacity:0; transform:scale(3.2); border-width:1px; }
+    }
 
     /* Tooltip di atas icon — muncul saat hover/tap */
     .sbn-item span {
@@ -285,13 +325,13 @@
     { label: 'LEGENDARY BOARD',  icon: 'assets/images/icons/icon/legendaryboard.png', action: "window.location='memberarea.html?page=legendary'",   page: 'legendary', legendary: true },
     { label: 'SEMUA KARTU',      icon: 'assets/images/icons/icon/semuakartu.png',     action: "window.location='memberarea.html?page=koleksi'",     page: 'koleksi' },
     { divider: true },
-    { label: 'DEPOSIT',          icon: 'assets/images/icons/icon/deposit.png',        action: "window.location='memberarea.html?page=deposit'",     page: 'deposit' },
-    { label: 'WITHDRAW',         icon: 'assets/images/icons/icon/withdraw.png',       action: "window.location='memberarea.html?page=withdraw'",    page: 'withdraw' },
-    { label: 'PENGATURAN AKUN',  icon: 'assets/images/icons/icon/settingakun.png',    action: "window.location='memberarea.html?page=profile'",     page: 'profile' },
-    { divider: true },
     { label: 'KIRIM KARTU FISIK',icon: 'assets/images/icons/icon/kirimkartu.png',     action: "window.location='memberarea.html?page=kirimkartu'",  page: 'kirimkartu' },
     { label: 'KOLEKSI SAYA',     icon: 'assets/images/icons/icon/koleksisaya.png',    action: "window.location='memberarea.html?page=koleksi'",     page: 'koleksi' },
     { label: 'JUAL KARTU',       icon: 'assets/images/icons/icon/jualkartu.png',      action: "window.location='memberarea.html?page=jualkartu'",   page: 'jualkartu' },
+    { divider: true },
+    { label: 'DEPOSIT',          icon: 'assets/images/icons/icon/deposit.png',        action: "window.location='memberarea.html?page=deposit'",     page: 'deposit' },
+    { label: 'WITHDRAW',         icon: 'assets/images/icons/icon/withdraw.png',       action: "window.location='memberarea.html?page=withdraw'",    page: 'withdraw' },
+    { label: 'PENGATURAN AKUN',  icon: 'assets/images/icons/icon/settingakun.png',    action: "window.location='memberarea.html?page=profile'",     page: 'profile' },
   ];
 
   // ===== BUILD VERTICAL SIDEBAR =====
@@ -339,7 +379,7 @@
     var el = document.createElement('div');
     el.className = 'sbn-item' + (item.legendary ? ' legendary' : '') + (isActive(item.page) ? ' active' : '');
     el.setAttribute('onclick', item.action);
-    el.innerHTML = '<img src="' + item.icon + '" alt="' + item.label + '"/><span>' + item.label + '</span>';
+    el.innerHTML = '<div class="sbn-expl"></div><img src="' + item.icon + '" alt="' + item.label + '"/><span>' + item.label + '</span>';
     track.appendChild(el);
   });
 

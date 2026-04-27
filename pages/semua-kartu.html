@@ -1,445 +1,1770 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Semua Kartu - GachaKeren</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Luckiest+Guy&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Semua Kartu - Kartu Fisik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Rowdies:wght@400;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 'nunito': ['Nunito', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg: #FFF8EE;
+            --fg: #2D3436;
+            --muted: #8D6E63;
+            --accent: #FF6B6B;
+            --golden: #FFD93D;
+            --card: #FFFFFF;
+            --border: #F0E0CC;
+            --forest: #6BCB77;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: transparent;
+            color: var(--fg);
+            min-height: 100vh;
+        }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background: transparent;
-  min-height: 100vh;
-  width: 100%;
-  overflow-y: auto; overflow-x: hidden;
-  padding: 16px 12px 100px 12px;
-  color: #fff;
-}
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
+        .page-bg {
+            display: none;
+        }
 
-/* ===== MAIN PANEL ===== */
-.lb-panel {
-  max-width: 100%;
-  margin: 0 auto;
-  background: linear-gradient(160deg, #333333 0%, #222222 40%, #1a1a1a 100%);
-  border-radius: 28px;
-  border: 3px solid rgba(255,215,0,0.6);
-  box-shadow:
-    0 0 0 2px rgba(255,215,0,0.3),
-    0 8px 40px rgba(0,0,0,0.8),
-    inset 0 1px 0 rgba(255,255,255,0.1);
-  overflow: hidden;
-  padding-bottom: 20px;
-  position: relative;
-  z-index: 1;
-}
+        /* === TAB NAV === */
+        @property --snake-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+        @keyframes snakeRun { to { --snake-angle: 360deg; } }
+        @keyframes iconFloat {
+            0%,100% { transform: translateY(0px); }
+            50%     { transform: translateY(-5px); }
+        }
+        @keyframes iconShake {
+            0%   { transform: rotate(0deg) scale(1); }
+            15%  { transform: rotate(-12deg) scale(1.1); }
+            30%  { transform: rotate(10deg) scale(1.15); }
+            45%  { transform: rotate(-8deg) scale(1.1); }
+            60%  { transform: rotate(6deg) scale(1.05); }
+            75%  { transform: rotate(-4deg); }
+            90%  { transform: rotate(2deg); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+        @keyframes starPop {
+            0%,100% { opacity:0; transform:scale(0.2) rotate(0deg); }
+            30%     { opacity:1; transform:scale(1.5) rotate(25deg); }
+            60%     { opacity:0.6; transform:scale(0.9) rotate(-15deg); }
+            80%     { opacity:0; transform:scale(0.3) rotate(40deg); }
+        }
 
-/* ===== TABS ===== */
-.lb-tabs {
-  display: flex;
-  background: #FFFFFF;
-  border-bottom: 3px solid rgba(0,0,0,0.3);
-  padding: 0 8px;
-  gap: 4px;
-}
-.lb-tab {
-  flex: 1;
-  padding: 14px 8px;
-  text-align: center;
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 20px;
-  color: rgba(51,51,51,0.6);
-  cursor: pointer;
-  border-radius: 12px 12px 0 0;
-  transition: all 0.2s;
-  letter-spacing: 0.5px;
-  position: relative;
-  top: 3px;
-}
-.lb-tab:hover { color: #FFD700; background: rgba(255,215,0,0.05); }
-.lb-tab.active {
-  background: linear-gradient(180deg, #FFD700 0%, #FFC107 100%);
-  color: #000;
-  box-shadow: 0 -2px 12px rgba(255,215,0,0.5);
-  text-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
+        .tab-nav {
+            display: flex; gap: 16px;
+            background: transparent;
+            border-radius: 0; padding: 0;
+            box-shadow: none;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            position: relative;
+            overflow: visible;
+        }
 
-/* ===== HEADER BAR ===== */
-.lb-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px;
-  background: rgba(60,60,60,0.5);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-.lb-title {
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 28px;
-  color: #FFD700;
-  text-shadow: 0 0 16px rgba(255,215,0,0.6);
-}
-.lb-subtitle {
-  font-size: 14px;
-  color: rgba(255,255,255,0.6);
-}
+        .tab-btn {
+            flex: 1; min-width: 60px;
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            outline: none;
+            font-family: 'Nunito', sans-serif;
+            font-size: 10px; font-weight: 800;
+            color: rgba(255,255,255,0.75);
+            cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            padding: 0;
+            position: relative;
+        }
 
-/* ===== CONTENT ===== */
-.lb-content {
-  display: flex;
-  gap: 16px;
-  padding: 16px 20px;
-}
+        /* === ICON WRAPPER — tempat semua animasi === */
+        .tab-btn .icon-wrap {
+            position: relative;
+            width: 56px; height: 56px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            border-radius: 16px;
+        }
 
-/* ===== SEARCH & FILTER ===== */
-.search-filter-wrap {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-.search-box {
-  flex: 1;
-  min-width: 200px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 10px;
-  padding: 8px 14px;
-}
-.search-box input {
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #fff;
-  font-size: 13px;
-  width: 100%;
-}
-.search-box input::placeholder { color: rgba(255,255,255,0.35); }
-.search-box i { color: rgba(255,255,255,0.4); }
+        /* Icon */
+        .tab-btn .icon-wrap img {
+            width: 52px; height: 52px; object-fit: contain;
+            position: relative; z-index: 2;
+            border-radius: 14px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+            animation: iconFloat 3s ease-in-out infinite;
+        }
 
-.rarity-filter { display: flex; gap: 8px; flex-wrap: wrap; }
-.rf-btn {
-  padding: 7px 16px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.15);
-  background: rgba(255,255,255,0.05);
-  color: rgba(255,255,255,0.7);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.rf-btn:hover, .rf-btn.active { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.4); color: #fff; }
-.rf-btn.f-legendary.active { background: rgba(255,215,0,0.2); border-color: #FFD700; color: #FFD700; }
-.rf-btn.f-epic.active      { background: rgba(192,132,252,0.2); border-color: #c084fc; color: #c084fc; }
-.rf-btn.f-rare.active      { background: rgba(96,165,250,0.2);  border-color: #60a5fa; color: #60a5fa; }
-.rf-btn.f-common.active    { background: rgba(255,255,255,0.1); border-color: #aaa; color: #aaa; }
+        /* Snake border — rounded square mengelilingi icon */
+        .tab-btn .icon-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 18px;
+            background: conic-gradient(
+                from var(--snake-angle, 0deg),
+                transparent 0deg,
+                transparent 50deg,
+                rgba(255,255,255,0.95) 80deg,
+                rgba(200,120,255,0.9) 110deg,
+                rgba(255,210,50,0.95) 140deg,
+                rgba(100,210,255,0.85) 160deg,
+                transparent 180deg,
+                transparent 360deg
+            );
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            padding: 3px;
+            animation: snakeRun 2.5s linear infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
 
-/* ===== CARD GRID ===== */
-.card-grid-wrap {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+        /* Bintang kecil di sekitar icon */
+        .tab-btn .icon-wrap::after {
+            content: '✦';
+            position: absolute;
+            top: -6px; right: -4px;
+            font-size: 10px;
+            color: #FFD700;
+            animation: starPop 2s ease-in-out 0.3s infinite;
+            z-index: 3;
+            pointer-events: none;
+        }
 
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 14px;
-}
+        /* Bintang extra via JS */
+        .tab-star {
+            position: absolute;
+            pointer-events: none;
+            z-index: 3;
+            animation: starPop var(--dur,2s) ease-in-out var(--delay,0s) infinite;
+            opacity: 0;
+        }
 
-.card-item {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  overflow: hidden;
-  transition: transform 0.25s, box-shadow 0.25s;
-  cursor: pointer;
-  position: relative;
-}
-.card-item::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(255,255,255,0.08) 0%, transparent 60%);
-}
-.card-item:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(255,215,0,0.3);
-  border-color: rgba(255,215,0,0.4);
-}
-.card-item.r-legendary:hover { box-shadow: 0 8px 24px rgba(255,215,0,0.4); }
-.card-item.r-epic:hover      { box-shadow: 0 8px 24px rgba(192,132,252,0.4); }
-.card-item.r-rare:hover      { box-shadow: 0 8px 24px rgba(96,165,250,0.4); }
+        /* Label teks */
+        .tab-btn span {
+            font-size: 10px; font-weight: 800;
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+            line-height: 1.2;
+        }
 
-.card-item img {
-  width: 100%;
-  height: 180px;
-  object-fit: contain;
-  display: block;
-  padding: 8px;
-  background: rgba(0,0,0,0.2);
-}
+        /* Hover */
+        .tab-btn:hover .icon-wrap img {
+            animation: iconShake 0.5s ease forwards;
+            filter: drop-shadow(0 0 14px rgba(255,255,255,0.95)) drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        .tab-btn:hover .icon-wrap::before { animation: snakeRun 1.2s linear infinite; }
+        .tab-btn:hover span { color: #fff; }
 
-.card-item .card-rarity-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 4px 8px;
-  font-size: 9px;
-  font-weight: 700;
-  text-align: center;
-  letter-spacing: 0.5px;
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-}
-.card-item.r-legendary { border-color: #FFD700; }
-.card-item.r-legendary .card-rarity-bar { background: rgba(255,215,0,0.85); color: #000; }
-.card-item.r-epic      { border-color: #c084fc; }
-.card-item.r-epic .card-rarity-bar      { background: rgba(192,132,252,0.85); color: #fff; }
-.card-item.r-rare      { border-color: #60a5fa; }
-.card-item.r-rare .card-rarity-bar      { background: rgba(96,165,250,0.85); color: #fff; }
-.card-item.r-common .card-rarity-bar    { background: rgba(80,80,80,0.85); color: #fff; }
+        /* Active */
+        .tab-btn.active .icon-wrap img {
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 16px rgba(255,255,255,0.95)) drop-shadow(0 0 8px rgba(255,200,50,0.8));
+            animation: iconFloat 2s ease-in-out infinite;
+        }
+        .tab-btn.active .icon-wrap::before { animation: snakeRun 1s linear infinite; }
+        .tab-btn.active span { color: #FFD700; text-shadow: 0 0 8px rgba(255,215,0,0.6); }
 
-/* ===== STATS PANEL ===== */
-.stats-panel {
-  flex: 0 0 280px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+        @media (min-width: 768px) {
+            .tab-btn .icon-wrap { width: 64px; height: 64px; border-radius: 18px; }
+            .tab-btn .icon-wrap::before { border-radius: 22px; }
+            .tab-btn .icon-wrap img { width: 60px; height: 60px; border-radius: 16px; }
+            .tab-btn span { font-size: 11px; }
+            .tab-nav { margin-top: 44px; gap: 18px; }
+        }
+        @media (min-width: 1024px) {
+            .tab-btn .icon-wrap { width: 72px; height: 72px; border-radius: 20px; }
+            .tab-btn .icon-wrap::before { border-radius: 24px; }
+            .tab-btn .icon-wrap img { width: 68px; height: 68px; border-radius: 18px; }
+            .tab-btn span { font-size: 12px; }
+            .tab-nav { margin-top: 48px; gap: 20px; }
+        }
 
-.stat-box {
-  background: rgba(0,0,0,0.15);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  padding: 16px;
-}
-.stat-box-title {
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 18px;
-  color: #FFD700;
-  margin-bottom: 12px;
-}
-.stat-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.stat-row:last-child { border-bottom: none; }
-.stat-label { font-size: 13px; color: rgba(255,255,255,0.7); }
-.stat-value {
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 16px;
-  color: #FFD700;
-}
+        .section-card {
+            background: rgba(255,255,255,0.06); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px; padding: 20px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        @media (min-width: 768px) { .section-card { padding: 24px; border-radius: 24px; } }
+        @media (min-width: 1024px) { .section-card { padding: 28px; } }
 
-/* Empty state */
-.no-result {
-  text-align: center;
-  padding: 60px 20px;
-  color: rgba(255,255,255,0.4);
-}
-.no-result i {
-  font-size: 64px;
-  margin-bottom: 16px;
-  color: rgba(255,215,0,0.3);
-  animation: float 3s ease-in-out infinite;
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-.no-result p { font-size: 16px; font-weight: 600; }
+        .section-title {
+            font-size: 16px; font-weight: 800; color: var(--fg);
+            display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+        }
+        @media (min-width: 768px) { .section-title { font-size: 18px; margin-bottom: 20px; } }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 640px) {
-  body { padding: 8px 8px 20px; }
-  .lb-content { flex-direction: column; gap: 12px; padding: 12px 10px; }
-  .stats-panel { flex: none; width: 100%; }
-  .card-grid-wrap { width: 100%; }
-  .lb-tab { font-size: 11px; padding: 8px 4px; }
-  .lb-header { flex-direction: column; gap: 8px; text-align: center; padding: 10px 12px; }
-  .lb-title { font-size: 20px; }
-  .lb-panel { max-width: 100%; border-radius: 20px; }
-  .card-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-  .stat-box-title { font-size: 16px; }
-  .stat-label { font-size: 12px; }
-  .stat-value { font-size: 14px; }
-}
-@media (max-width: 480px) {
-  body { padding: 6px 6px 16px; }
-  .lb-tab { font-size: 10px; padding: 7px 3px; }
-  .card-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
-  .lb-title { font-size: 18px; }
-  .card-item img { height: 150px; }
-}
-</style>
+        .icon-circle {
+            width: 32px; height: 32px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; color: #fff; flex-shrink: 0;
+        }
+        @media (min-width: 768px) { .icon-circle { width: 36px; height: 36px; font-size: 15px; } }
+
+        .search-box {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(255, 248, 238, 0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 1.5px solid var(--border);
+            border-radius: 12px; padding: 10px 14px;
+            margin-bottom: 16px;
+        }
+        .search-box input {
+            background: transparent; border: none; outline: none;
+            color: var(--fg); font-size: 13px; width: 100%;
+        }
+        .search-box input::placeholder { color: var(--muted); }
+        .search-box i { color: var(--muted); }
+
+        .card-scroll {
+            max-height: 360px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 4px;
+        }
+        @media (min-width: 768px) { .card-scroll { max-height: 420px; } }
+        @media (min-width: 1024px) { .card-scroll { max-height: 480px; } }
+
+        .card-scroll::-webkit-scrollbar { width: 5px; }
+        .card-scroll::-webkit-scrollbar-track { background: transparent; }
+        .card-scroll::-webkit-scrollbar-thumb {
+            background: #E0D5C8; border-radius: 3px;
+        }
+        .card-scroll::-webkit-scrollbar-thumb:hover { background: #C4A882; }
+
+        .pokemon-card {
+            position: relative; border-radius: 12px; overflow: hidden;
+            cursor: pointer; border: 2.5px solid transparent;
+            background: rgba(255, 255, 255, 0.65);
+            box-shadow: 0 2px 8px rgba(141,110,99,0.1);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .pokemon-card:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 6px 20px rgba(141,110,99,0.18);
+        }
+        .pokemon-card.r-legendary { border-color: #FFD700; }
+        .pokemon-card.r-legendary:hover { box-shadow: 0 6px 20px rgba(255,215,0,0.4); }
+        .pokemon-card.r-ultrarare { border-color: #f59e0b; }
+        .pokemon-card.r-ultrarare:hover { box-shadow: 0 6px 20px rgba(245,158,11,0.4); }
+        .pokemon-card.r-superrare { border-color: #a855f7; }
+        .pokemon-card.r-superrare:hover { box-shadow: 0 6px 20px rgba(168,85,247,0.4); }
+        .pokemon-card.r-rare { border-color: #60a5fa; }
+        .pokemon-card.r-rare:hover { box-shadow: 0 6px 20px rgba(96,165,250,0.4); }
+        .pokemon-card.r-uncommon { border-color: #22c55e; }
+        .pokemon-card.r-uncommon:hover { box-shadow: 0 6px 20px rgba(34,197,94,0.4); }
+        .pokemon-card.r-common { border-color: #94a3b8; }
+        .pokemon-card.r-common:hover { box-shadow: 0 6px 20px rgba(148,163,184,0.4); }
+
+        .card-art {
+            height: 62px; position: relative;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+        @media (min-width: 768px) { .card-art { height: 80px; } }
+        @media (min-width: 1024px) { .card-art { height: 100px; } }
+
+        .card-art::before {
+            content: ''; position: absolute; inset: 0; opacity: 0.15;
+            background: repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(255,255,255,0.3) 6px, rgba(255,255,255,0.3) 12px);
+        }
+        .card-art img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 1;
+        }
+
+        .type-badge {
+            display: inline-block; padding: 1px 5px; border-radius: 6px;
+            font-size: 7px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.3px; color: #fff;
+        }
+        @media (min-width: 768px) { .type-badge { font-size: 8px; padding: 1px 7px; } }
+        @media (min-width: 1024px) { .type-badge { font-size: 9px; padding: 2px 8px; } }
+
+        .card-name {
+            font-size: 8px; font-weight: 800; color: var(--fg);
+            line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        @media (min-width: 768px) { .card-name { font-size: 10px; } }
+        @media (min-width: 1024px) { .card-name { font-size: 11px; } }
+
+        .card-rarity { font-size: 7px; font-weight: 800; letter-spacing: 0.3px; }
+        @media (min-width: 768px) { .card-rarity { font-size: 8px; } }
+        @media (min-width: 1024px) { .card-rarity { font-size: 9px; } }
+
+        .card-bottom { padding: 5px 6px 6px; }
+        @media (min-width: 768px) { .card-bottom { padding: 6px 8px 8px; } }
+        @media (min-width: 1024px) { .card-bottom { padding: 7px 10px 9px; } }
+
+        .stats-box {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 16px; border: 1px solid rgba(255,255,255,0.1);
+        }
+        @media (min-width: 768px) { .stats-box { padding: 20px; border-radius: 20px; } }
+        .stats-title {
+            font-size: 16px; font-weight: 800; color: var(--fg);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        @media (min-width: 768px) { .stats-title { font-size: 18px; margin-bottom: 16px; } }
+        .stats-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 0; border-bottom: 1px solid var(--border);
+        }
+        .stats-row:last-child { border-bottom: none; }
+        .stats-label {
+            font-size: 12px; font-weight: 600; color: var(--muted);
+        }
+        @media (min-width: 768px) { .stats-label { font-size: 13px; } }
+        .stats-value {
+            font-size: 14px; font-weight: 800; color: var(--fg);
+        }
+        @media (min-width: 768px) { .stats-value { font-size: 15px; } }
+
+        .empty-state { text-align: center; padding: 48px 20px; }
+        .empty-state .icon-big { font-size: 52px; color: #E0D5C8; margin-bottom: 14px; }
+        @media (min-width: 768px) { .empty-state { padding: 64px 20px; } .empty-state .icon-big { font-size: 64px; } }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #E0D5C8; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #C4A882; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+
+        /* ===== MAIN CONTENT ROW ===== */
+        .main-content-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        /* ===== STATS DROPDOWN ===== */
+        .stats-dropdown-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .stats-dropdown {
+            flex: 1; min-width: 180px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.07);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stats-dropdown-btn {
+            width: 100%;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px;
+            background: none; border: none; cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px; font-weight: 800;
+            color: rgba(255,255,255,0.9);
+            gap: 8px;
+        }
+        .stats-dropdown-btn i { color: var(--accent); }
+        .stats-chevron {
+            font-size: 11px; color: rgba(255,255,255,0.5);
+            transition: transform 0.3s ease;
+        }
+        .stats-chevron.open { transform: rotate(180deg); }
+        .stats-dropdown-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.22,1,0.36,1);
+            padding: 0 14px;
+        }
+        .stats-dropdown-body.open {
+            max-height: 300px;
+            padding: 0 14px 12px;
+        }
+        .stats-two-col {
+            display: flex;
+            gap: 0;
+        }
+        .stats-col {
+            flex: 1;
+            min-width: 0;
+        }
+        .stats-col-title {
+            font-size: 11px; font-weight: 800;
+            color: rgba(255,255,255,0.45);
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 6px 0 8px;
+        }
+        .stats-col-divider {
+            width: 1px;
+            background: rgba(255,255,255,0.1);
+            margin: 0 16px;
+            flex-shrink: 0;
+        }
+        .stats-dropdown-body .stats-row {
+            border-bottom-color: rgba(255,255,255,0.08);
+        }
+        .stats-dropdown-body .stats-label { color: rgba(255,255,255,0.55); font-size: 12px; }
+        .stats-dropdown-body .stats-value { color: #fff; font-size: 13px; }
+
+        /* Wrap utama */
+        .tcg-carousel-wrap {
+            width: 100%;
+            position: relative;
+            margin: 4px 0 20px;
+            padding: 0 48px;
+        }
+
+        /* Carousel — overflow visible agar data panel & arrow tidak terpotong */
+        .tcg-carousel {
+            position: relative;
+            width: 100%;
+            overflow: visible;
+            padding: 50px 0 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Clip hanya untuk list kartu */
+        .tcg-list-clip {
+            overflow: visible;
+            width: 100%;
+            position: relative;
+        }
+        /* Inner clip — hanya clip kartu, bukan data panel */
+        .tcg-list-inner-clip {
+            overflow: hidden;
+            width: 100%;
+        }
+        /* Saat hover aktif, buka overflow agar data panel terlihat */
+        .tcg-list-clip.panel-open {
+            overflow: visible;
+        }
+
+        /* Arrow — di dalam .tcg-carousel, di luar .tcg-list-clip */
+        .tcg-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 30;
+            width: 36px; height: 36px; border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.25);
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(12px);
+            color: #fff; font-size: 0.8rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .tcg-arrow:hover { background: rgba(0,0,0,0.85); border-color: rgba(255,255,255,0.5); }
+        .tcg-prev { left: -44px; }
+        .tcg-next { right: -44px; }
+
+        .stats-side {
+            flex: 0 0 240px;
+            width: 240px;
+            margin-top: 8px;
+            margin-left: auto;
+        }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .stats-dropdown-row { gap: 8px; }
+            .stats-dropdown { min-width: calc(50% - 4px); }
+            .tcg-carousel-wrap { padding: 0 36px; margin: 4px 0 12px; }
+            .tcg-carousel { padding: 36px 0 16px; overflow: visible; }
+            .tcg-list-inner-clip {
+                overflow-x: auto !important;
+                overflow-y: visible !important;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .tcg-list-inner-clip::-webkit-scrollbar { display: none; }
+            .tcg-list { transform: none !important; transition: none !important; gap: 10px; padding: 0 4px; }
+            .tcg-item { flex: 0 0 calc(50% - 8px) !important; height: 200px !important; scroll-snap-align: center; }
+            .tcg-prev { left: -32px; }
+            .tcg-next { right: -32px; }
+            .tcg-arrow { width: 28px; height: 28px; font-size: 0.65rem; }
+            .tcg-data-panel { display: none !important; }
+        }
+        @media (min-width: 1024px) {
+            .tcg-item { flex: 0 0 210px; height: 300px; }
+        }
+
+        /* ===== TCG CAROUSEL — Multi-card style ===== */
+        .tcg-list {
+            display: flex; gap: 16px;
+            align-items: flex-end;
+            transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+            will-change: transform;
+            padding: 0 8px;
+        }
+
+        /* Each card item — flex-basis SAMA semua, hanya scale yang berubah */
+        .tcg-item {
+            flex: 0 0 180px; height: 260px;
+            position: relative; border-radius: 16px; overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.55s cubic-bezier(0.25,0.46,0.45,0.94),
+                        opacity 0.55s ease,
+                        filter 0.55s ease,
+                        box-shadow 0.55s ease;
+            transform: scale(0.82);
+            transform-origin: bottom center;
+            opacity: 0.55;
+            filter: brightness(0.65);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .tcg-item.active {
+            transform: scale(1);
+            transform-origin: bottom center;
+            opacity: 1;
+            filter: brightness(1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px var(--glow-color, rgba(45,212,91,0.2));
+            z-index: 5;
+        }
+        .tcg-item img.tcg-cover {
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: 16px; display: block;
+            transition: transform 0.5s ease;
+        }
+
+        /* Overlay gradient — hanya muncul saat hover */
+        .tcg-item::before {
+            content: '';
+            position: absolute; inset: 0; border-radius: 16px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.65) 30%, rgba(0,0,0,0.25) 55%, transparent 80%);
+            opacity: 0; transition: opacity 0.5s ease; z-index: 1;
+        }
+        .tcg-item.active::before { opacity: 0; }
+
+        /* Border glow on active — dihapus */
+        .tcg-item::after { display: none; }
+        .tcg-item.active::after { display: none; }
+        .tcg-item.active:hover::after { display: none; }
+
+        /* Character image — tersembunyi, muncul saat hover */
+        .tcg-char {
+            width: auto; height: 110%; position: absolute; z-index: 4; pointer-events: none;
+            object-fit: contain; left: 50%; top: 50%;
+            transform: translate(-50%,-50%) scale(0.08); opacity: 0;
+            transition: all 0.6s cubic-bezier(0.22,1,0.36,1);
+            filter: drop-shadow(0 10px 25px rgba(0,0,0,0.7));
+            transform-origin: center center;
+        }
+        .tcg-item.active .tcg-char {
+            opacity: 0;
+            transform: translate(-50%,-50%) scale(0.08);
+        }
+
+        /* Card name label — tersembunyi, muncul saat hover */
+        .tcg-item-label {
+            position: absolute; bottom: 12px; left: 0; right: 0;
+            text-align: center; z-index: 5;
+            font-family: 'Nunito', sans-serif; font-size: 1.1rem; font-weight: 900;
+            background: var(--label-grad, linear-gradient(135deg,#2dd45b,#3b82f6,#e63946));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            opacity: 0; transform: translateY(4px);
+            transition: all 0.4s ease 0.1s;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+            pointer-events: none;
+        }
+        .tcg-item.active .tcg-item-label { opacity: 0; transform: translateY(4px); }
+
+        /* HP badge — tersembunyi, muncul saat hover */
+        .tcg-item-hp {
+            position: absolute; top: 10px; right: 10px; z-index: 5;
+            font-family: 'Nunito', sans-serif; font-size: 0.6rem; font-weight: 900;
+            color: #fff; background: rgba(230,57,70,0.85);
+            padding: 2px 7px; border-radius: 20px;
+            opacity: 0; transition: opacity 0.4s ease 0.15s;
+            backdrop-filter: blur(4px);
+        }
+        .tcg-item.active .tcg-item-hp { opacity: 0; }
+
+        /* ===== HOVER EFFECT ===== */
+        .tcg-item.active:hover {
+            box-shadow: 0 30px 70px rgba(0,0,0,0.55), 0 0 60px var(--glow-color, rgba(45,212,91,0.25));
+        }
+        /* Kartu miring perspective lebih tidur */
+        .tcg-item.active:hover img.tcg-cover {
+            transform: perspective(600px) translateY(-8%) rotateX(42deg) scale(0.85);
+            box-shadow: 4px 50px 40px -8px rgba(0,0,0,0.85);
+        }
+        /* Overlay gelap muncul */
+        .tcg-item.active:hover::before { opacity: 1; }
+        /* Karakter muncul */
+        .tcg-item.active:hover .tcg-char {
+            opacity: 1;
+            transform: translate(-50%, -66%) scale(0.78);
+            filter: drop-shadow(0 15px 35px rgba(0,0,0,0.75)) var(--char-glow, drop-shadow(0 0 60px rgba(45,212,91,0.15)));
+        }
+        /* Label muncul */
+        .tcg-item.active:hover .tcg-item-label { opacity: 1; transform: translateY(0); }
+        /* HP badge muncul */
+        .tcg-item.active:hover .tcg-item-hp { opacity: 1; }
+        /* Border lebih terang — dihapus */
+        /* Data panel muncul */
+        .tcg-item.active:hover .tcg-data-panel { opacity: 1; transform: translateX(0); pointer-events: auto; }
+
+        /* ===== DATA PANEL (muncul di kanan saat hover) ===== */
+        .tcg-data-panel {
+            position: absolute;
+            left: calc(100% + 12px);
+            top: 0;
+            width: 220px;
+            height: 100%;
+            background: rgba(6,6,10,0.85);
+            backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 14px 12px;
+            display: flex; flex-direction: column;
+            opacity: 0; transform: translateX(20px);
+            transition: all 0.45s cubic-bezier(0.22,1,0.36,1);
+            pointer-events: none;
+            z-index: 20;
+            overflow-y: auto;
+        }
+        .tcg-data-panel::-webkit-scrollbar { width: 3px; }
+        .tcg-data-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+        .dp-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+        .dp-sub { font-size: 0.72rem; font-weight: 600; color: #b0a8c8; font-family: 'Nunito',sans-serif; }
+        .dp-badge {
+            font-size: 0.58rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+            color: #4ade80; background: rgba(45,212,91,0.15); border: 1px solid rgba(45,212,91,0.35);
+            padding: 3px 8px; border-radius: 5px; white-space: nowrap; flex-shrink: 0;
+        }
+        .dp-hp { font-family: 'Nunito',sans-serif; font-size: 1.6rem; font-weight: 900; color: #ff5566; line-height: 1; margin-bottom: 10px; }
+        .dp-hp span { font-size: 0.65rem; font-weight: 600; color: #8a85a0; letter-spacing: 1px; }
+        .dp-divider { height: 1px; background: rgba(255,255,255,0.12); margin: 0 0 10px; }
+        .dp-attack { margin-bottom: 10px; }
+        .dp-atk-row { display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
+        .dp-dots { display: flex; gap: 3px; }
+        .dp-ed {
+            width: 14px; height: 14px; border-radius: 50%;
+            border: 1.5px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 7px; font-weight: 700;
+        }
+        .dp-ed.fighting { background: rgba(234,129,24,0.3); border-color: rgba(234,129,24,0.6); color: #fbbf24; }
+        .dp-ed.psychic  { background: rgba(168,85,247,0.3);  border-color: rgba(168,85,247,0.6);  color: #c084fc; }
+        .dp-ed.colorless{ background: rgba(200,200,220,0.15); border-color: rgba(200,200,220,0.4); color: #d4d0e8; }
+        .dp-ed.fire     { background: rgba(249,115,22,0.3);  border-color: rgba(249,115,22,0.6);  color: #fb923c; }
+        .dp-ed.lightning{ background: rgba(234,179,8,0.3);   border-color: rgba(234,179,8,0.6);   color: #fbbf24; }
+        .dp-ed.water    { background: rgba(59,130,246,0.3);  border-color: rgba(59,130,246,0.6);  color: #60a5fa; }
+        .dp-ed.dragon   { background: rgba(45,212,91,0.2);   border-color: rgba(45,212,91,0.5);   color: #4ade80; }
+        .dp-atk-name { font-family: 'Nunito',sans-serif; font-size: 0.78rem; font-weight: 800; color: #f0ecff; }
+        .dp-atk-dmg  { font-family: 'Nunito',sans-serif; font-size: 0.95rem; font-weight: 900; color: #ff5566; margin-left: auto; }
+        .dp-atk-desc { font-size: 0.67rem; line-height: 1.6; color: #b0a8c8; padding-left: 2px; margin-top: 2px; }
+        .dp-stats { display: flex; align-items: center; gap: 8px; margin: 10px 0; flex-wrap: wrap; }
+        .dp-stat-lbl { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: #7a7590; }
+        .dp-stat-val { font-size: 0.68rem; color: #d4d0e8; font-weight: 700; margin-left: 2px; }
+        .dp-sep { width: 1px; height: 18px; background: rgba(255,255,255,0.12); }
+        .dp-footer { margin-top: auto; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .dp-frow { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .dp-flbl { font-size: 0.58rem; color: #7a7590; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600; }
+        .dp-fval  { font-size: 0.65rem; color: #b0a8c8; font-weight: 600; }
+        .dp-rarity{ font-size: 0.65rem; font-weight: 700; color: #fbbf24; letter-spacing: 0.3px; }
+
+        /* Pastikan tcg-item punya overflow visible agar panel bisa keluar */
+        .tcg-item { overflow: visible !important; }
+        /* Tapi cover tetap clipped */
+        .tcg-item img.tcg-cover { border-radius: 16px; }
+
+        @media (max-width: 768px) {
+            .tcg-data-panel { display: none; }
+        }
+
+        /* ===== MOBILE POPUP MODAL ===== */
+        .card-popup-overlay {
+            display: none;
+            position: fixed; inset: 0; z-index: 9998;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(6px);
+            align-items: flex-end;
+            justify-content: center;
+            padding: 0 0 160px;
+        }
+        .card-popup-overlay.show { display: flex; }
+
+        .card-popup {
+            width: calc(100vw - 32px);
+            max-width: 400px;
+            max-height: 70vh;
+            background: rgba(10,8,20,0.96);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px 20px 16px 16px;
+            padding: 16px;
+            display: flex; flex-direction: column;
+            overflow-y: auto;
+            transform: translateY(40px);
+            opacity: 0;
+            transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease;
+        }
+        .card-popup-overlay.show .card-popup {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .card-popup::-webkit-scrollbar { width: 3px; }
+        .card-popup::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+        /* Handle bar */
+        .card-popup-handle {
+            width: 40px; height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            margin: 0 auto 14px;
+            flex-shrink: 0;
+        }
+        /* Close button */
+        .card-popup-close {
+            position: absolute; top: 12px; right: 14px;
+            background: rgba(255,255,255,0.08); border: none;
+            color: rgba(255,255,255,0.6); width: 28px; height: 28px;
+            border-radius: 50%; font-size: 14px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ===== ENHANCED BOOK FRAME WITH GAMING EFFECTS ===== */
+        .book-frame {
+          width: 100%; max-width: 1000px;
+          position: relative;
+          background: linear-gradient(135deg, #ff6b6b 0%, #feca57 25%, #48dbfb 50%, #ff9ff3 75%, #a855f7 100%);
+          border: 3px solid transparent;
+          background-image: linear-gradient(135deg, #ff6b6b 0%, #feca57 25%, #48dbfb 50%, #ff9ff3 75%, #a855f7 100%),
+                            linear-gradient(45deg, #e94560, #533483, #0f3460, #16213e, #1a1a2e);
+          background-origin: border-box;
+          background-clip: padding-box, border-box;
+          border-radius: 15px;
+          padding: 0;
+          box-shadow: 4px 4px 0 rgba(0,0,0,0.3), 
+                      0 0 30px rgba(255,107,107,0.4),
+                      0 0 60px rgba(252,202,87,0.3),
+                      inset 0 1px 0 rgba(255,255,255,0.2);
+          overflow: visible;
+          margin-top: 160px;
+          animation: frameGlow 4s ease-in-out infinite alternate;
+        }
+        
+        @keyframes frameGlow {
+          0% { box-shadow: 4px 4px 0 rgba(0,0,0,0.3), 0 0 30px rgba(255,107,107,0.4), 0 0 60px rgba(252,202,87,0.3), inset 0 1px 0 rgba(255,255,255,0.2); }
+          100% { box-shadow: 4px 4px 0 rgba(0,0,0,0.3), 0 0 40px rgba(72,219,251,0.5), 0 0 80px rgba(168,85,247,0.4), inset 0 1px 0 rgba(255,255,255,0.3); }
+        }
+        .book-frame-inner {
+          background: linear-gradient(135deg, #fff9e6 0%, #fef3c7 50%, #fde68a 100%);
+          border: 2px solid transparent;
+          background-image: linear-gradient(135deg, #fff9e6 0%, #fef3c7 50%, #fde68a 100%),
+                            linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb);
+          background-origin: border-box;
+          background-clip: padding-box, border-box;
+          border-radius: 10px;
+          padding: 10px;
+          position: relative;
+          margin: 8px;
+          margin-top: 20px;
+          box-shadow: inset 0 2px 4px rgba(0,0,0,0.1), 0 0 20px rgba(252,202,87,0.2);
+          animation: innerGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes innerGlow {
+          0% { box-shadow: inset 0 2px 4px rgba(0,0,0,0.1), 0 0 20px rgba(252,202,87,0.2); }
+          100% { box-shadow: inset 0 2px 4px rgba(0,0,0,0.1), 0 0 30px rgba(72,219,251,0.3); }
+        }
+        .book-ribbon {
+          position: absolute;
+          top: -155px; left: 50%;
+          transform: translateX(-50%);
+          width: 68%; max-width: 380px;
+          z-index: 15; pointer-events: none;
+          animation: ribbonFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes ribbonFloat {
+          0%, 100% { transform: translateX(-50%) translateY(0px); }
+          50% { transform: translateX(-50%) translateY(-5px); }
+        }
+        .ribbon-img-wrap { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; }
+        .ribbon-img-wrap img { width: 100%; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)) brightness(1.2); animation: ribbonGlow 2s ease-in-out infinite alternate; }
+        
+        @keyframes ribbonGlow {
+          0% { filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)) brightness(1.2); }
+          100% { filter: drop-shadow(0 4px 20px rgba(255,215,0,0.8)) brightness(1.4); }
+        }
+        .ribbon-text-overlay { position: absolute; bottom: 63px; left: 50%; transform: translateX(-50%); text-align: center; pointer-events: none; width: 80%; }
+        .ribbon-title { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 900; color: #fff; text-shadow: 1px 1px 0 #8B6914, 0 0 10px rgba(255,200,0,0.6), 0 0 20px rgba(255,215,0,0.8); letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; animation: titlePulse 2s ease-in-out infinite alternate; }
+        
+        @keyframes titlePulse {
+          0% { text-shadow: 1px 1px 0 #8B6914, 0 0 10px rgba(255,200,0,0.6), 0 0 20px rgba(255,215,0,0.8); }
+          100% { text-shadow: 1px 1px 0 #8B6914, 0 0 15px rgba(255,200,0,0.8), 0 0 30px rgba(255,215,0,1); }
+        }
+        .book-corner { position: absolute; width: 60px; height: 61px; z-index: 20; pointer-events: none; filter: brightness(1.3) drop-shadow(0 0 10px rgba(255,107,107,0.5)); animation: cornerGlow 3s ease-in-out infinite; }
+        
+        @keyframes cornerGlow {
+          0%, 100% { filter: brightness(1.3) drop-shadow(0 0 10px rgba(255,107,107,0.5)); }
+          50% { filter: brightness(1.5) drop-shadow(0 0 20px rgba(252,202,87,0.8)); }
+        }
+        .book-corner svg { width: 60px; height: 61px; display: block; }
+        .book-corner.tl { top: 0; left: 0; }
+        .book-corner.tr { top: 0; right: 0; transform: scaleX(-1); transform-origin: 50% 50%; }
+        .book-corner.bl { bottom: 0; left: 0; transform: scaleY(-1); transform-origin: 50% 50%; }
+        .book-corner.br { bottom: 0; right: 0; transform: scale(-1,-1); transform-origin: 50% 50%; }
+        .book-card-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; }
+        .book-card-slot { aspect-ratio: 3/4; border-radius: 8px; overflow: hidden; position: relative; cursor: pointer; 
+          border: 2px solid transparent;
+          background-image: linear-gradient(160deg,#e8d5a8,#d4b87a),
+                            linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb);
+          background-origin: border-box;
+          background-clip: padding-box, border-box;
+          box-shadow: 2px 2px 4px rgba(0,0,0,0.2), 0 0 10px rgba(252,202,87,0.3);
+          transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .book-card-slot:hover, .book-card-slot.selected { 
+          transform: scale(1.08) translateY(-5px); 
+          border-color: transparent;
+          box-shadow: 0 8px 20px rgba(0,0,0,0.4), 
+                      0 0 20px rgba(255,215,0,0.6), 
+                      0 0 30px rgba(255,107,107,0.4);
+          z-index: 3;
+          animation: cardSlotGlow 1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes cardSlotGlow {
+          0% { box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 0 20px rgba(255,215,0,0.6), 0 0 30px rgba(255,107,107,0.4); }
+          100% { box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 0 25px rgba(255,215,0,0.8), 0 0 40px rgba(252,202,87,0.6); }
+        }
+        .book-card-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .book-card-stars { position: absolute; top: 2px; left: 0; right: 0; text-align: center; font-size: 7px; color: #FFD700; text-shadow: 0 0 4px rgba(0,0,0,0.8); z-index: 2; }
+        .book-card-tag { position: absolute; top: 2px; right: 2px; font-size: 6px; font-weight: 800; padding: 1px 3px; border-radius: 3px; text-transform: uppercase; z-index: 2; }
+        .book-card-tag.new   { background: #e53935; color: #fff; }
+        .book-card-tag.owned { background: #22c55e; color: #fff; }
+        .book-card-slot.empty { display: flex; align-items: center; justify-content: center; cursor: default; }
+        .book-card-slot.empty::after { content: '?'; font-size: 22px; font-weight: 900; color: rgba(139,105,20,0.3); }
+        .book-footer { padding: 6px 0 2px; text-align: center; font-size: 9px; font-weight: 700; color: rgba(100,70,10,0.7); letter-spacing: 1px; }
+        @media (max-width: 640px) {
+          .book-frame { margin-top: 130px; }
+          .book-card-grid { grid-template-columns: repeat(3,1fr); }
+          .book-ribbon { width: 60%; top: -120px; }
+        }
+        @media (max-width: 480px) {
+          .book-card-grid { grid-template-columns: repeat(2,1fr); }
+          .book-ribbon { width: 70%; top: -100px; }
+        }
+        .card-grid-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .card-grid-title {
+            font-family: 'Nunito', sans-serif;
+            font-size: 18px; font-weight: 900;
+            color: #fff;
+            display: flex; align-items: center; gap: 10px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        .cgt-icon { font-size: 20px; }
+        .cgt-count {
+            font-family: 'Nunito', sans-serif;
+            font-size: 12px; font-weight: 700;
+            color: rgba(255,255,255,0.45);
+            background: rgba(255,255,255,0.08);
+            padding: 3px 10px; border-radius: 20px;
+            white-space: nowrap;
+        }
+        @media (max-width: 640px) {
+            .card-grid-title { font-size: 15px; }
+            .cgt-icon { font-size: 17px; }
+            .cgt-count { font-size: 11px; }
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+        .cg-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            background: rgba(255,255,255,0.06);
+            border: 2px solid transparent;
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+                        box-shadow 0.3s ease,
+                        border-color 0.3s ease;
+            aspect-ratio: 2/3;
+        }
+        .cg-card:hover {
+            transform: translateY(-4px) scale(1.03);
+        }
+        .cg-card img {
+            width: 100%; height: 100%;
+            object-fit: cover; display: block;
+            border-radius: 10px;
+        }
+        .cg-card-info {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 20px 8px 8px;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+            z-index: 2;
+        }
+        .cg-name {
+            font-family: 'Nunito', sans-serif;
+            font-size: 10px; font-weight: 800;
+            color: #fff;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+        .cg-badge {
+            display: inline-block;
+            font-size: 8px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.3px;
+            color: #fff; padding: 1px 5px; border-radius: 4px;
+            margin-bottom: 3px;
+        }
+        /* Rarity border & badge colors */
+        .cg-legendary  { border-color: #FFD700; }
+        .cg-legendary  .cg-badge { background: #FFD700; color: #000; }
+        .cg-legendary:hover  { box-shadow: 0 8px 24px rgba(255,215,0,0.4); }
+        .cg-ultrarare  { border-color: #f59e0b; }
+        .cg-ultrarare  .cg-badge { background: #f59e0b; }
+        .cg-ultrarare:hover  { box-shadow: 0 8px 24px rgba(245,158,11,0.4); }
+        .cg-superrare  { border-color: #a855f7; }
+        .cg-superrare  .cg-badge { background: #a855f7; }
+        .cg-superrare:hover  { box-shadow: 0 8px 24px rgba(168,85,247,0.4); }
+        .cg-rare       { border-color: #60a5fa; }
+        .cg-rare       .cg-badge { background: #60a5fa; }
+        .cg-rare:hover       { box-shadow: 0 8px 24px rgba(96,165,250,0.4); }
+        .cg-uncommon   { border-color: #22c55e; }
+        .cg-uncommon   .cg-badge { background: #22c55e; }
+        .cg-uncommon:hover   { box-shadow: 0 8px 24px rgba(34,197,94,0.4); }
+        .cg-common     { border-color: #94a3b8; }
+        .cg-common     .cg-badge { background: #94a3b8; }
+        .cg-common:hover     { box-shadow: 0 8px 24px rgba(148,163,184,0.3); }
+
+        /* Responsive grid */
+        @media (max-width: 640px) {
+            .card-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .cg-name { font-size: 9px; }
+            .cg-badge { font-size: 7px; }
+        }
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .card-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        }
+
+        /* Dots */
+        .tcg-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+        .tcg-dot { width: 7px; height: 7px; border-radius: 50%; border: none; padding: 0; background: rgba(255,255,255,0.15); cursor: pointer; transition: all 0.3s ease; }
+        .tcg-dot.active { width: 24px; border-radius: 4px; background: #2dd45b; box-shadow: 0 0 8px rgba(45,212,91,0.5); }
+        /* Counter */
+        .tcg-counter { text-align: center; margin-top: 6px; font-size: 0.58rem; color: rgba(255,255,255,0.35); letter-spacing: 2px; font-family: 'Nunito', sans-serif; }
+        .tcg-counter #tcgCur { color: rgba(255,255,255,0.65); font-weight: 700; }
+
+    </style>
 </head>
 <body>
 
-<div class="lb-panel">
+<div class="page-bg"></div>
 
-  <!-- TABS -->
-  <div class="lb-tabs">
-    <div class="lb-tab active" onclick="switchTab('all',this)">All</div>
-    <div class="lb-tab" onclick="switchTab('legendary',this)">⭐ Legendary</div>
-    <div class="lb-tab" onclick="switchTab('epic',this)">💎 Epic</div>
-    <div class="lb-tab" onclick="switchTab('rare',this)">🔵 Rare</div>
-    <div class="lb-tab" onclick="switchTab('common',this)">⚪ Common</div>
-  </div>
+<div class="relative z-[1] min-h-screen flex flex-col">
 
-  <!-- HEADER -->
-  <div class="lb-header">
-    <div>
-      <div class="lb-title">🃏 Koleksi Kartu</div>
-      <div class="lb-subtitle">Total kartu yang berhasil kamu kumpulkan</div>
+    <!-- Konten utama -->
+    <div class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-5 sm:py-6 lg:py-8">
+
+        <!-- ===== CAROUSEL + STATS LAYOUT ===== -->
+        <div class="main-content-row">
+            <!-- Stats dropdown — 1 button, full width, 2 kolom isi -->
+            <div class="stats-dropdown-row">
+                <div class="stats-dropdown" style="width:100%;">
+                    <button class="stats-dropdown-btn" onclick="toggleStats('allStatsBody')">
+                        <span><i class="fa-solid fa-chart-simple"></i> Statistik & Collection Rate</span>
+                        <i class="fa-solid fa-chevron-down stats-chevron" id="allStatsChevron"></i>
+                    </button>
+                    <div class="stats-dropdown-body" id="allStatsBody">
+                        <div class="stats-two-col">
+                            <!-- Kolom 1: Statistics -->
+                            <div class="stats-col">
+                                <div class="stats-col-title">Statistics</div>
+                                <div class="stats-row"><span class="stats-label">Total Cards</span><span class="stats-value" id="totalCards">19</span></div>
+                                <div class="stats-row"><span class="stats-label">Legendary</span><span class="stats-value" id="legendaryCount">3</span></div>
+                                <div class="stats-row"><span class="stats-label">Epic</span><span class="stats-value" id="epicCount">2</span></div>
+                                <div class="stats-row"><span class="stats-label">Rare</span><span class="stats-value" id="rareCount">5</span></div>
+                                <div class="stats-row"><span class="stats-label">Common</span><span class="stats-value" id="commonCount">9</span></div>
+                            </div>
+                            <!-- Divider -->
+                            <div class="stats-col-divider"></div>
+                            <!-- Kolom 2: Collection Rate -->
+                            <div class="stats-col">
+                                <div class="stats-col-title">Collection Rate</div>
+                                <div class="stats-row"><span class="stats-label">Legendary</span><span class="stats-value">16%</span></div>
+                                <div class="stats-row"><span class="stats-label">Epic</span><span class="stats-value">11%</span></div>
+                                <div class="stats-row"><span class="stats-label">Rare</span><span class="stats-value">26%</span></div>
+                                <div class="stats-row"><span class="stats-label">Common</span><span class="stats-value">47%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel col -->
+            <div class="tcg-carousel-wrap">
+                <div class="tcg-carousel" id="tcgCarousel">
+                    <div class="tcg-list-clip">
+                        <div class="tcg-list-inner-clip">
+                        <div class="tcg-list" id="tcgList">
+
+                        <!-- SLIDE 1 -->
+                        <div class="tcg-item active" data-idx="0" style="--glow-color:rgba(45,212,91,0.2);--border-color:rgba(45,212,91,0.4);--char-glow:drop-shadow(0 0 40px rgba(45,212,91,0.2));--label-grad:linear-gradient(135deg,#2dd45b,#3b82f6,#e63946)">
+                            <img src="../assets/images/cards/ME03_EN_104.png" class="tcg-cover" alt="Mega Zygarde EX"/>
+                            <img src="../assets/images/cards/MegaZygardeex.png" class="tcg-char" alt=""/>
+                            <div class="tcg-item-hp">310 HP</div>
+                            <div class="tcg-item-label">Mega Zygarde ex</div>
+                            <div class="tcg-data-panel">
+                                <div class="dp-header"><span class="dp-sub">Mega Evolution ex</span><span class="dp-badge">MEGA EX</span></div>
+                                <div class="dp-hp">310 <span>HP</span></div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-attack">
+                                    <div class="dp-atk-row"><div class="dp-dots"><span class="dp-ed fighting">F</span><span class="dp-ed fighting">F</span><span class="dp-ed colorless">C</span></div><span class="dp-atk-name">Gaia Wave</span><span class="dp-atk-dmg">200</span></div>
+                                    <p class="dp-atk-desc">During your opponent's next turn, this Pokémon takes 30 less damage from attacks.</p>
+                                </div>
+                                <div class="dp-attack">
+                                    <div class="dp-atk-row"><div class="dp-dots"><span class="dp-ed fighting">F</span><span class="dp-ed psychic">P</span><span class="dp-ed colorless">C</span></div><span class="dp-atk-name">Nullifying Zero</span><span class="dp-atk-dmg">150×</span></div>
+                                    <p class="dp-atk-desc">For each of your opponent's Pokémon, flip a coin. If heads, 150 damage.</p>
+                                </div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-stats"><span class="dp-stat-lbl">Weakness</span><span class="dp-stat-val">G ×2</span><span class="dp-sep"></span><span class="dp-stat-lbl">Retreat</span><span class="dp-stat-val">★★</span></div>
+                                <div class="dp-footer">
+                                    <div class="dp-frow"><span class="dp-flbl">Set</span><span class="dp-fval">Perfect Order</span></div>
+                                    <div class="dp-frow"><span class="dp-flbl">Rarity</span><span class="dp-rarity">Ultra Rare · 104/88</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- SLIDE 2 -->
+                        <div class="tcg-item" data-idx="1" style="--glow-color:rgba(249,115,22,0.2);--border-color:rgba(249,115,22,0.4);--char-glow:drop-shadow(0 0 40px rgba(249,115,22,0.2));--label-grad:linear-gradient(135deg,#f97316,#eab308,#ef4444)">
+                            <img src="../assets/images/cards/ME03_EN_12.png" class="tcg-cover" alt="Mega Charizard X EX"/>
+                            <img src="../assets/images/cards/decidueye.png" class="tcg-char" alt="Decidueye"/>
+                            <div class="tcg-item-hp">320 HP</div>
+                            <div class="tcg-item-label">Decidueye ex</div>
+                            <div class="tcg-data-panel">
+                                <div class="dp-header"><span class="dp-sub">Pokémon ex · Evolves From: Dartrix</span><span class="dp-badge">POKÉMON EX</span></div>
+                                <div class="dp-hp">320 <span>HP</span></div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-attack">
+                                    <div class="dp-atk-row"><span class="dp-atk-name" style="color:#2dd45b;">⚡ Ability — Sniper's Eye</span></div>
+                                    <p class="dp-atk-desc">If your opponent has exactly 4 cards in their hand, ignore all Colorless Energy in the costs of attacks used by this Pokémon.</p>
+                                </div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-attack">
+                                    <div class="dp-atk-row"><div class="dp-dots"><span class="dp-ed colorless">C</span><span class="dp-ed colorless">C</span><span class="dp-ed colorless">C</span></div><span class="dp-atk-name">Crushing Arrow</span><span class="dp-atk-dmg">240</span></div>
+                                    <p class="dp-atk-desc">Discard an Energy from your opponent's Active Pokémon.</p>
+                                </div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-stats">
+                                    <span class="dp-stat-lbl">Weakness</span><span class="dp-stat-val">×2</span>
+                                    <span class="dp-sep"></span>
+                                    <span class="dp-stat-lbl">Resistance</span><span class="dp-stat-val">—</span>
+                                    <span class="dp-sep"></span>
+                                    <span class="dp-stat-lbl">Retreat</span><span class="dp-stat-val">★★</span>
+                                </div>
+                                <div class="dp-footer">
+                                    <div class="dp-frow"><span class="dp-flbl">Set</span><span class="dp-fval">Perfect Order</span></div>
+                                    <div class="dp-frow"><span class="dp-flbl">Rarity</span><span class="dp-rarity">Double Rare · 12/88</span></div>
+                                    <div class="dp-frow"><span class="dp-flbl">Illustrator</span><span class="dp-fval">aky CG Works</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- SLIDE 3 -->
+                        <div class="tcg-item" data-idx="2" style="--glow-color:rgba(168,85,247,0.2);--border-color:rgba(168,85,247,0.4);--char-glow:drop-shadow(0 0 40px rgba(168,85,247,0.2));--label-grad:linear-gradient(135deg,#a855f7,#6366f1,#06b6d4)">
+                            <img src="../assets/images/cards/ME03_EN_28.png" class="tcg-cover" alt="Luxray"/>
+                            <img src="../assets/images/cards/luxray.png" class="tcg-char" alt="Luxray"/>
+                            <div class="tcg-item-hp">150 HP</div>
+                            <div class="tcg-item-label">Luxray</div>
+                            <div class="tcg-data-panel">
+                                <div class="dp-header"><span class="dp-sub">Stage 2 · Evolves From: Luxio</span><span class="dp-badge">STAGE 2</span></div>
+                                <div class="dp-hp">150 <span>HP</span></div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-attack">
+                                    <div class="dp-atk-row"><div class="dp-dots"><span class="dp-ed lightning">L</span><span class="dp-ed colorless">C</span></div><span class="dp-atk-name">Incessant Onslaught</span><span class="dp-atk-dmg">70×</span></div>
+                                    <p class="dp-atk-desc">This attack does 70 damage for each Prize card you have taken.</p>
+                                </div>
+                                <div class="dp-attack">
+                                    <div class="dp-atk-row"><div class="dp-dots"><span class="dp-ed lightning">L</span><span class="dp-ed lightning">L</span><span class="dp-ed colorless">C</span></div><span class="dp-atk-name">Strong Volt</span><span class="dp-atk-dmg">200</span></div>
+                                    <p class="dp-atk-desc">Discard 2 Energy from this Pokémon.</p>
+                                </div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-stats">
+                                    <span class="dp-stat-lbl">Weakness</span><span class="dp-stat-val">×2</span>
+                                    <span class="dp-sep"></span>
+                                    <span class="dp-stat-lbl">Resistance</span><span class="dp-stat-val">—</span>
+                                    <span class="dp-sep"></span>
+                                    <span class="dp-stat-lbl">Retreat</span><span class="dp-stat-val">★★</span>
+                                </div>
+                                <div class="dp-footer">
+                                    <div class="dp-frow"><span class="dp-flbl">Set</span><span class="dp-fval">Perfect Order</span></div>
+                                    <div class="dp-frow"><span class="dp-flbl">Rarity</span><span class="dp-rarity">Rare · 28/88</span></div>
+                                    <div class="dp-frow"><span class="dp-flbl">Illustrator</span><span class="dp-fval">Taiga Kasai</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- SLIDE 4 -->
+                        <div class="tcg-item" data-idx="3" style="--glow-color:rgba(34,197,94,0.2);--border-color:rgba(34,197,94,0.4);--char-glow:drop-shadow(0 0 40px rgba(34,197,94,0.2));--label-grad:linear-gradient(135deg,#22c55e,#86efac,#fbbf24)">
+                            <img src="../assets/images/cards/ME03_EN_6.png" class="tcg-cover" alt="Serperior"/>
+                            <img src="../assets/images/cards/serperior.png" class="tcg-char" alt="Serperior"/>
+                            <div class="tcg-item-hp">160 HP</div>
+                            <div class="tcg-item-label">Serperior</div>
+                            <div class="tcg-data-panel">
+                                <div class="dp-header"><span class="dp-sub">Stage 2 · Evolves From: Servine</span><span class="dp-badge">STAGE 2</span></div>
+                                <div class="dp-hp">160 <span>HP</span></div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-attack">
+                                    <div class="dp-atk-row"><div class="dp-dots"><span class="dp-ed dragon">G</span><span class="dp-ed colorless">C</span></div><span class="dp-atk-name">Regal Command</span><span class="dp-atk-dmg">20×</span></div>
+                                    <p class="dp-atk-desc">This attack does 20 damage for each of your Pokémon in play.</p>
+                                </div>
+                                <div class="dp-attack">
+                                    <div class="dp-atk-row"><div class="dp-dots"><span class="dp-ed dragon">G</span><span class="dp-ed dragon">G</span><span class="dp-ed colorless">C</span></div><span class="dp-atk-name">Solar Coiling</span><span class="dp-atk-dmg">100+</span></div>
+                                    <p class="dp-atk-desc">If Rosa's Encouragement is in your discard pile, this attack does 150 more damage.</p>
+                                </div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-stats">
+                                    <span class="dp-stat-lbl">Weakness</span><span class="dp-stat-val">×2</span>
+                                    <span class="dp-sep"></span>
+                                    <span class="dp-stat-lbl">Resistance</span><span class="dp-stat-val">—</span>
+                                    <span class="dp-sep"></span>
+                                    <span class="dp-stat-lbl">Retreat</span><span class="dp-stat-val">★★</span>
+                                </div>
+                                <div class="dp-footer">
+                                    <div class="dp-frow"><span class="dp-flbl">Set</span><span class="dp-fval">Perfect Order</span></div>
+                                    <div class="dp-frow"><span class="dp-flbl">Rarity</span><span class="dp-rarity">Rare · 6/88</span></div>
+                                    <div class="dp-frow"><span class="dp-flbl">Illustrator</span><span class="dp-fval">kodama</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- SLIDE 5 -->
+                        <div class="tcg-item" data-idx="4" style="--glow-color:rgba(244,114,182,0.2);--border-color:rgba(244,114,182,0.4);--char-glow:drop-shadow(0 0 40px rgba(244,114,182,0.2));--label-grad:linear-gradient(135deg,#f472b6,#fbbf24,#fb923c)">
+                            <img src="../assets/images/cards/ME03_EN_123.png" class="tcg-cover" alt="Rosa's Encouragement"/>
+                            <img src="../assets/images/cards/rosa.png" class="tcg-char" alt="Rosa"/>
+                            <div class="tcg-item-hp">Supporter</div>
+                            <div class="tcg-item-label">Rosa's Encouragement</div>
+                            <div class="tcg-data-panel">
+                                <div class="dp-header"><span class="dp-sub">Trainer — Supporter</span><span class="dp-badge">SUPPORTER</span></div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-attack">
+                                    <div class="dp-atk-row"><span class="dp-atk-name" style="color:#f9a8d4;">Condition</span></div>
+                                    <p class="dp-atk-desc">You can use this card only if you have more Prize cards remaining than your opponent.</p>
+                                </div>
+                                <div class="dp-attack">
+                                    <div class="dp-atk-row"><span class="dp-atk-name" style="color:#f9a8d4;">Effect</span></div>
+                                    <p class="dp-atk-desc">Attach up to 2 Basic Energy cards from your discard pile to 1 of your Stage 2 Pokémon.</p>
+                                </div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-footer">
+                                    <div class="dp-frow"><span class="dp-flbl">Set</span><span class="dp-fval">Perfect Order</span></div>
+                                    <div class="dp-frow"><span class="dp-flbl">Rarity</span><span class="dp-rarity">Special Illustration Rare · 123/88</span></div>
+                                    <div class="dp-frow"><span class="dp-flbl">Illustrator</span><span class="dp-fval">Iori Suzuki</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- SLIDE 6 -->
+                        <div class="tcg-item" data-idx="5" style="--glow-color:rgba(249,115,22,0.2);--border-color:rgba(249,115,22,0.4);--char-glow:drop-shadow(0 0 40px rgba(249,115,22,0.2));--label-grad:linear-gradient(135deg,#f97316,#ef4444,#fbbf24)">
+                            <img src="../assets/images/cards/ME03_EN_14.png" class="tcg-cover" alt="Talonflame"/>
+                            <img src="../assets/images/cards/talon.png" class="tcg-char" alt="Talonflame"/>
+                            <div class="tcg-item-hp">150 HP</div>
+                            <div class="tcg-item-label">Talonflame</div>
+                            <div class="tcg-data-panel">
+                                <div class="dp-header"><span class="dp-sub">Stage 2 · Evolves From: Fletchinder</span><span class="dp-badge">STAGE 2</span></div>
+                                <div class="dp-hp">150 <span>HP</span></div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-attack">
+                                    <div class="dp-atk-row"><span class="dp-atk-name" style="color:#fb923c;">⚡ Ability — Sky Hunt</span></div>
+                                    <p class="dp-atk-desc">Once during your turn, you may use this Ability. Flip a coin. If heads, discard a random card from your opponent's hand.</p>
+                                </div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-attack">
+                                    <div class="dp-atk-row"><div class="dp-dots"><span class="dp-ed fire">R</span><span class="dp-ed fire">R</span><span class="dp-ed colorless">C</span></div><span class="dp-atk-name">Fire Wing</span><span class="dp-atk-dmg">110</span></div>
+                                </div>
+                                <div class="dp-divider"></div>
+                                <div class="dp-stats">
+                                    <span class="dp-stat-lbl">Weakness</span><span class="dp-stat-val">×2</span>
+                                    <span class="dp-sep"></span>
+                                    <span class="dp-stat-lbl">Resistance</span><span class="dp-stat-val">-30</span>
+                                    <span class="dp-sep"></span>
+                                    <span class="dp-stat-lbl">Retreat</span><span class="dp-stat-val">★</span>
+                                </div>
+                                <div class="dp-footer">
+                                    <div class="dp-frow"><span class="dp-flbl">Set</span><span class="dp-fval">Perfect Order</span></div>
+                                    <div class="dp-frow"><span class="dp-flbl">Rarity</span><span class="dp-rarity">Uncommon · 14/88</span></div>
+                                    <div class="dp-frow"><span class="dp-flbl">Illustrator</span><span class="dp-fval">Shinji Kanda</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /tcg-list -->
+                    </div><!-- /tcg-list-inner-clip -->
+                    </div><!-- /tcg-list-clip -->
+                    <button class="tcg-arrow tcg-prev" id="tcgPrev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="tcg-arrow tcg-next" id="tcgNext"><i class="fas fa-chevron-right"></i></button>
+                </div><!-- /tcg-carousel -->
+                <div class="tcg-dots" id="tcgDots"></div>
+                <div class="tcg-counter"><span id="tcgCur">01</span> / <span id="tcgTot">06</span></div>
+            </div><!-- /tcg-carousel-wrap -->
+
+        </div><!-- /main-content-row -->
+
+        <!-- Tab -->
+        <nav class="tab-nav mb-5 sm:mb-6 lg:mb-8" id="tabNav" style="max-width:100%;flex-wrap:wrap;" aria-label="Navigasi rarity">
+            <button class="tab-btn active" onclick="switchTab('all')" id="tabAll">
+                <div class="icon-wrap"><img src="../assets/images/icons/icon/allcard.png" alt="Semua"></div>
+                <span>Semua</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('common')" id="tabCommon">
+                <div class="icon-wrap"><img src="../assets/images/icons/icon/common.png" alt="Common"></div>
+                <span>Common (20%)</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('uncommon')" id="tabUncommon">
+                <div class="icon-wrap"><img src="../assets/images/icons/icon/uncommon.png" alt="Uncommon"></div>
+                <span>Uncommon (20%)</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('rare')" id="tabRare">
+                <div class="icon-wrap"><img src="../assets/images/icons/icon/rare.png" alt="Rare"></div>
+                <span>Rare (20%)</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('superrare')" id="tabSuperrare">
+                <div class="icon-wrap"><img src="../assets/images/icons/icon/superrare.png" alt="Super Rare"></div>
+                <span>Super Rare (10%)</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('ultrarare')" id="tabUltrarare">
+                <div class="icon-wrap"><img src="../assets/images/icons/icon/ultrarare.png" alt="Ultra Rare"></div>
+                <span>Ultra Rare (15%)</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('legendary')" id="tabLegendary">
+                <div class="icon-wrap"><img src="../assets/images/icons/icon/legendary.png" alt="Legendary"></div>
+                <span>Legendary (15%)</span>
+            </button>
+        </nav>
+
+        <!-- ===== BOOK FRAME CARD GRID ===== -->
+        <div style="display:flex; justify-content:center; margin-top:0; position:relative; margin-left:-95px;">
+          <!-- Gradient Banner Title -->
+          <div class="banner-title-btn" style="position:absolute; top:71px; left:133px; box-sizing:border-box;display:flex;flex-direction:row;align-items:center;justify-content:center;padding:0;gap:10px;width:130px;height:50px;overflow:hidden;cursor:pointer;position:relative;" id="bannerTitleBtn">
+            <!-- Snake border animation -->
+            <div class="banner-snake-border" style="position:absolute;inset:-3px;border-radius:23px;background:conic-gradient(from var(--snake-angle, 0deg),transparent 0deg,transparent 50deg,rgba(255,255,255,0.95) 80deg,rgba(200,120,255,0.9) 110deg,rgba(255,210,50,0.95) 140deg,rgba(100,210,255,0.85) 160deg,transparent 180deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:3px;animation:snakeRun 2.5s linear infinite;z-index:1;pointer-events:none;"></div>
+            <!-- Star decoration -->
+            <div class="banner-star" style="content:'✦';position:absolute;top:-6px;right:-4px;font-size:10px;color:#FFD700;animation:starPop 2s ease-in-out 0.3s infinite;z-index:3;pointer-events:none;"></div>
+            <!-- Background gradient -->
+            <div style="position:absolute;width:100%;height:100%;left:0;top:0;background:linear-gradient(184.36deg,#DFFFD6 -57.51%,#56FF27 32.69%,#25830B 115.99%);border-radius:20px;z-index:0;"></div>
+            <!-- Text content -->
+            <div style="position:absolute;width:100%;height:100%;left:0;top:0;font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;line-height:100%;display:flex;align-items:center;justify-content:center;text-align:center;letter-spacing:-0.05em;color:#FFFFFF;z-index:2;" id="bannerTitle">
+              SEMUA KARTU
+            </div>
+          </div>
+
+          <style>
+            @keyframes snakeRun {
+              to { --snake-angle: 360deg; }
+            }
+            @keyframes starPop {
+              0%, 100% { transform: scale(1) rotate(0deg); opacity: 0; }
+              50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+            }
+            .banner-title-btn:hover .banner-snake-border { animation-duration: 1.2s; }
+            .banner-title-btn:hover { transform: scale(1.05); filter: drop-shadow(0 0 14px rgba(255,255,255,0.95)) drop-shadow(0 4px 8px rgba(0,0,0,0.3)); }
+            .banner-title-btn { transition: transform 0.3s ease, filter 0.3s ease; }
+            .banner-title-btn:hover #bannerTitle { color: #FFD700; text-shadow: 0 0 8px rgba(255,215,0,0.6); }
+          </style>
+          <div class="book-frame">
+            <div class="book-corner tl">
+  <svg width="60" height="61" viewBox="0 0 390 401" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="cornerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ff6b6b"/>
+        <stop offset="25%" stop-color="#feca57"/>
+        <stop offset="50%" stop-color="#48dbfb"/>
+        <stop offset="75%" stop-color="#ff9ff3"/>
+        <stop offset="100%" stop-color="#a855f7"/>
+      </linearGradient>
+      <linearGradient id="cornerStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#e94560"/>
+        <stop offset="50%" stop-color="#533483"/>
+        <stop offset="100%" stop-color="#1a1a2e"/>
+      </linearGradient>
+    </defs>
+    <path d="M363.792 0.5C364.513 0.500053 365.173 0.652718 365.775 0.999023C367.785 2.15445 372.501 5.08197 377.197 9.56348C381.897 14.0479 386.546 20.0587 388.479 27.3779C390.405 34.6761 389.646 43.3312 383.433 53.1602C377.208 63.0059 365.505 74.0345 345.534 86.0176C323.855 99.0254 311.689 112.78 304.628 127.019C297.573 141.246 295.638 155.915 294.351 170.691C291.775 200.255 291.775 230.303 259.015 258.969C226.211 287.672 197.567 287.658 170.92 292.471C157.594 294.878 144.774 298.497 132.272 307.565C119.774 316.631 107.636 331.112 95.6055 355.172C84.4276 377.527 73.286 389.902 62.8203 395.794C52.3826 401.67 42.5655 401.127 33.9248 397.523C25.2613 393.91 17.7749 387.216 12.0791 380.79C6.38801 374.37 2.51373 368.252 1.06641 365.839C0.680811 365.196 0.500033 364.477 0.5 363.708V110.001C0.500054 49.526 49.525 0.501171 110 0.500977L363.792 0.5Z" fill="url(#cornerGrad)" stroke="url(#cornerStroke)" stroke-width="5"/>
+  </svg>
+</div>
+<div class="book-corner tr">
+  <svg width="60" height="61" viewBox="0 0 390 401" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="cornerGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ff6b6b"/>
+        <stop offset="25%" stop-color="#feca57"/>
+        <stop offset="50%" stop-color="#48dbfb"/>
+        <stop offset="75%" stop-color="#ff9ff3"/>
+        <stop offset="100%" stop-color="#a855f7"/>
+      </linearGradient>
+      <linearGradient id="cornerStroke2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#e94560"/>
+        <stop offset="50%" stop-color="#533483"/>
+        <stop offset="100%" stop-color="#1a1a2e"/>
+      </linearGradient>
+    </defs>
+    <path d="M363.792 0.5C364.513 0.500053 365.173 0.652718 365.775 0.999023C367.785 2.15445 372.501 5.08197 377.197 9.56348C381.897 14.0479 386.546 20.0587 388.479 27.3779C390.405 34.6761 389.646 43.3312 383.433 53.1602C377.208 63.0059 365.505 74.0345 345.534 86.0176C323.855 99.0254 311.689 112.78 304.628 127.019C297.573 141.246 295.638 155.915 294.351 170.691C291.775 200.255 291.775 230.303 259.015 258.969C226.211 287.672 197.567 287.658 170.92 292.471C157.594 294.878 144.774 298.497 132.272 307.565C119.774 316.631 107.636 331.112 95.6055 355.172C84.4276 377.527 73.286 389.902 62.8203 395.794C52.3826 401.67 42.5655 401.127 33.9248 397.523C25.2613 393.91 17.7749 387.216 12.0791 380.79C6.38801 374.37 2.51373 368.252 1.06641 365.839C0.680811 365.196 0.500033 364.477 0.5 363.708V110.001C0.500054 49.526 49.525 0.501171 110 0.500977L363.792 0.5Z" fill="url(#cornerGrad2)" stroke="url(#cornerStroke2)" stroke-width="5"/>
+  </svg>
+</div>
+<div class="book-corner bl">
+  <svg width="60" height="61" viewBox="0 0 390 401" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="cornerGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ff6b6b"/>
+        <stop offset="25%" stop-color="#feca57"/>
+        <stop offset="50%" stop-color="#48dbfb"/>
+        <stop offset="75%" stop-color="#ff9ff3"/>
+        <stop offset="100%" stop-color="#a855f7"/>
+      </linearGradient>
+      <linearGradient id="cornerStroke3" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#e94560"/>
+        <stop offset="50%" stop-color="#533483"/>
+        <stop offset="100%" stop-color="#1a1a2e"/>
+      </linearGradient>
+    </defs>
+    <path d="M363.792 0.5C364.513 0.500053 365.173 0.652718 365.775 0.999023C367.785 2.15445 372.501 5.08197 377.197 9.56348C381.897 14.0479 386.546 20.0587 388.479 27.3779C390.405 34.6761 389.646 43.3312 383.433 53.1602C377.208 63.0059 365.505 74.0345 345.534 86.0176C323.855 99.0254 311.689 112.78 304.628 127.019C297.573 141.246 295.638 155.915 294.351 170.691C291.775 200.255 291.775 230.303 259.015 258.969C226.211 287.672 197.567 287.658 170.92 292.471C157.594 294.878 144.774 298.497 132.272 307.565C119.774 316.631 107.636 331.112 95.6055 355.172C84.4276 377.527 73.286 389.902 62.8203 395.794C52.3826 401.67 42.5655 401.127 33.9248 397.523C25.2613 393.91 17.7749 387.216 12.0791 380.79C6.38801 374.37 2.51373 368.252 1.06641 365.839C0.680811 365.196 0.500033 364.477 0.5 363.708V110.001C0.500054 49.526 49.525 0.501171 110 0.500977L363.792 0.5Z" fill="url(#cornerGrad3)" stroke="url(#cornerStroke3)" stroke-width="5"/>
+  </svg>
+</div>
+<div class="book-corner br">
+  <svg width="60" height="61" viewBox="0 0 390 401" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="cornerGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ff6b6b"/>
+        <stop offset="25%" stop-color="#feca57"/>
+        <stop offset="50%" stop-color="#48dbfb"/>
+        <stop offset="75%" stop-color="#ff9ff3"/>
+        <stop offset="100%" stop-color="#a855f7"/>
+      </linearGradient>
+      <linearGradient id="cornerStroke4" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#e94560"/>
+        <stop offset="50%" stop-color="#533483"/>
+        <stop offset="100%" stop-color="#1a1a2e"/>
+      </linearGradient>
+    </defs>
+    <path d="M363.792 0.5C364.513 0.500053 365.173 0.652718 365.775 0.999023C367.785 2.15445 372.501 5.08197 377.197 9.56348C381.897 14.0479 386.546 20.0587 388.479 27.3779C390.405 34.6761 389.646 43.3312 383.433 53.1602C377.208 63.0059 365.505 74.0345 345.534 86.0176C323.855 99.0254 311.689 112.78 304.628 127.019C297.573 141.246 295.638 155.915 294.351 170.691C291.775 200.255 291.775 230.303 259.015 258.969C226.211 287.672 197.567 287.658 170.92 292.471C157.594 294.878 144.774 298.497 132.272 307.565C119.774 316.631 107.636 331.112 95.6055 355.172C84.4276 377.527 73.286 389.902 62.8203 395.794C52.3826 401.67 42.5655 401.127 33.9248 397.523C25.2613 393.91 17.7749 387.216 12.0791 380.79C6.38801 374.37 2.51373 368.252 1.06641 365.839C0.680811 365.196 0.500033 364.477 0.5 363.708V110.001C0.500054 49.526 49.525 0.501171 110 0.500977L363.792 0.5Z" fill="url(#cornerGrad4)" stroke="url(#cornerStroke4)" stroke-width="5"/>
+  </svg>
+</div>
+            <div class="book-ribbon">
+              <div class="ribbon-img-wrap">
+                <img src="../assets/images/icons/icon/ribbon.png" alt="ribbon"/>
+              </div>
+            </div>
+            <div class="book-frame-inner">
+              <div class="book-card-grid" id="cardGrid"></div>
+              <div class="book-footer">◀ KLIK KARTU UNTUK DETAIL ▶</div>
+            </div>
+          </div>
+        </div>
+
     </div>
-  </div>
 
-  <!-- CONTENT -->
-  <div class="lb-content">
-
-    <!-- SEARCH & FILTER -->
-    <div class="card-grid-wrap">
-      <div class="search-filter-wrap">
-        <div class="search-box">
-          <i class="fas fa-search"></i>
-          <input type="text" id="searchInput" placeholder="Cari kartu..." oninput="renderCards()"/>
-        </div>
-      </div>
-
-      <div class="card-grid" id="cardsGrid">
-        <!-- Cards generated by JS -->
-      </div>
-    </div>
-
-    <!-- STATS PANEL -->
-    <div class="stats-panel">
-      <div class="stat-box">
-        <div class="stat-box-title">📊 Statistics</div>
-        <div class="stat-row">
-          <span class="stat-label">Total Cards</span>
-          <span class="stat-value" id="totalCards">19</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Legendary</span>
-          <span class="stat-value" id="legendaryCount">3</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Epic</span>
-          <span class="stat-value" id="epicCount">4</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Rare</span>
-          <span class="stat-value" id="rareCount">6</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Common</span>
-          <span class="stat-value" id="commonCount">6</span>
-        </div>
-      </div>
-
-      <div class="stat-box">
-        <div class="stat-box-title">🎯 Collection Rate</div>
-        <div class="stat-row">
-          <span class="stat-label">Legendary</span>
-          <span class="stat-value">15%</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Epic</span>
-          <span class="stat-value">21%</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Rare</span>
-          <span class="stat-value">32%</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Common</span>
-          <span class="stat-value">32%</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
 </div>
 
 <script>
-var allCards = [
-  { img:'../pokemon-cards/_-Cek9cr07LvG455A07v4j33ALumZ-wNPbekp55EdRY.jpeg', name:'Charizard EX',   rarity:'legendary' },
-  { img:'../pokemon-cards/73l51yZHpPLOIK2kg8gsba2FRbX5ubrJYivG1ZY6OUA.jpeg', name:'Pikachu VMAX',  rarity:'epic' },
-  { img:'../pokemon-cards/bZni2XH1SLoFVa7ukQs-6c3hXmwGyafUR5QgNo8Wt3w.jpeg', name:'Mewtwo V',      rarity:'rare' },
-  { img:'../pokemon-cards/DBmUtJ_x_jMEixXyo65Ob-HNHFKumWwQaNlwDXZ6n54.jpeg', name:'Bulbasaur',     rarity:'common' },
-  { img:'../pokemon-cards/gLERjG8bFekOCdkkNuc6_21v9eC38rdc5kKFg0-x3DE.jpeg', name:'Gengar V',      rarity:'rare' },
-  { img:'../pokemon-cards/Hc7QMiT980rB_6MEvb9rJ6gRoOwgGGGcYfeT9dvqLxE.jpeg', name:'Lugia VSTAR',   rarity:'epic' },
-  { img:'../pokemon-cards/if192uydcn9LCIe1lnq4r4y1esXyp6qi2z3LGYwMh5s.jpeg', name:'Squirtle',      rarity:'common' },
-  { img:'../pokemon-cards/LVWlk2uXaNGS4nioPF7Ofe3L5NENFz3HqCyhMKsOQkQ.jpeg', name:'Eevee V',       rarity:'rare' },
-  { img:'../pokemon-cards/m13qNSEFwa0fwsXI6xC-69CqnH1V11Y0VCqFEwn6p2w.jpeg', name:'Rayquaza EX',   rarity:'legendary' },
-  { img:'../pokemon-cards/mJUwvTc4AUZwZaP4PzL6AyeiIAbYzNRKvkwDKEwsZEA.jpeg', name:'Charmander',    rarity:'common' },
-  { img:'../pokemon-cards/npPSLO51S39hPtX5rzoZHXKX2_0xrWbWeKhVv9SeiHI.jpeg', name:'Umbreon VMAX',  rarity:'epic' },
-  { img:'../pokemon-cards/Qaj3__4-GUuZ8QJmdSEC9gVki-ei_x72iLJAICZRtj0.jpeg', name:'Snorlax V',     rarity:'rare' },
-  { img:'../pokemon-cards/sGTuFk59UhQ8eNu2bfU736SK36_sslP9ermDf3Jo00A.jpeg', name:'Psyduck',        rarity:'common' },
-  { img:'../pokemon-cards/sm3H9lQ21tcMGix-eCMmk3m7nAt5WV7G6xamc8HqqvI.jpeg', name:'Dragonite V',   rarity:'rare' },
-  { img:'../pokemon-cards/U2US8ECIxX-OQdC-LqQ9LjU3kmJQsBq1LAfZJruZUog.jpeg', name:'Sylveon VMAX',  rarity:'epic' },
-  { img:'../pokemon-cards/VIe3dY5o7nJ2xpiTXd2OXwq3PyBSUzaKcRIKS3R2SrI.jpeg', name:'Jigglypuff',    rarity:'common' },
-  { img:'../pokemon-cards/ZA8TA0g5foXDKfBjuSl0_-L7j9_VE_3zsGNw2S-oDA0.jpeg', name:'Mew EX',        rarity:'legendary' },
-  { img:'../pokemon-cards/ZU7OBcSwBOxbGU9vXkHLGTUOOpXQVrkOet4IhOVGcEo.jpeg', name:'Alakazam V',    rarity:'rare' },
-  { img:'../pokemon-cards/ZWrDt4H6MWSjlCJoyziRq6gsJ7JaYW74vVmJ1YoRGgA.jpeg', name:'Magikarp',      rarity:'common' },
-];
-
-var currentFilter = 'all';
-var rarityLabel = { legendary:'⭐ LEGENDARY', epic:'💎 EPIC', rare:'🔵 RARE', common:'⚪ COMMON' };
-
-function switchTab(type, btn) {
-  currentFilter = type;
-  document.querySelectorAll('.lb-tab').forEach(function(t){ t.classList.remove('active'); });
-  btn.classList.add('active');
-  renderCards();
+function switchTab(type) {
+  document.querySelectorAll('.tab-btn').forEach(function(t){ t.classList.remove('active'); });
+  var tabId = 'tab' + type.charAt(0).toUpperCase() + type.slice(1);
+  var el = document.getElementById(tabId);
+  if (el) el.classList.add('active');
+  
+  // Update banner title
+  var bannerTitle = document.getElementById('bannerTitle');
+  if (bannerTitle) {
+    var titleMap = {
+      'all': 'SEMUA KARTU',
+      'legendary': 'LEGENDARY',
+      'ultrarare': 'ULTRA RARE',
+      'superrare': 'SUPER RARE',
+      'rare': 'RARE',
+      'uncommon': 'UNCOMMON',
+      'common': 'COMMON'
+    };
+    bannerTitle.textContent = titleMap[type] || 'SEMUA KARTU';
+  }
+  
+  renderCardGrid(type);
 }
 
-function renderCards() {
-  var q = document.getElementById('searchInput').value.toLowerCase();
-  var filtered = allCards.filter(function(c) {
-    return (currentFilter === 'all' || c.rarity === currentFilter) &&
-           (!q || c.name.toLowerCase().includes(q));
-  });
-  var grid = document.getElementById('cardsGrid');
+function toggleStats(bodyId) {
+  var body    = document.getElementById(bodyId);
+  var chevron = document.getElementById('allStatsChevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+}
+
+/* ===== CARD GRID DATA & RENDER ===== */
+var gridCards = [
+  // Data dari slider carousel — gambar & data sudah diverifikasi cocok
+  { img:'../assets/images/cards/ME03_EN_104.png', name:'Mega Zygarde ex', rarity:'legendary',
+    sub:'Mega Evolution ex', badge:'MEGA EX', hp:'310',
+    attacks:[
+      { cost:['fighting','fighting','colorless'], name:'Gaia Wave', dmg:'200', desc:"During your opponent's next turn, this Pokémon takes 30 less damage from attacks." },
+      { cost:['fighting','psychic','colorless'],  name:'Nullifying Zero', dmg:'150×', desc:"For each of your opponent's Pokémon, flip a coin. If heads, 150 damage." }
+    ],
+    weak:'G ×2', resist:'—', retreat:'★★', set:'Perfect Order', rarity_label:'Ultra Rare · 104/88', illus:'takuyoa' },
+
+  { img:'../assets/images/cards/ME03_EN_12.png', name:'Decidueye ex', rarity:'legendary',
+    sub:'Pokémon ex · Evolves From: Dartrix', badge:'POKÉMON EX', hp:'320',
+    attacks:[
+      { cost:[], name:'Ability — Sniper\'s Eye', dmg:'', desc:"If your opponent has exactly 4 cards in their hand, ignore all Colorless Energy in the costs of attacks used by this Pokémon." },
+      { cost:['colorless','colorless','colorless'], name:'Crushing Arrow', dmg:'240', desc:"Discard an Energy from your opponent's Active Pokémon." }
+    ],
+    weak:'×2', resist:'—', retreat:'★★', set:'Perfect Order', rarity_label:'Double Rare · 12/88', illus:'aky CG Works' },
+
+  { img:'../assets/images/cards/ME03_EN_28.png', name:'Luxray', rarity:'legendary',
+    sub:'Stage 2 · Evolves From: Luxio', badge:'STAGE 2', hp:'150',
+    attacks:[
+      { cost:['lightning','colorless'], name:'Incessant Onslaught', dmg:'70×', desc:'This attack does 70 damage for each Prize card you have taken.' },
+      { cost:['lightning','lightning','colorless'], name:'Strong Volt', dmg:'200', desc:'Discard 2 Energy from this Pokémon.' }
+    ],
+    weak:'×2', resist:'—', retreat:'★★', set:'Perfect Order', rarity_label:'Rare · 28/88', illus:'Taiga Kasai' },
+
+  { img:'../assets/images/cards/ME03_EN_6.png', name:'Serperior', rarity:'legendary',
+    sub:'Stage 2 · Evolves From: Servine', badge:'STAGE 2', hp:'160',
+    attacks:[
+      { cost:['dragon','colorless'], name:'Regal Command', dmg:'20×', desc:'This attack does 20 damage for each of your Pokémon in play.' },
+      { cost:['dragon','dragon','colorless'], name:'Solar Coiling', dmg:'100+', desc:"If Rosa's Encouragement is in your discard pile, this attack does 150 more damage." }
+    ],
+    weak:'×2', resist:'—', retreat:'★★', set:'Perfect Order', rarity_label:'Rare · 6/88', illus:'kodama' },
+
+  { img:'../assets/images/cards/ME03_EN_123.png', name:"Rosa's Encouragement", rarity:'ultrarare',
+    sub:'Trainer — Supporter', badge:'SUPPORTER', hp:'',
+    attacks:[
+      { cost:[], name:'Condition', dmg:'', desc:'You can use this card only if you have more Prize cards remaining than your opponent.' },
+      { cost:[], name:'Effect', dmg:'', desc:'Attach up to 2 Basic Energy cards from your discard pile to 1 of your Stage 2 Pokémon.' }
+    ],
+    weak:'—', resist:'—', retreat:'—', set:'Perfect Order', rarity_label:'Special Illustration Rare · 123/88', illus:'Iori Suzuki' },
+
+  { img:'../assets/images/cards/ME03_EN_14.png', name:'Talonflame', rarity:'ultrarare',
+    sub:'Stage 2 · Evolves From: Fletchinder', badge:'STAGE 2', hp:'150',
+    attacks:[
+      { cost:[], name:'Ability — Sky Hunt', dmg:'', desc:'Once during your turn, you may use this Ability. Flip a coin. If heads, discard a random card from your opponent\'s hand.' },
+      { cost:['fire','fire','colorless'], name:'Fire Wing', dmg:'110', desc:'' }
+    ],
+    weak:'×2', resist:'-30', retreat:'★', set:'Perfect Order', rarity_label:'Uncommon · 14/88', illus:'Shinji Kanda' },
+
+  { img:'../assets/images/cards/ME03_EN_19.png', name:'Pokémon Card 19', rarity:'superrare',
+    sub:'Pokémon', badge:'SUPER RARE', hp:'—',
+    attacks:[], weak:'—', resist:'—', retreat:'—', set:'Perfect Order', rarity_label:'Super Rare · 19/88', illus:'—' },
+
+  { img:'../assets/images/cards/ME03_EN_22.png', name:'Pokémon Card 22', rarity:'superrare',
+    sub:'Pokémon', badge:'SUPER RARE', hp:'—',
+    attacks:[], weak:'—', resist:'—', retreat:'—', set:'Perfect Order', rarity_label:'Super Rare · 22/88', illus:'—' },
+
+  { img:'../assets/images/cards/ME03_EN_85.png', name:'Pokémon Card 85', rarity:'rare',
+    sub:'Pokémon', badge:'RARE', hp:'—',
+    attacks:[], weak:'—', resist:'—', retreat:'—', set:'Perfect Order', rarity_label:'Rare · 85/88', illus:'—' },
+
+  { img:'../assets/images/cards/ME03_EN_88.png', name:'Pokémon Card 88', rarity:'rare',
+    sub:'Pokémon', badge:'RARE', hp:'—',
+    attacks:[], weak:'—', resist:'—', retreat:'—', set:'Perfect Order', rarity_label:'Rare · 88/88', illus:'—' },
+
+  { img:'../assets/images/cards/ME03_EN_111.png', name:'Pokémon Card 111', rarity:'uncommon',
+    sub:'Pokémon', badge:'UNCOMMON', hp:'—',
+    attacks:[], weak:'—', resist:'—', retreat:'—', set:'Perfect Order', rarity_label:'Uncommon · 111/88', illus:'—' },
+
+  { img:'../assets/images/cards/cardrun1.png', name:'Card Run 1', rarity:'common',
+    sub:'Pokémon', badge:'COMMON', hp:'—',
+    attacks:[], weak:'—', resist:'—', retreat:'—', set:'Perfect Order', rarity_label:'Common', illus:'—' },
+
+  { img:'../assets/images/cards/cardrun2.png', name:'Card Run 2', rarity:'common',
+    sub:'Pokémon', badge:'COMMON', hp:'—',
+    attacks:[], weak:'—', resist:'—', retreat:'—', set:'Perfect Order', rarity_label:'Common', illus:'—' },
+
+  { img:'../assets/images/cards/cardrun3.png', name:'Card Run 3', rarity:'common',
+    sub:'Pokémon', badge:'COMMON', hp:'—',
+    attacks:[], weak:'—', resist:'—', retreat:'—', set:'Perfect Order', rarity_label:'Common', illus:'—' },
+];
+
+var rarityMap = {
+  legendary:'Legendary', ultrarare:'Ultra Rare', superrare:'Super Rare',
+  rare:'Rare', uncommon:'Uncommon', common:'Common'
+};
+
+var tabLabels = {
+  all:       { icon: '🃏', label: 'Semua Kartu' },
+  common:    { icon: '⚪', label: 'Common (20%)' },
+  uncommon:  { icon: '🟢', label: 'Uncommon (20%)' },
+  rare:      { icon: '🔵', label: 'Rare (20%)' },
+  superrare: { icon: '🟣', label: 'Super Rare (10%)' },
+  ultrarare: { icon: '🟡', label: 'Ultra Rare (15%)' },
+  legendary: { icon: '⭐', label: 'Legendary (15%)' },
+};
+
+var energyColors = {
+  fighting:'#ea8118', psychic:'#c084fc', colorless:'#9090a0',
+  fire:'#fb923c', lightning:'#fbbf24', water:'#60a5fa',
+  dragon:'#4ade80', darkness:'#818cf8'
+};
+
+function buildEnergyDots(costs) {
+  return (costs||[]).map(function(t){
+    var c = energyColors[t]||'#aaa';
+    return '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:'+c+'22;border:1.5px solid '+c+';font-size:7px;font-weight:700;color:'+c+'">'+t[0].toUpperCase()+'</span>';
+  }).join('');
+}
+
+function openCardPopup(card) {
+  var attacks = (card.attacks||[]).map(function(a){
+    return '<div style="margin-bottom:10px;">'+
+      '<div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">'+
+        buildEnergyDots(a.cost)+
+        '<span style="font-size:0.78rem;font-weight:800;color:#f0ecff;margin-left:4px;">'+a.name+'</span>'+
+        (a.dmg?'<span style="font-size:0.9rem;font-weight:900;color:#ff5566;margin-left:auto;">'+a.dmg+'</span>':'')+
+      '</div>'+
+      (a.desc?'<p style="font-size:0.65rem;line-height:1.6;color:#b0a8c8;padding-left:2px;">'+a.desc+'</p>':'')+
+    '</div>';
+  }).join('');
+
+  var html =
+    /* Layout: image kiri + info kanan */
+    '<div style="display:flex;gap:14px;margin-bottom:14px;">'+
+      '<img src="'+card.img+'" alt="'+card.name+'" style="width:110px;min-width:110px;border-radius:10px;object-fit:cover;box-shadow:0 4px 16px rgba(0,0,0,0.5);">'+
+      '<div style="flex:1;min-width:0;">'+
+        '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;">'+
+          '<span style="font-size:0.68rem;font-weight:600;color:#b0a8c8;">'+(card.sub||'')+'</span>'+
+          '<span style="font-size:0.5rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#4ade80;background:rgba(45,212,91,0.15);border:1px solid rgba(45,212,91,0.35);padding:2px 6px;border-radius:5px;white-space:nowrap;">'+(card.badge||'')+'</span>'+
+        '</div>'+
+        '<h3 style="font-size:1rem;font-weight:900;color:#fff;margin-bottom:6px;line-height:1.2;">'+card.name+'</h3>'+
+        (card.hp?'<div style="font-size:1.4rem;font-weight:900;color:#ff5566;line-height:1;">'+card.hp+' <span style="font-size:0.58rem;font-weight:600;color:#8a85a0;letter-spacing:1px;">HP</span></div>':'')+
+      '</div>'+
+    '</div>'+
+    '<div style="height:1px;background:rgba(255,255,255,0.12);margin-bottom:10px;"></div>'+
+    attacks+
+    (attacks?'<div style="height:1px;background:rgba(255,255,255,0.12);margin:10px 0;"></div>':'')+
+    '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">'+
+      '<span style="font-size:0.52rem;font-weight:700;text-transform:uppercase;color:#7a7590;">Weakness</span><span style="font-size:0.62rem;color:#d4d0e8;font-weight:700;">'+(card.weak||'—')+'</span>'+
+      '<span style="width:1px;height:14px;background:rgba(255,255,255,0.1);display:inline-block;"></span>'+
+      '<span style="font-size:0.52rem;font-weight:700;text-transform:uppercase;color:#7a7590;">Resistance</span><span style="font-size:0.62rem;color:#d4d0e8;font-weight:700;">'+(card.resist||'—')+'</span>'+
+      '<span style="width:1px;height:14px;background:rgba(255,255,255,0.1);display:inline-block;"></span>'+
+      '<span style="font-size:0.52rem;font-weight:700;text-transform:uppercase;color:#7a7590;">Retreat</span><span style="font-size:0.62rem;color:#d4d0e8;font-weight:700;">'+(card.retreat||'—')+'</span>'+
+    '</div>'+
+    '<div style="padding-top:8px;border-top:1px solid rgba(255,255,255,0.08);">'+
+      '<div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:0.52rem;color:#7a7590;text-transform:uppercase;">Set</span><span style="font-size:0.6rem;color:#b0a8c8;font-weight:600;">'+(card.set||'')+'</span></div>'+
+      '<div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:0.52rem;color:#7a7590;text-transform:uppercase;">Rarity</span><span style="font-size:0.6rem;color:#fbbf24;font-weight:700;">'+(card.rarity_label||'')+'</span></div>'+
+      (card.illus&&card.illus!=='—'?'<div style="display:flex;justify-content:space-between;"><span style="font-size:0.52rem;color:#7a7590;text-transform:uppercase;">Illustrator</span><span style="font-size:0.6rem;color:#b0a8c8;font-weight:600;">'+card.illus+'</span></div>':'')+
+    '</div>';
+
+  document.getElementById('cardPopupContent').innerHTML = html;
+  document.getElementById('cardPopupOverlay').classList.add('show');
+}
+
+function renderCardGrid(filter) {
+  var grid    = document.getElementById('cardGrid');
+  var iconEl  = document.getElementById('cardGridIcon');
+  var title   = document.getElementById('cardGridTitle');
+  var countEl = document.getElementById('cardGridCount');
+  if (!grid) return;
+
+  var filtered = filter === 'all' ? gridCards : gridCards.filter(function(c){ return c.rarity === filter; });
+  window.filteredGridCards = filtered;
+
+  var tab = tabLabels[filter] || tabLabels['all'];
+  var titleEl = document.getElementById('cardGridTitle2');
+  if (titleEl) titleEl.textContent = tab.label;
+  if (countEl) countEl.textContent = filtered.length + ' kartu';
+
   if (!filtered.length) {
-    grid.innerHTML = '<div class="no-result"><i class="fas fa-layer-group"></i><p>Tidak ada kartu ditemukan</p></div>';
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.4);font-size:14px;">Tidak ada kartu</div>';
     return;
   }
-  grid.innerHTML = filtered.map(function(c) {
-    return '<div class="card-item r-' + c.rarity + '">' +
+  grid.innerHTML = filtered.map(function(c, i) {
+    return '<div class="cg-card cg-' + c.rarity + '" onclick="openCardPopup(window.filteredGridCards[' + i + '])">' +
       '<img src="' + c.img + '" alt="' + c.name + '" loading="lazy"/>' +
-      '<div class="card-rarity-bar">' + rarityLabel[c.rarity] + '</div>' +
+      '<div class="cg-card-info">' +
+        '<div class="cg-badge">' + rarityMap[c.rarity] + '</div>' +
+        '<div class="cg-name">' + c.name + '</div>' +
+      '</div>' +
     '</div>';
   }).join('');
 }
 
-function updateStats() {
-  document.getElementById('totalCards').textContent = allCards.length;
-  document.getElementById('legendaryCount').textContent = allCards.filter(function(c) { return c.rarity === 'legendary'; }).length;
-  document.getElementById('epicCount').textContent = allCards.filter(function(c) { return c.rarity === 'epic'; }).length;
-  document.getElementById('rareCount').textContent = allCards.filter(function(c) { return c.rarity === 'rare'; }).length;
-  document.getElementById('commonCount').textContent = allCards.filter(function(c) { return c.rarity === 'common'; }).length;
-}
+// Render awal
+renderCardGrid('all');
 
-renderCards();
-updateStats();
+/* ===== TCG CAROUSEL JS — Multi-card autoplay ===== */
+(function() {
+  var carousel = document.getElementById('tcgCarousel');
+  var list     = document.getElementById('tcgList');
+  var items    = list.querySelectorAll('.tcg-item');
+  var total    = items.length;
+  var cur      = 0;
+  var dotsEl   = document.getElementById('tcgDots');
+  var curEl    = document.getElementById('tcgCur');
+  var totEl    = document.getElementById('tcgTot');
+  var prevBtn  = document.getElementById('tcgPrev');
+  var nextBtn  = document.getElementById('tcgNext');
+  var autoTimer;
+
+  totEl.textContent = String(total).padStart(2,'0');
+
+  // Build dots
+  for (var i = 0; i < total; i++) {
+    var d = document.createElement('button');
+    d.className = 'tcg-dot' + (i===0?' active':'');
+    d.setAttribute('aria-label','Slide '+(i+1));
+    (function(idx){ d.addEventListener('click', function(){ goTo(idx); resetAuto(); }); })(i);
+    dotsEl.appendChild(d);
+  }
+  var dots = dotsEl.querySelectorAll('.tcg-dot');
+
+  function goTo(idx) {
+    items[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur = (idx + total) % total;
+    items[cur].classList.add('active');
+    dots[cur].classList.add('active');
+    curEl.textContent = String(cur+1).padStart(2,'0');
+
+    var activeEl = items[cur];
+    var innerClip = document.querySelector('.tcg-list-inner-clip');
+    if (!innerClip) return;
+
+    if (window.innerWidth <= 640) {
+      // Mobile: gunakan scrollLeft pada inner clip (scroll snap)
+      var scrollTarget = activeEl.offsetLeft - (innerClip.offsetWidth / 2) + (activeEl.offsetWidth / 2);
+      if (scrollTarget < 0) scrollTarget = 0;
+      innerClip.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+    } else {
+      // Desktop: transform translateX
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          var clipW  = innerClip.offsetWidth;
+          var offset = activeEl.offsetLeft - (clipW / 2) + (activeEl.offsetWidth / 2);
+          if (offset < 0) offset = 0;
+          list.style.transform = 'translateX(-' + offset + 'px)';
+        });
+      });
+    }
+  }
+
+  function resetAuto() {
+    // autoplay dimatikan
+  }
+
+  prevBtn.addEventListener('click', function(){ goTo(cur - 1); resetAuto(); });
+  nextBtn.addEventListener('click', function(){ goTo(cur + 1); resetAuto(); });
+
+  items.forEach(function(item) {
+    item.addEventListener('click', function(){
+      var idx = parseInt(item.getAttribute('data-idx'));
+      // Mobile: buka popup
+      if (window.innerWidth <= 640) {
+        var panel = item.querySelector('.tcg-data-panel');
+        if (panel) {
+          document.getElementById('cardPopupContent').innerHTML = panel.innerHTML;
+          document.getElementById('cardPopupOverlay').classList.add('show');
+        }
+      }
+      // Selalu pindah ke kartu yang diklik
+      goTo(idx);
+      resetAuto();
+    });
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key==='ArrowLeft')  { goTo(cur-1); resetAuto(); }
+    if (e.key==='ArrowRight') { goTo(cur+1); resetAuto(); }
+  });
+
+  var tx = 0;
+  list.addEventListener('touchstart', function(e){ tx = e.changedTouches[0].screenX; }, {passive:true});
+  list.addEventListener('touchend',   function(e){
+    var diff = tx - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 40) { goTo(diff > 0 ? cur+1 : cur-1); resetAuto(); }
+  }, {passive:true});
+
+  resetAuto();
+
+  // Desktop hover — data panel
+  var clip = document.querySelector('.tcg-list-clip');
+  items.forEach(function(item) {
+    item.addEventListener('mouseenter', function() {
+      if (item.classList.contains('active') && clip) clip.classList.add('panel-open');
+    });
+    item.addEventListener('mouseleave', function() {
+      if (clip) clip.classList.remove('panel-open');
+    });
+  });
+
+  document.getElementById('cardPopupOverlay').addEventListener('click', function(e) {
+    if (e.target === this || e.target.classList.contains('card-popup-close')) {
+      this.classList.remove('show');
+    }
+  });
+
+  // Init
+  setTimeout(function(){ goTo(0); }, 50);
+})();
+
+/* ===== BINTANG di setiap icon-wrap ===== */
+(function() {
+  var chars  = ['✦','✧','★','✩','✫','✭','💫','✨','🌟'];
+  var colors = ['#FFD700','#fff','#c084fc','#60a5fa','#f59e0b','#22c55e','#FF6B6B','#fb7185'];
+  function spawnStarsOnWrap(wrap) {
+    wrap.querySelectorAll('.tab-star').forEach(function(s){ s.remove(); });
+    var count = 4 + Math.floor(Math.random() * 3);
+    for (var i = 0; i < count; i++) {
+      var s = document.createElement('span');
+      s.className = 'tab-star';
+      s.textContent = chars[Math.floor(Math.random() * chars.length)];
+      s.style.color    = colors[Math.floor(Math.random() * colors.length)];
+      var angle = Math.random() * 360;
+      var dist  = 28 + Math.random() * 16;
+      var cx = 50 + Math.cos(angle * Math.PI/180) * dist;
+      var cy = 50 + Math.sin(angle * Math.PI/180) * dist;
+      s.style.left     = cx + '%';
+      s.style.top      = cy + '%';
+      s.style.fontSize = (7 + Math.random() * 9) + 'px';
+      s.style.setProperty('--dur',   (1 + Math.random() * 2.5) + 's');
+      s.style.setProperty('--delay', (Math.random() * 2.5) + 's');
+      wrap.appendChild(s);
+    }
+  }
+  function spawnAll() {
+    document.querySelectorAll('.tab-btn .icon-wrap').forEach(spawnStarsOnWrap);
+  }
+  spawnAll();
+  setInterval(spawnAll, 4000);
+})();
 </script>
 
-</div><!-- /lb-panel -->
+<!-- MOBILE POPUP MODAL -->
+<div class="card-popup-overlay" id="cardPopupOverlay">
+    <div class="card-popup" style="position:relative;">
+        <div class="card-popup-handle"></div>
+        <button class="card-popup-close" onclick="document.getElementById('cardPopupOverlay').classList.remove('show')">✕</button>
+        <div id="cardPopupContent"></div>
+    </div>
+</div>
 
 </body>
 </html>

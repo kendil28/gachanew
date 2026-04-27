@@ -1,395 +1,1402 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Legendary Board - GachaKeren</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Luckiest+Guy&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --btn-radius: 12px;
+            --card-radius: 20px;
+            --input-radius: 10px;
+            --glossy-size: 14px;
+            --outline-color: #2a1b0e;
+            --shadow-hard: 5px 5px 0px rgba(0, 0, 0, 0.35);
+        }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background: transparent;
-  min-height: 100vh;
-  width: 100%;
-  overflow-y: auto; overflow-x: hidden;
-  padding: 16px 12px 100px 12px;
-  color: #fff;
-}
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
+        body {
+            background: transparent;
+            display: flex; justify-content: center; align-items: flex-start; min-height: 100vh;
+            margin: 0; font-family: 'Rowdies', cursive; padding: 20px; box-sizing: border-box;
+            padding-top: 60px;
+        }
 
-/* ===== MAIN PANEL ===== */
-.lb-panel {
-  max-width: 100%;
-  margin: 0 auto;
-  background: linear-gradient(160deg, #e53935 0%, #c62828 40%, #b71c1c 100%);
-  border-radius: 28px;
-  border: 3px solid rgba(255,100,100,0.6);
-  box-shadow:
-    0 0 0 2px rgba(255,255,255,0.15),
-    0 8px 40px rgba(180,50,50,0.5),
-    inset 0 1px 0 rgba(255,255,255,0.2);
-  overflow: hidden;
-  padding-bottom: 20px;
-  position: relative;
-  z-index: 1;
-}
+        .deposit-container {
+            position: relative; width: 100%; max-width: 1300px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 4px solid transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)),
+                              linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            border-radius: 25px; padding: 34px 15px; box-sizing: border-box;
+            backdrop-filter: blur(15px); 
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.3),
+                        0 0 60px rgba(252, 202, 87, 0.2),
+                        10px 10px 0px rgba(0,0,0,0.2);
+            animation: containerGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes containerGlow {
+            0% { box-shadow: 0 0 30px rgba(255, 107, 107, 0.3), 0 0 60px rgba(252, 202, 87, 0.2), 10px 10px 0px rgba(0,0,0,0.2); }
+            100% { box-shadow: 0 0 40px rgba(72, 219, 251, 0.4), 0 0 80px rgba(255, 159, 243, 0.3), 10px 10px 0px rgba(0,0,0,0.2); }
+        }
 
-/* ===== TABS ===== */
-.lb-tabs {
-  display: flex;
-  background: #FFFFFF;
-  border-bottom: 3px solid rgba(180,50,50,0.3);
-  padding: 0 8px;
-  gap: 4px;
+        /* === HEADER === */
+        .header { position: relative; width: 100%; margin: -57px 0 41px 0; z-index: 2; }
+        .header-bg {
+            position: absolute; width: 100%; height: 65px; bottom: 0; left: 0;
+            background: linear-gradient(169.13deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%);
+            border: 4px solid transparent;
+            background-image: linear-gradient(169.13deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%),
+                              linear-gradient(45deg, #ff9ff3, #feca57, #48dbfb);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            border-radius: 12px 12px 24px 24px;
+            box-sizing: border-box; z-index: 1; box-shadow: var(--shadow-hard);
+            animation: headerPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes headerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        .header-tabs { position: relative; width: 100%; display: flex; justify-content: space-between; gap: 12px; z-index: 3; }
+        .tab-btn {
+            position: relative; flex: 1; height: 70px; border-radius: 16px; border: 4px solid transparent;
+            color: #FFFFFF; font-family: 'Rowdies', cursive; font-weight: 700; font-size: 1.2rem; cursor: pointer;
+            display: flex; align-items: flex-end; justify-content: center; padding-bottom: 12px; box-sizing: border-box;
+            box-shadow: var(--shadow-hard); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.5); background: #888; filter: brightness(0.7);
+            overflow: hidden;
+        }
+        
+        .tab-btn::before {
+            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+            z-index: -1;
+        }
+        
+        .tab-btn:hover::before {
+            transform: translateX(100%);
+        }
+        .tab-btn.active-main { 
+            filter: brightness(1.2); 
+            transform: translateY(-5px) scale(1.05); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 20px rgba(255,255,255,0.3);
+            animation: tabGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes tabGlow {
+            0%, 100% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 20px rgba(255,255,255,0.3); }
+            50% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.5); }
+        }
+        .tab-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px rgba(0,0,0,0.35); }
+        .tab-btn::before {
+            content: ''; position: absolute; width: var(--glossy-size); height: calc(var(--glossy-size) * 1.8); top: 8px; left: 10px;
+            background: linear-gradient(143.13deg, #FFFFFF 20%, rgba(255, 255, 255, 0) 53.65%); border-radius: 50%;
+        }
+        .tab-gold { 
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+            border-color: transparent;
+        }
+
+        .title {
+            width: 100%; text-align: center; font-size: 2.2rem; line-height: 100%; letter-spacing: -0.05em; color: #fff;
+            -webkit-text-stroke: 2px var(--outline-color); margin-bottom: 25px; paint-order: stroke fill; text-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+        }
+
+        /* === LEGENDARY CONTENT === */
+        .stats-container {
+            display: flex; justify-content: space-around; margin-bottom: 25px; gap: 15px;
+        }
+        .stat-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)),
+                              linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            border-radius: 12px; padding: 12px; text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+            flex: 1;
+        }
+        .stat-number {
+            font-size: 1.8rem; font-weight: 700; color: #FFD700; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 3px;
+        }
+        .stat-label {
+            font-size: 0.75rem; color: rgba(255,255,255,0.8); text-transform: uppercase;
+        }
+
+        .card-section {
+            background: rgba(255, 255, 255, 0.1);
+            border: 5px solid var(--outline-color);
+            border-radius: var(--card-radius); padding: 25px; margin-bottom: 20px;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .card-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+            padding-bottom: 15px; border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+        .card-title {
+            font-size: 1.3rem; font-weight: 700; color: #FFD700; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .card-stats {
+            display: flex; gap: 15px; flex-wrap: wrap;
+        }
+        .card-stat {
+            background: rgba(255, 215, 0, 0.2); border: 2px solid #FFD700; border-radius: 10px;
+            padding: 8px 12px; font-size: 0.85rem; color: #FFD700;
+        }
+
+        .owners-section {
+            background: rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 15px; margin-top: 15px;
+        }
+        .owners-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;
+            color: #FFD700; font-weight: 700;
+        }
+        .owner-list {
+            display: grid; gap: 10px;
+        }
+        .owner-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 8px; padding: 10px 15px;
+            transition: all 0.3s;
+        }
+        .owner-item:hover {
+            background: rgba(255, 255, 255, 0.1); transform: translateY(-2px);
+        }
+        .owner-name {
+            color: #fff; font-weight: 600;
+        }
+        .owner-date {
+            color: rgba(255,255,255,0.7); font-size: 0.9rem;
+        }
+        .owner-number {
+            background: linear-gradient(135deg, #ff6b6b, #feca57); color: #fff;
+            width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem;
+        }
+
+/* ===== HEADER ===== */
+.lb-header{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px 20px 8px;
+  position:relative;
 }
-.lb-tab {
-  flex: 1;
-  padding: 14px 8px;
+.lb-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.4rem,4vw,2rem);
+  font-weight:900;
+  color:#FFD700;
+  text-shadow:0 0 20px rgba(255,215,0,.6),0 2px 8px rgba(0,0,0,.8);
+  letter-spacing:2px;
+  text-align:center;
+}
+.lb-timer{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin-top:6px;
+  font-size:13px;
+  color:rgba(255,255,255,.65);
+}
+.lb-timer i{color:#FFD700;}
+.lb-timer span{color:#fff;font-weight:700;}
+
+/* ===== HINT TEXT ===== */
+.lb-hint{
+  font-size:12px;
+  color:rgba(255,255,255,.55);
+  line-height:1.6;
   text-align: center;
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 20px;
-  color: rgba(180,50,50,0.6);
-  cursor: pointer;
-  border-radius: 12px 12px 0 0;
-  transition: all 0.2s;
-  letter-spacing: 0.5px;
+  padding: 8px 20px 14px;
+  padding-left: 852px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  margin-bottom: 4px;
+}
+.lb-hint::before{content:'◆ ';color:#FFD700;}
+
+/* ===== LAYOUT ===== */
+.lb-layout{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  min-height:calc(100vh - 160px);
+}
+
+/* ===== HORIZONTAL TABS — persis seperti Koleksi Saya ===== */
+@property --lb-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes lbSnake { to { --lb-angle: 360deg; } }
+@keyframes lbFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+@keyframes lbShake {
+  0%  {transform:rotate(0deg) scale(1)}
+  15% {transform:rotate(-12deg) scale(1.1)}
+  30% {transform:rotate(10deg) scale(1.15)}
+  45% {transform:rotate(-8deg) scale(1.1)}
+  60% {transform:rotate(6deg) scale(1.05)}
+  75% {transform:rotate(-4deg)}
+  90% {transform:rotate(2deg)}
+  100%{transform:rotate(0deg) scale(1)}
+}
+@keyframes lbRipple {
+  0%  {transform:translateX(-50%) scale(0.5);opacity:0.7}
+  100%{transform:translateX(-50%) scale(4);opacity:0}
+}
+@keyframes lbStarBlink {
+  0%,100%{opacity:0;transform:scale(0.4) rotate(0deg)}
+  30%    {opacity:1;transform:scale(1.4) rotate(20deg)}
+  60%    {opacity:0.5;transform:scale(0.8) rotate(-15deg)}
+  80%    {opacity:0;transform:scale(0.3) rotate(35deg)}
+}
+
+.lb-tabs {
+  display: flex; gap: 16px;
+  background: transparent;
+  border-radius: 0; padding: 0;
+  box-shadow: none;
+  flex-wrap: wrap;
+  margin-top: 44px;
   position: relative;
-  top: 3px;
-}
-.lb-tab:hover { color: #e53935; background: rgba(229,57,53,0.05); }
-.lb-tab.active {
-  background: linear-gradient(180deg, #e53935 0%, #c62828 100%);
-  color: #fff;
-  box-shadow: 0 -2px 12px rgba(255,100,100,0.5);
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  overflow: visible;
+  border: none;
 }
 
-/* ===== HEADER BAR ===== */
-.lb-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px;
-  background: rgba(60,60,60,0.5);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-.lb-title {
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 28px;
-  color: #FFD700;
-  text-shadow: 0 0 16px rgba(255,215,0,0.6);
-}
-.lb-subtitle {
-  font-size: 14px;
-  color: rgba(255,255,255,0.6);
-}
-
-/* ===== CONTENT ===== */
-.lb-content {
-  display: flex;
-  gap: 16px;
-  padding: 16px 20px;
-}
-
-/* ===== CARD GRID ===== */
-.card-grid-wrap {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 14px;
-}
-
-.legend-card {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  overflow: hidden;
-  transition: transform 0.25s, box-shadow 0.25s;
+.sidebar-item {
+  flex: 1; min-width: 60px;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 10px; font-weight: 800;
+  color: rgba(255,255,255,0.75);
   cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 0;
   position: relative;
 }
-.legend-card::before {
+
+/* Icon wrap */
+.sidebar-item .icon-wrap {
+  position: relative;
+  width: 72px; height: 72px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  border-radius: 20px;
+  overflow: visible;
+}
+
+/* Icon img */
+.sidebar-item .icon-wrap img {
+  width: 68px; height: 68px; object-fit: contain;
+  position: relative; z-index: 2;
+  border-radius: 18px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+  animation: lbFloat 3s ease-in-out infinite;
+}
+
+/* Snake border mengelilingi icon — SELALU JALAN */
+.sidebar-item .icon-wrap::before {
+  content: '';
+  position: absolute; inset: -3px;
+  border-radius: 18px;
+  background: conic-gradient(
+    from var(--lb-angle, 0deg),
+    transparent 0deg, transparent 50deg,
+    rgba(255,255,255,0.95) 80deg,
+    rgba(200,120,255,0.9) 110deg,
+    rgba(255,210,50,0.95) 140deg,
+    rgba(100,210,255,0.85) 160deg,
+    transparent 180deg, transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 3px;
+  animation: lbSnake 2.5s linear infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Ripple on hover */
+.sidebar-item .icon-wrap::after {
   content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%) scale(0);
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  pointer-events: none; opacity: 0; z-index: 1;
 }
-.legend-card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(255,215,0,0.3);
-  border-color: rgba(255,215,0,0.4);
-}
-.legend-card.legendary:hover { box-shadow: 0 8px 24px rgba(255,215,0,0.4); }
-.legend-card.mythic:hover { box-shadow: 0 8px 24px rgba(219,39,119,0.4); }
-
-.legend-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: contain;
-  display: block;
-  padding: 8px;
-  background: rgba(0,0,0,0.2);
+@keyframes lbRippleWrap {
+  0%  {transform:translate(-50%,-50%) scale(0.5);opacity:0.7}
+  100%{transform:translate(-50%,-50%) scale(4);opacity:0}
 }
 
-.legend-card-info {
-  padding: 10px 12px;
-  position: relative;
-  z-index: 1;
+/* Label */
+.sidebar-label {
+  font-size: 10px; font-weight: 800;
+  color: rgba(255,255,255,0.8);
+  text-align: center; line-height: 1.2;
 }
 
-.legend-card-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 6px;
+/* Hover */
+.sidebar-item:hover .icon-wrap img {
+  animation: lbShake 0.5s ease forwards;
+  filter: drop-shadow(0 0 14px rgba(255,255,255,0.95));
+}
+.sidebar-item:hover .icon-wrap::before { animation: lbSnake 1.2s linear infinite; }
+.sidebar-item:hover .icon-wrap::after  { animation: lbRippleWrap 0.6s ease-out forwards; }
+.sidebar-item:hover .sidebar-label { color: #fff; }
+
+/* Active */
+.sidebar-item.active .icon-wrap img {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 16px rgba(255,255,255,0.95)) drop-shadow(0 0 8px rgba(255,200,50,0.8));
+  animation: lbFloat 2s ease-in-out infinite;
+}
+.sidebar-item.active .icon-wrap::before { animation: lbSnake 1s linear infinite; }
+.sidebar-item.active .sidebar-label { color: #FFD700; text-shadow: 0 0 8px rgba(255,215,0,0.6); }
+
+/* Bintang blink */
+.lb-star {
+  position: absolute; pointer-events: none; z-index: 3;
+  animation: lbStarBlink var(--dur,2s) ease-in-out var(--delay,0s) infinite;
+  opacity: 0;
 }
 
-.legend-card-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 6px;
+.sidebar-badge {
+  position: absolute; top: 6px; right: 6px;
+  background: #e53935; color: #fff;
+  font-size: 8px; font-weight: 700;
+  padding: 1px 4px; border-radius: 4px;
+  letter-spacing: .5px; z-index: 3;
 }
 
-.legend-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 10px;
-  letter-spacing: 0.5px;
-  font-family: 'Luckiest Guy', cursive;
+@media(min-width:768px) {
+  .sidebar-item .icon-wrap { width: 80px; height: 80px; border-radius: 22px; }
+  .sidebar-item .icon-wrap::before { border-radius: 26px; }
+  .sidebar-item .icon-wrap img { width: 76px; height: 76px; border-radius: 20px; }
+  .sidebar-label { font-size: 11px; }
+  .lb-tabs { margin-top: 48px; gap: 18px; }
 }
-.badge-legendary {
-  background: rgba(255,215,0,0.2);
-  color: #FFD700;
-  border: 1px solid rgba(255,215,0,0.4);
-}
-.badge-mythic {
-  background: rgba(219,39,119,0.2);
-  color: #f472b6;
-  border: 1px solid rgba(219,39,119,0.4);
+@media(min-width:1024px) {
+  .sidebar-item .icon-wrap { width: 88px; height: 88px; border-radius: 24px; }
+  .sidebar-item .icon-wrap::before { border-radius: 28px; }
+  .sidebar-item .icon-wrap img { width: 84px; height: 84px; border-radius: 22px; }
+  .sidebar-label { font-size: 12px; }
+  .lb-tabs { margin-top: 52px; gap: 20px; }
 }
 
-.legend-owner {
-  font-size: 10px;
-  color: rgba(255,255,255,0.5);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* ===== MAIN CONTENT ===== */
+.lb-main{
+  flex:1;
+  padding:16px 16px 20px;
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+.lb-main::-webkit-scrollbar{
+  width:8px;
+  opacity:0;
+}
+.lb-main::-webkit-scrollbar-track{
+  background:transparent;
+}
+.lb-main::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,0.3);
+  border-radius:4px;
+  opacity:0;
 }
 
-/* Empty state */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: rgba(255,255,255,0.4);
-}
-.empty-state i {
-  font-size: 64px;
-  margin-bottom: 16px;
-  color: rgba(255,215,0,0.3);
-  animation: float 3s ease-in-out infinite;
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-.empty-state p { font-size: 16px; font-weight: 600; }
-
-/* ===== STATS PANEL ===== */
-.stats-panel {
-  flex: 0 0 280px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+/* ===== CARDS GRID ===== */
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+  max-width:1200px;
+  margin:0 auto;
 }
 
-.stat-box {
-  background: rgba(0,0,0,0.15);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  padding: 16px;
+/* ===== CARD ITEM ===== */
+.lb-card{
+  border-radius:12px;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  transition:transform .25s,box-shadow .25s;
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:2px solid rgba(255,255,255,.2);
 }
-.stat-box-title {
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 18px;
-  color: #FFD700;
-  margin-bottom: 12px;
+.lb-card:hover{
+  transform:translateY(-4px) scale(1.02);
+  box-shadow:0 10px 24px rgba(0,0,0,.6);
 }
-.stat-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.stat-row:last-child { border-bottom: none; }
-.stat-label { font-size: 13px; color: rgba(255,255,255,0.7); }
-.stat-value {
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 16px;
-  color: #ffcdd2;
+.lb-card.legendary{border-color:rgba(255,215,0,.5);}
+.lb-card.legendary:hover{box-shadow:0 10px 24px rgba(255,215,0,.3);}
+.lb-card.mythic{border-color:rgba(219,39,119,.5);}
+.lb-card.mythic:hover{box-shadow:0 10px 24px rgba(219,39,119,.3);}
+.lb-card.special{border-color:rgba(96,165,250,.5);}
+.lb-card.special:hover{box-shadow:0 10px 24px rgba(96,165,250,.3);}
+
+/* Card image */
+.lb-card-img{
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:contain;
+  display:block;
 }
 
+/* Special badge */
+.lb-card-badge{
+  position:absolute;
+  top:5px;left:5px;
+  font-size:8px;font-weight:700;
+  padding:2px 6px;border-radius:4px;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+.badge-special{background:#3b82f6;color:#fff;}
+.badge-new{background:#e53935;color:#fff;}
+.badge-limited{background:linear-gradient(135deg,#FFD700,#ff9800);color:#000;}
+
+/* Card info overlay */
+.lb-card-info{
+  padding:8px 10px 11px;
+  background:linear-gradient(180deg,rgba(0,0,0,.0) 0%,rgba(0,0,0,.88) 100%);
+}
+.lb-card-name{
+  font-size:12px;font-weight:700;
+  color:#4fc3f7;
+  text-align:center;
+  text-shadow:0 1px 4px rgba(0,0,0,.8);
+  margin-bottom:2px;
+}
+.lb-card-sub{
+  font-size:10px;color:rgba(255,255,255,.55);
+  text-align:center;margin-bottom:8px;
+}
+
+/* Status / Button */
+.lb-card-status{
+  text-align:center;
+  font-size:10px;color:rgba(255,255,255,.45);
+  margin-bottom:6px;
+  line-height:1.4;
+}
+.lb-card-owned{
+  text-align:center;
+  font-size:12px;font-weight:700;
+  color:rgba(255,255,255,.45);
+  padding:5px 0;
+  letter-spacing:.5px;
+}
+.lb-card-btn{
+  display:block;width:100%;
+  padding:7px 6px;
+  background:linear-gradient(135deg,#c8a84b,#FFD700,#c8a84b);
+  border:none;border-radius:6px;
+  color:#1a1000;font-family:'Poppins',sans-serif;
+  font-size:11px;font-weight:700;
+  cursor:pointer;
+  text-align:center;
+  letter-spacing:.3px;
+  transition:transform .15s,box-shadow .15s;
+  box-shadow:0 2px 8px rgba(255,215,0,.3);
+  line-height:1.4;
+}
+.lb-card-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(255,215,0,.5);
+}
+.lb-card-btn:active{transform:scale(.97);}
+
+/* Holo shimmer */
+.lb-card.legendary::after,
+.lb-card.mythic::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.06) 50%,transparent 70%);
+  background-size:200% 200%;
+  animation:holo 4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes holo{0%,100%{background-position:0% 0%}50%{background-position:100% 100%}}
+
+@keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
 /* ===== RESPONSIVE ===== */
-@media (max-width: 640px) {
-  body { padding: 8px 8px 20px; }
-  .lb-content { flex-direction: column; gap: 12px; padding: 12px 10px; }
-  .stats-panel { flex: none; width: 100%; }
-  .card-grid-wrap { width: 100%; }
-  .lb-tab { font-size: 11px; padding: 8px 4px; }
-  .lb-header { flex-direction: column; gap: 8px; text-align: center; padding: 10px 12px; }
-  .lb-title { font-size: 20px; }
-  .lb-panel { max-width: 100%; border-radius: 20px; }
-  .card-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-  .stat-box-title { font-size: 16px; }
-  .stat-label { font-size: 12px; }
-  .stat-value { font-size: 14px; }
-}
-@media (max-width: 480px) {
-  body { padding: 6px 6px 16px; }
-  .lb-tab { font-size: 10px; padding: 7px 3px; }
-  .card-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
-  .lb-title { font-size: 18px; }
-  .card-item img { height: 150px; }
-}
-</style>
-</head>
-<body>
-
-<div class="lb-panel">
-
-  <!-- TABS -->
-  <div class="lb-tabs">
-    <div class="lb-tab active" onclick="switchTab('all',this)">All</div>
-    <div class="lb-tab" onclick="switchTab('legendary',this)">⭐ Legendary</div>
-    <div class="lb-tab" onclick="switchTab('mythic',this)">💎 Mythic</div>
-  </div>
-
-  <!-- HEADER -->
-  <div class="lb-header">
-    <div>
-      <div class="lb-title">👑 Legendary Board</div>
-      <div class="lb-subtitle">Kartu-kartu paling langka dari pemain top</div>
-    </div>
-  </div>
-
-  <!-- CONTENT -->
-  <div class="lb-content">
-
-    <!-- CARD GRID -->
-    <div class="card-grid-wrap">
-      <div class="card-grid" id="cardGrid">
-        <!-- Cards generated by JS -->
-      </div>
-    </div>
-
-    <!-- STATS PANEL -->
-    <div class="stats-panel">
-      <div class="stat-box">
-        <div class="stat-box-title">📊 Statistics</div>
-        <div class="stat-row">
-          <span class="stat-label">Total Cards</span>
-          <span class="stat-value" id="totalCards">8</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Legendary</span>
-          <span class="stat-value" id="legendaryCount">5</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">Mythic</span>
-          <span class="stat-value" id="mythicCount">3</span>
-        </div>
-      </div>
-
-      <div class="stat-box">
-        <div class="stat-box-title">🏆 Top Collectors</div>
-        <div class="stat-row">
-          <span class="stat-label">Trainer_Ash</span>
-          <span class="stat-value">2</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">DragonMaster</span>
-          <span class="stat-value">1</span>
-        </div>
-        <div class="stat-row">
-          <span class="stat-label">PikaMaster</span>
-          <span class="stat-value">1</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<script>
-var cards = [
-  { img: '../pokemon-cards/_-Cek9cr07LvG455A07v4j33ALumZ-wNPbekp55EdRY.jpeg', name: 'Charizard EX', rarity: 'legendary', owner: 'Trainer_Ash' },
-  { img: '../pokemon-cards/m13qNSEFwa0fwsXI6xC-69CqnH1V11Y0VCqFEwn6p2w.jpeg', name: 'Rayquaza EX', rarity: 'legendary', owner: 'DragonMaster' },
-  { img: '../pokemon-cards/ZA8TA0g5foXDKfBjuSl0_-L7j9_VE_3zsGNw2S-oDA0.jpeg', name: 'Mew EX', rarity: 'mythic', owner: 'MewHunter99' },
-  { img: '../pokemon-cards/73l51yZHpPLOIK2kg8gsba2FRbX5ubrJYivG1ZY6OUA.jpeg', name: 'Pikachu VMAX', rarity: 'legendary', owner: 'PikaMaster' },
-  { img: '../pokemon-cards/Hc7QMiT980rB_6MEvb9rJ6gRoOwgGGGcYfeT9dvqLxE.jpeg', name: 'Lugia VSTAR', rarity: 'mythic', owner: 'SkyRider' },
-  { img: '../pokemon-cards/npPSLO51S39hPtX5rzoZHXKX2_0xrWbWeKhVv9SeiHI.jpeg', name: 'Umbreon VMAX', rarity: 'legendary', owner: 'DarkTrainer' },
-  { img: '../pokemon-cards/U2US8ECIxX-OQdC-LqQ9LjU3kmJQsBq1LAfZJruZUog.jpeg', name: 'Sylveon VMAX', rarity: 'legendary', owner: 'FairyQueen' },
-  { img: '../pokemon-cards/ZU7OBcSwBOxbGU9vXkHLGTUOOpXQVrkOet4IhOVGcEo.jpeg', name: 'Alakazam V', rarity: 'mythic', owner: 'PsychicPro' },
-];
-
-var currentFilter = 'all';
-
-function switchTab(type, btn) {
-  currentFilter = type;
-  document.querySelectorAll('.lb-tab').forEach(function(t){ t.classList.remove('active'); });
-  btn.classList.add('active');
-  renderCards();
+@media(max-width:1024px){
+  .deposit-container {
+    max-width: 95%;
+    padding: 25px 15px;
+  }
+  .card-frame {
+    width: 100% !important;
+    height: auto !important;
+    margin: 15px auto !important;
+  }
+  .card-frame svg {
+    width: 100% !important;
+    height: auto !important;
+  }
 }
 
-function renderCards() {
-  var grid = document.getElementById('cardGrid');
-  var filtered = currentFilter === 'all' ? cards : cards.filter(function(c) { return c.rarity === currentFilter; });
-  
-  if (filtered.length === 0) {
-    grid.innerHTML = '<div class="empty-state"><i class="fas fa-crown"></i><p>Belum ada kartu ' + currentFilter + '</p></div>';
-    return;
+@media(max-width:768px){
+  .deposit-container {
+    max-width: 100%;
+    padding: 15px 8px 80px 8px;
   }
   
-  grid.innerHTML = filtered.map(function(c) {
-    return '<div class="legend-card ' + c.rarity + '">' +
-      '<img src="' + c.img + '" alt="' + c.name + '" loading="lazy"/>' +
-      '<div class="legend-card-info">' +
-        '<div class="legend-card-name">' + c.name + '</div>' +
-        '<div class="legend-card-meta">' +
-          '<span class="legend-badge badge-' + c.rarity + '">' + (c.rarity === 'legendary' ? '⭐ LEGENDARY' : '💎 MYTHIC') + '</span>' +
-          '<span class="legend-owner">@' + c.owner + '</span>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
-  }).join('');
+  .card-frame {
+    width: 100% !important;
+    height: auto !important;
+    margin: 8px auto !important;
+    background: rgba(255, 255, 255, 0.1);
+    border: 3px solid transparent;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)),
+                      linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    border-radius: 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    backdrop-filter: blur(15px);
+  }
+  
+  /* Hide SVG on mobile */
+  .card-frame svg {
+    display: none !important;
+  }
+  
+  /* Mobile card content adjustments */
+  .card-frame .card-image-frame {
+    position: relative !important;
+    width: 100% !important;
+    height: 180px !important;
+    left: 0 !important;
+    top: 0 !important;
+    margin-bottom: 15px;
+    border: 2px solid #FFFFFF;
+  }
+  
+  .card-frame .card-image-frame img {
+    width: 120px !important;
+    height: 160px !important;
+  }
+  
+  .card-frame .card-content-container {
+    position: relative !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    padding: 0;
+  }
+  
+  .card-frame .card-name-price-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .card-frame .card-name {
+    font-size: 16px !important;
+    line-height: 1.2 !important;
+  }
+  
+  .card-frame .card-price {
+    font-size: 14px !important;
+  }
+  
+  .card-frame .legendary-badge {
+    margin-bottom: 12px !important;
+    align-self: flex-start !important;
+  }
+  
+  .card-frame .legendary-badge span {
+    font-size: 12px !important;
+  }
+  
+  .card-frame .card-stats {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .card-frame .card-stats div {
+    font-size: 11px !important;
+    text-align: left !important;
+  }
+  
+  .card-frame .pemilik-label {
+    margin-top: 20px !important;
+    margin-bottom: 8px !important;
+    font-size: 10px !important;
+  }
+  
+  .card-frame .owner-list {
+    gap: 4px !important;
+  }
+  
+  .card-frame .owner-badge {
+    height: 16px !important;
+    padding: 2px 6px !important;
+  }
+  
+  .card-frame .owner-badge span {
+    font-size: 9px !important;
+  }
 }
 
-function updateStats() {
-  document.getElementById('totalCards').textContent = cards.length;
-  document.getElementById('legendaryCount').textContent = cards.filter(function(c) { return c.rarity === 'legendary'; }).length;
-  document.getElementById('mythicCount').textContent = cards.filter(function(c) { return c.rarity === 'mythic'; }).length;
+@media(max-width:480px){
+  .deposit-container {
+    padding: 10px 4px 80px 4px;
+  }
+  
+  .card-frame {
+    margin: 6px auto !important;
+    padding: 12px !important;
+  }
+  
+  .card-frame .card-image-frame {
+    height: 150px !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .card-frame .card-image-frame img {
+    width: 100px !important;
+    height: 130px !important;
+  }
+  
+  .card-frame .card-name {
+    font-size: 14px !important;
+    line-height: 1.1 !important;
+  }
+  
+  .card-frame .card-price {
+    font-size: 12px !important;
+  }
+  
+  .card-frame .legendary-badge {
+    margin-bottom: 10px !important;
+    padding: 1px 12px !important;
+    height: 20px !important;
+  }
+  
+  .card-frame .legendary-badge span {
+    font-size: 10px !important;
+  }
+  
+  .card-frame .card-stats {
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .card-frame .card-stats div {
+    font-size: 10px !important;
+  }
+  
+  .card-frame .pemilik-label {
+    margin-top: 15px !important;
+    margin-bottom: 6px !important;
+    font-size: 9px !important;
+  }
+  
+  .card-frame .owner-list {
+    gap: 3px !important;
+  }
+  
+  .card-frame .owner-badge {
+    height: 14px !important;
+    padding: 1px 4px !important;
+  }
+  
+  .card-frame .owner-badge span {
+    font-size: 8px !important;
+  }
+}
+/* ===== POKEMON BOARD LAYOUT ===== */
+.pkm-board {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-top: 16px;
+  min-height: 420px;
 }
 
-renderCards();
-updateStats();
-</script>
+/* === KIRI: Frame grid === */
+.pkm-frame {
+  flex: 0 0 auto;
+  width: 340px;
+  background: linear-gradient(160deg, rgba(0,20,60,0.92) 0%, rgba(0,8,30,0.96) 100%);
+  border: 2px solid #1a6fff;
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px rgba(100,180,255,0.15),
+    0 0 30px rgba(0,100,255,0.25),
+    inset 0 0 40px rgba(0,50,150,0.15);
+  overflow: hidden;
+  position: relative;
+}
+.pkm-frame::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 28px,
+    rgba(0,80,200,0.04) 28px, rgba(0,80,200,0.04) 29px
+  ),
+  repeating-linear-gradient(
+    90deg, transparent, transparent 28px,
+    rgba(0,80,200,0.04) 28px, rgba(0,80,200,0.04) 29px
+  );
+  pointer-events: none; z-index: 0;
+}
+.pkm-frame-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid rgba(0,120,255,0.3);
+  background: rgba(0,40,120,0.4);
+  position: relative; z-index: 1;
+}
+.pkm-frame-title {
+  font-family: 'Cinzel', serif;
+  font-size: 11px; font-weight: 700;
+  color: #4fc3f7;
+  letter-spacing: 2px; text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(79,195,247,0.6);
+}
+.pkm-frame-count {
+  font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  background: rgba(0,80,200,0.3);
+  padding: 2px 8px; border-radius: 10px;
+}
+.pkm-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 10px;
+  position: relative; z-index: 1;
+  max-height: 380px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,120,255,0.4) transparent;
+}
+.pkm-grid::-webkit-scrollbar { width: 4px; }
+.pkm-grid::-webkit-scrollbar-thumb { background: rgba(0,120,255,0.4); border-radius: 2px; }
 
-</div><!-- /lb-panel -->
+/* Card slot */
+.pkm-slot {
+  aspect-ratio: 3/4;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid rgba(0,80,200,0.4);
+  background: rgba(0,10,40,0.6);
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+.pkm-slot:hover, .pkm-slot.selected {
+  border-color: #FFD700;
+  transform: scale(1.08);
+  box-shadow: 0 0 16px rgba(255,215,0,0.5), 0 0 4px rgba(255,215,0,0.8);
+  z-index: 2;
+}
+.pkm-slot img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.pkm-slot-rarity {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px;
+}
+.pkm-slot-badge {
+  position: absolute; top: 3px; right: 3px;
+  font-size: 7px; font-weight: 800;
+  padding: 1px 4px; border-radius: 3px;
+  text-transform: uppercase; letter-spacing: 0.3px;
+  color: #fff;
+}
 
+/* === KANAN: Book/Album Frame — style dari spec === */
+.pkm-detail {
+  width: 100%;
+  display: flex; justify-content: center;
+}
+
+.book-frame {
+  width: 100%;
+  max-width: 700px;
+  position: relative;
+  background: #5BB3DF;
+  border: 0.5px solid #000;
+  border-radius: 9px;
+  padding: 0;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+  overflow: visible;
+  margin-top: 160px;
+}
+
+/* Inner cream */
+.book-frame-inner {
+  background: #FDEFC7;
+  border: 0.5px solid #000;
+  border-radius: 6px;
+  padding: 10px;
+  position: relative;
+  margin: 8px;
+  margin-top: 20px;
+}
+
+/* ===== RIBBON HEADER ===== */
+.book-ribbon {
+  position: absolute;
+  top: -155px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 68%;
+  max-width: 380px;
+  z-index: 15;
+  pointer-events: none;
+}
+
+/* Corner — pas di sudut frame */
+.book-corner {
+  position: absolute;
+  width: 50px; height: 51px;
+  z-index: 20;
+  pointer-events: none;
+}
+.book-corner svg { width: 50px; height: 51px; display: block; }
+
+/* TL — normal */
+.book-corner.tl { top: 0; left: 0; }
+
+/* TR — flip horizontal: geser ke kanan sebesar lebar corner */
+.book-corner.tr {
+  top: 0; right: 0;
+  transform: scaleX(-1);
+  transform-origin: 50% 50%;
+}
+
+/* BL — flip vertical */
+.book-corner.bl {
+  bottom: 0; left: 0;
+  transform: scaleY(-1);
+  transform-origin: 50% 50%;
+}
+
+/* BR — flip keduanya */
+.book-corner.br {
+  bottom: 0; right: 0;
+  transform: scale(-1, -1);
+  transform-origin: 50% 50%;
+}
+
+/* Card grid — 5 kolom, aspect ratio 3:4 */
+.book-card-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.book-card-slot {
+  aspect-ratio: 3/4;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  border: 1.5px solid #c8a84b;
+  background: linear-gradient(160deg, #e8d5a8, #d4b87a);
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+.book-card-slot:hover, .book-card-slot.selected {
+  transform: scale(1.06) translateY(-3px);
+  border-color: #FFD700;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4), 0 0 12px rgba(255,215,0,0.5);
+  z-index: 3;
+}
+.book-card-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.book-card-stars { position: absolute; top: 2px; left: 0; right: 0; text-align: center; font-size: 7px; color: #FFD700; text-shadow: 0 0 4px rgba(0,0,0,0.8); z-index: 2; }
+.book-card-tag { position: absolute; top: 2px; right: 2px; font-size: 6px; font-weight: 800; padding: 1px 3px; border-radius: 3px; text-transform: uppercase; z-index: 2; }
+.book-card-tag.new   { background: #e53935; color: #fff; }
+.book-card-tag.owned { background: #22c55e; color: #fff; }
+.book-card-tag.locked{ background: rgba(0,0,0,0.6); color: rgba(255,255,255,0.5); }
+.book-card-slot.empty { display: flex; align-items: center; justify-content: center; cursor: default; }
+.book-card-slot.empty::after { content: '?'; font-size: 22px; font-weight: 900; color: rgba(139,105,20,0.3); }
+
+.book-footer { padding: 6px 0 2px; text-align: center; font-size: 9px; font-weight: 700; color: rgba(100,70,10,0.7); letter-spacing: 1px; }
+
+@media(max-width:768px) {
+  .book-frame { max-width: 100%; margin-top: 130px; }
+  .book-card-grid { grid-template-columns: repeat(3,1fr); }
+  .book-ribbon { width: 60%; top: -120px; }
+}
+@media(max-width:480px) {
+  .book-card-grid { grid-template-columns: repeat(2,1fr); }
+  .book-ribbon { width: 70%; top: -100px; }
+}
+.ribbon-img-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ribbon-img-wrap img {
+  width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+}
+.ribbon-text-overlay {
+  position: absolute;
+  bottom: 63px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+  width: 80%;
+}
+.ribbon-stars {
+  font-size: 18px;
+  color: #FFD700;
+  text-shadow: 0 0 8px rgba(255,200,0,0.9), 1px 1px 0 #8B6914;
+  letter-spacing: 2px;
+  margin-bottom: 1px;
+  display: block;
+}
+.ribbon-title {
+  font-family: 'Cinzel', serif;
+  font-size: 11px; font-weight: 900;
+  color: #fff;
+  text-shadow: 1px 1px 0 #8B6914, 0 0 8px rgba(255,200,0,0.6);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+}
+.ribbon-text-overlay {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+  width: 100%;
+}
+.ribbon-stars {
+  font-size: 22px;
+  color: #FFD700;
+  text-shadow: 0 0 8px rgba(255,200,0,0.9), 1px 1px 0 #8B6914;
+  letter-spacing: 2px;
+  margin-bottom: 2px;
+  display: block;
+}
+.ribbon-title {
+  font-family: 'Cinzel', serif;
+  font-size: 13px; font-weight: 900;
+  color: #fff;
+  text-shadow: 1px 1px 0 #8B6914, 0 0 10px rgba(255,200,0,0.6);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Header lama — tidak dipakai */
+
+/* Footer */
+.book-footer { padding: 7px 0 2px; text-align: center; font-size: 9px; font-weight: 700; color: rgba(100,70,10,0.7); letter-spacing: 1px; }
+
+@media(max-width:768px) {
+  .book-frame { max-width: 100%; }
+  .book-card-grid { grid-template-columns: repeat(3,1fr); }
+  .book-ribbon { width: 60%; top: -90px; }
+}
+@media(max-width:480px) {
+  .book-card-grid { grid-template-columns: repeat(2,1fr); }
+  .book-ribbon { width: 70%; top: -80px; }
+}
+  .cards-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .lb-card-name{font-size:12px;}
+  .lb-card-sub{font-size:10px;}
+  .lb-card-btn{font-size:11px;padding:7px 8px;}
+  .lb-title{font-size:1.2rem;}
+  .sidebar-item .icon-wrap { width: 64px; height: 64px; border-radius: 18px; }
+  .sidebar-item .icon-wrap::before { border-radius: 20px; }
+  .sidebar-item .icon-wrap img { width: 60px; height: 60px; border-radius: 16px; }
+  .sidebar-label { font-size: 9px; }
+  .lb-tabs { margin-top: 40px; gap: 10px; }
+}
+@media(max-width:400px){
+  .cards-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .sidebar-item .icon-wrap { width: 60px; height: 60px; border-radius: 16px; }
+  .sidebar-item .icon-wrap img { width: 56px; height: 56px; border-radius: 14px; }
+  .sidebar-label { font-size: 8px; }
+  .lb-tabs { gap: 8px; }
+}
+    </style>
+</head>
+<body>
+    <div class="deposit-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-bg"></div>
+            <div class="header-tabs">
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 65px; padding: 0 20px;">
+                    <h1 style="color: white; font-size: 1.4rem; margin: 0 0 2px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); font-weight: 700; line-height: 1;">Legendary Board</h1>
+                    <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 0.75rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); line-height: 1;">
+                        Koleksi kartu Legendary dan pemiliknya
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Container -->
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Total Kartu</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">25</div>
+                <div class="stat-label">Total Pemilik</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Most Owned</div>
+            </div>
+        </div>
+
+        <!-- Charizard Card Section -->
+        <div class="card-frame" style="position: relative; width: 1218px; height: 371px; margin: 20px auto;">
+            <!-- New SVG Border Frame -->
+            <svg width="1218" height="371" viewBox="0 0 1218 371" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: 0px; top: 0px;">
+                <rect x="9" y="12" width="1199.5" height="351.925" rx="16" fill="url(#paint0_linear_1398_505)" stroke="url(#paint2_linear_1398_505)" stroke-width="8"/>
+                <rect x="26.5566" y="25.9336" width="1164.71" height="323.369" rx="30.5" fill="url(#paint1_linear_1398_505)" stroke="url(#paint2_linear_1398_505)" stroke-width="9"/>
+                <path d="M2.72814e-05 351C3.69997e-05 362.046 8.9543 371 20 371L49.3299 371C50.1314 371 50.9318 370.818 51.5681 370.33C53.6074 368.768 57.24 364.581 47.8894 358.919C35.917 351.671 45.0389 342.812 35.9171 334.758C26.7953 326.704 19.9539 334.758 13.3026 321.335C7.93375 310.5 2.56497 316.282 0.694175 318.914C0.205685 319.602 3.89064e-07 320.435 1.131e-06 321.278L2.72814e-05 351Z" fill="url(#paint3_linear_1398_505)"/>
+                <path d="M2.72814e-05 20.0001C3.69997e-05 8.9544 8.9543 0.000134831 20 9.90264e-05L49.3299 3.95462e-06C50.1314 1.35633e-06 50.9318 0.18223 51.5681 0.669709C53.6074 2.232 57.24 6.41913 47.8894 12.0806C35.917 19.3293 45.0389 28.1885 35.9171 36.2424C26.7953 44.2962 19.9539 36.242 13.3026 49.6651C7.93375 60.4999 2.56497 54.7181 0.694175 52.0857C0.205685 51.3983 3.89064e-07 50.5655 1.131e-06 49.7222L2.72814e-05 20.0001Z" fill="url(#paint4_linear_1398_505)"/>
+                <path d="M1218 351C1218 362.046 1209.05 371 1198 371L1168.67 371C1167.87 371 1167.07 370.818 1166.43 370.33C1164.39 368.768 1160.76 364.581 1170.11 358.919C1182.08 351.671 1172.96 342.812 1182.08 334.758C1191.2 326.704 1198.05 334.758 1204.7 321.335C1210.07 310.5 1215.44 316.282 1217.31 318.914C1217.79 319.602 1218 320.435 1218 321.278L1218 351Z" fill="url(#paint5_linear_1398_505)"/>
+                <path d="M1218 26.0001C1218 14.9544 1209.05 6.00013 1198 6.0001L1168.67 6C1167.87 6 1167.07 6.18223 1166.43 6.66971C1164.39 8.232 1160.76 12.4191 1170.11 18.0806C1182.08 25.3293 1172.96 34.1885 1182.08 42.2424C1191.2 50.2962 1198.05 42.242 1204.7 55.6651C1210.07 66.4999 1215.44 60.7181 1217.31 58.0857C1217.79 57.3983 1218 56.5655 1218 55.7222L1218 26.0001Z" fill="url(#paint6_linear_1398_505)"/>
+                <defs>
+                    <linearGradient id="paint0_linear_1398_505" x1="608.75" y1="16" x2="608.75" y2="359.925" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#8AD8FF"/>
+                        <stop offset="0.423077" stop-color="white"/>
+                        <stop offset="0.831731" stop-color="#CC67FF"/>
+                    </linearGradient>
+                    <linearGradient id="paint1_linear_1398_505" x1="1267.31" y1="-40.1497" x2="818.852" y2="837.37" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white"/>
+                        <stop offset="0.481914" stop-color="#88FFF9"/>
+                        <stop offset="1" stop-color="#FFDF11"/>
+                    </linearGradient>
+                    <linearGradient id="paint2_linear_1398_505" x1="608.909" y1="21.4336" x2="608.909" y2="353.802" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white"/>
+                        <stop offset="1" stop-color="#3FF9FF"/>
+                    </linearGradient>
+                    <linearGradient id="paint3_linear_1398_505" x1="13" y1="371" x2="33.3761" y2="329.183" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.149038" stop-color="#FF969C"/>
+                        <stop offset="0.644231" stop-color="#FF007B"/>
+                        <stop offset="1" stop-color="#FF546A"/>
+                    </linearGradient>
+                    <linearGradient id="paint4_linear_1398_505" x1="13" y1="-1.30102e-07" x2="33.3761" y2="41.8167" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.149038" stop-color="#FF969C"/>
+                        <stop offset="0.644231" stop-color="#FF007B"/>
+                        <stop offset="1" stop-color="#FF546A"/>
+                    </linearGradient>
+                    <linearGradient id="paint5_linear_1398_505" x1="1205" y1="371" x2="1184.62" y2="329.183" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.149038" stop-color="#FF969C"/>
+                        <stop offset="0.644231" stop-color="#FF007B"/>
+                        <stop offset="1" stop-color="#FF546A"/>
+                    </linearGradient>
+                    <linearGradient id="paint6_linear_1398_505" x1="1205" y1="6" x2="1184.62" y2="47.8167" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.149038" stop-color="#FF969C"/>
+                        <stop offset="0.644231" stop-color="#FF007B"/>
+                        <stop offset="1" stop-color="#FF546A"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+
+            <!-- Card Image Frame -->
+            <div class="card-image-frame" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px; gap: 10px; position: absolute; width: 220px; height: 295px; left: 43px; top: 41px; border: 3px solid #FFFFFF; border-radius: 20px;">
+                <img src="../assets/images/cards/ME03_EN_123.png" alt="Rosa's Encouragement" style="width: 186px; height: 259px; object-fit: cover;">
+            </div>
+
+            <!-- Card Content Container -->
+            <div class="card-content-container" style="position: absolute; left: 280px; top: 61px; width: 850px;">
+                <!-- Card Name and Price Row -->
+                <div class="card-name-price-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <!-- Card Name -->
+                    <div class="card-name" style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 20px; line-height: 100%; color: #1068D2;">
+                        Rosa's Encouragement
+                    </div>
+                    <!-- Price -->
+                    <div class="card-price" style="font-family: 'Rowdies'; font-style: normal; font-weight: 700; font-size: 18px; line-height: 100%; color: #FFD700; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+                        Rp 8.000.000
+                    </div>
+                </div>
+
+                <!-- Legendary Badge -->
+                <div class="legendary-badge" style="box-sizing: border-box; display: inline-flex; justify-content: center; align-items: center; padding: 2px 20px; margin-bottom: 10px; width: auto; height: 23px; background: linear-gradient(87.22deg, #FFCC00 -10.32%, rgba(255, 0, 0, 0.99) 112.06%); border: 2px solid #FF0000; border-radius: 120px;">
+                    <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 16px; line-height: 100%; color: #FFFFFF;">Legendary</span>
+                </div>
+
+                <!-- Card Stats -->
+                <div class="card-stats" style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
+                    <div style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 100%; color: #656565;">4/3 terambil</div>
+                    <div style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 100%; color: #656565;">4 Pemilik</div>
+                    <div style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 100%; color: #656565;">4 Pull</div>
+                    <div style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 100%; color: #656565;">133.3% Completion</div>
+                </div>
+
+                <!-- Pemilik Kartu Label -->
+                <div class="pemilik-label" style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 100%; color: #000000; margin-top: 95px; margin-bottom: 8px;">
+                    PEMILIK KARTU
+                </div>
+
+                <!-- Owner List -->
+                <div class="owner-list" style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    <div class="owner-badge" style="display: inline-flex; justify-content: center; align-items: center; padding: 2px 12px; width: auto; height: 20px; background: #444444; border-radius: 100px;">
+                        <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 12px; line-height: 100%; color: #FFFFFF;">budi_legend 20/02</span>
+                    </div>
+                    <div class="owner-badge" style="display: inline-flex; justify-content: center; align-items: center; padding: 2px 12px; width: auto; height: 20px; background: #444444; border-radius: 100px;">
+                        <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 12px; line-height: 100%; color: #FFFFFF;">rizky_collector 25/02</span>
+                    </div>
+                    <div class="owner-badge" style="display: inline-flex; justify-content: center; align-items: center; padding: 2px 12px; width: auto; height: 20px; background: #444444; border-radius: 100px;">
+                        <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 12px; line-height: 100%; color: #FFFFFF;">rizky_collector 09/03</span>
+                    </div>
+                    <div class="owner-badge" style="display: inline-flex; justify-content: center; align-items: center; padding: 2px 12px; width: auto; height: 20px; background: #444444; border-radius: 100px;">
+                        <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 12px; line-height: 100%; color: #FFFFFF;">kendil_keren 09/03</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Oricorio Card Section -->
+        <div class="card-frame" style="position: relative; width: 1218px; height: 371px; margin: 20px auto;">
+            <!-- New SVG Border Frame -->
+            <svg width="1218" height="371" viewBox="0 0 1218 371" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: 0px; top: 0px;">
+                <rect x="9" y="12" width="1199.5" height="351.925" rx="16" fill="url(#paint7_linear_1398_505)" stroke="url(#paint9_linear_1398_505)" stroke-width="8"/>
+                <rect x="26.5566" y="25.9336" width="1164.71" height="323.369" rx="30.5" fill="url(#paint8_linear_1398_505)" stroke="url(#paint9_linear_1398_505)" stroke-width="9"/>
+                <path d="M2.72814e-05 351C3.69997e-05 362.046 8.9543 371 20 371L49.3299 371C50.1314 371 50.9318 370.818 51.5681 370.33C53.6074 368.768 57.24 364.581 47.8894 358.919C35.917 351.671 45.0389 342.812 35.9171 334.758C26.7953 326.704 19.9539 334.758 13.3026 321.335C7.93375 310.5 2.56497 316.282 0.694175 318.914C0.205685 319.602 3.89064e-07 320.435 1.131e-06 321.278L2.72814e-05 351Z" fill="url(#paint10_linear_1398_505)"/>
+                <path d="M2.72814e-05 20.0001C3.69997e-05 8.9544 8.9543 0.000134831 20 9.90264e-05L49.3299 3.95462e-06C50.1314 1.35633e-06 50.9318 0.18223 51.5681 0.669709C53.6074 2.232 57.24 6.41913 47.8894 12.0806C35.917 19.3293 45.0389 28.1885 35.9171 36.2424C26.7953 44.2962 19.9539 36.242 13.3026 49.6651C7.93375 60.4999 2.56497 54.7181 0.694175 52.0857C0.205685 51.3983 3.89064e-07 50.5655 1.131e-06 49.7222L2.72814e-05 20.0001Z" fill="url(#paint11_linear_1398_505)"/>
+                <path d="M1218 351C1218 362.046 1209.05 371 1198 371L1168.67 371C1167.87 371 1167.07 370.818 1166.43 370.33C1164.39 368.768 1160.76 364.581 1170.11 358.919C1182.08 351.671 1172.96 342.812 1182.08 334.758C1191.2 326.704 1198.05 334.758 1204.7 321.335C1210.07 310.5 1215.44 316.282 1217.31 318.914C1217.79 319.602 1218 320.435 1218 321.278L1218 351Z" fill="url(#paint12_linear_1398_505)"/>
+                <path d="M1218 26.0001C1218 14.9544 1209.05 6.00013 1198 6.0001L1168.67 6C1167.87 6 1167.07 6.18223 1166.43 6.66971C1164.39 8.232 1160.76 12.4191 1170.11 18.0806C1182.08 25.3293 1172.96 34.1885 1182.08 42.2424C1191.2 50.2962 1198.05 42.242 1204.7 55.6651C1210.07 66.4999 1215.44 60.7181 1217.31 58.0857C1217.79 57.3983 1218 56.5655 1218 55.7222L1218 26.0001Z" fill="url(#paint13_linear_1398_505)"/>
+                <defs>
+                    <linearGradient id="paint7_linear_1398_505" x1="608.75" y1="16" x2="608.75" y2="359.925" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#8AD8FF"/>
+                        <stop offset="0.423077" stop-color="white"/>
+                        <stop offset="0.831731" stop-color="#CC67FF"/>
+                    </linearGradient>
+                    <linearGradient id="paint8_linear_1398_505" x1="1267.31" y1="-40.1497" x2="818.852" y2="837.37" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white"/>
+                        <stop offset="0.481914" stop-color="#88FFF9"/>
+                        <stop offset="1" stop-color="#FFDF11"/>
+                    </linearGradient>
+                    <linearGradient id="paint9_linear_1398_505" x1="608.909" y1="21.4336" x2="608.909" y2="353.802" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white"/>
+                        <stop offset="1" stop-color="#3FF9FF"/>
+                    </linearGradient>
+                    <linearGradient id="paint10_linear_1398_505" x1="13" y1="371" x2="33.3761" y2="329.183" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.149038" stop-color="#FF969C"/>
+                        <stop offset="0.644231" stop-color="#FF007B"/>
+                        <stop offset="1" stop-color="#FF546A"/>
+                    </linearGradient>
+                    <linearGradient id="paint11_linear_1398_505" x1="13" y1="-1.30102e-07" x2="33.3761" y2="41.8167" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.149038" stop-color="#FF969C"/>
+                        <stop offset="0.644231" stop-color="#FF007B"/>
+                        <stop offset="1" stop-color="#FF546A"/>
+                    </linearGradient>
+                    <linearGradient id="paint12_linear_1398_505" x1="1205" y1="371" x2="1184.62" y2="329.183" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.149038" stop-color="#FF969C"/>
+                        <stop offset="0.644231" stop-color="#FF007B"/>
+                        <stop offset="1" stop-color="#FF546A"/>
+                    </linearGradient>
+                    <linearGradient id="paint13_linear_1398_505" x1="1205" y1="6" x2="1184.62" y2="47.8167" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.149038" stop-color="#FF969C"/>
+                        <stop offset="0.644231" stop-color="#FF007B"/>
+                        <stop offset="1" stop-color="#FF546A"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+
+            <!-- Card Image Frame -->
+            <div class="card-image-frame" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px; gap: 10px; position: absolute; width: 220px; height: 295px; left: 43px; top: 41px; border: 3px solid #FFFFFF; border-radius: 20px;">
+                <img src="../assets/images/cards/ME03_EN_12.png" alt="Decidueye Ex" style="width: 186px; height: 259px; object-fit: cover;">
+            </div>
+
+            <!-- Card Content Container -->
+            <div class="card-content-container" style="position: absolute; left: 280px; top: 61px; width: 850px;">
+                <!-- Card Name and Price Row -->
+                <div class="card-name-price-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <!-- Card Name -->
+                    <div class="card-name" style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 20px; line-height: 100%; color: #1068D2;">
+                        Decidueye Ex
+                    </div>
+                    <!-- Price -->
+                    <div class="card-price" style="font-family: 'Rowdies'; font-style: normal; font-weight: 700; font-size: 18px; line-height: 100%; color: #FFD700; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+                        Rp 6.000.000
+                    </div>
+                </div>
+
+                <!-- Legendary Badge -->
+                <div class="legendary-badge" style="box-sizing: border-box; display: inline-flex; justify-content: center; align-items: center; padding: 2px 20px; margin-bottom: 10px; width: auto; height: 23px; background: linear-gradient(87.22deg, #FFCC00 -10.32%, rgba(255, 0, 0, 0.99) 112.06%); border: 2px solid #FF0000; border-radius: 120px;">
+                    <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 16px; line-height: 100%; color: #FFFFFF;">Legendary</span>
+                </div>
+
+                <!-- Card Stats -->
+                <div class="card-stats" style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
+                    <div style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 100%; color: #656565;">3/3 terambil</div>
+                    <div style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 100%; color: #656565;">3 Pemilik</div>
+                    <div style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 100%; color: #656565;">3 Pull</div>
+                    <div style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 100%; color: #656565;">100% Completion</div>
+                </div>
+
+                <!-- Pemilik Kartu Label -->
+                <div class="pemilik-label" style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 100%; color: #000000; margin-top: 95px; margin-bottom: 8px;">
+                    PEMILIK KARTU
+                </div>
+
+                <!-- Owner List -->
+                <div class="owner-list" style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    <div class="owner-badge" style="display: inline-flex; justify-content: center; align-items: center; padding: 2px 12px; width: auto; height: 20px; background: #444444; border-radius: 100px;">
+                        <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 12px; line-height: 100%; color: #FFFFFF;">budi_legend 22/02</span>
+                    </div>
+                    <div class="owner-badge" style="display: inline-flex; justify-content: center; align-items: center; padding: 2px 12px; width: auto; height: 20px; background: #444444; border-radius: 100px;">
+                        <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 12px; line-height: 100%; color: #FFFFFF;">rizky_collector 09/03</span>
+                    </div>
+                    <div class="owner-badge" style="display: inline-flex; justify-content: center; align-items: center; padding: 2px 12px; width: auto; height: 20px; background: #444444; border-radius: 100px;">
+                        <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 12px; line-height: 100%; color: #FFFFFF;">yayan_collector 09/03</span>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+
+        <!-- Bellibolt Card Section -->
+        <div class="card-frame" style="position: relative; width: 1218px; height: 371px; margin: 20px auto;">
+            <!-- New SVG Border Frame -->
+            <svg width="1218" height="371" viewBox="0 0 1218 371" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: 0px; top: 0px;">
+                <rect x="9" y="12" width="1199.5" height="351.925" rx="16" fill="url(#paint14_linear_1398_505)" stroke="url(#paint16_linear_1398_505)" stroke-width="8"/>
+                <rect x="26.5566" y="25.9336" width="1164.71" height="323.369" rx="30.5" fill="url(#paint15_linear_1398_505)" stroke="url(#paint16_linear_1398_505)" stroke-width="9"/>
+                <path d="M2.72814e-05 351C3.69997e-05 362.046 8.9543 371 20 371L49.3299 371C50.1314 371 50.9318 370.818 51.5681 370.33C53.6074 368.768 57.24 364.581 47.8894 358.919C35.917 351.671 45.0389 342.812 35.9171 334.758C26.7953 326.704 19.9539 334.758 13.3026 321.335C7.93375 310.5 2.56497 316.282 0.694175 318.914C0.205685 319.602 3.89064e-07 320.435 1.131e-06 321.278L2.72814e-05 351Z" fill="url(#paint17_linear_1398_505)"/>
+                <path d="M2.72814e-05 20.0001C3.69997e-05 8.9544 8.9543 0.000134831 20 9.90264e-05L49.3299 3.95462e-06C50.1314 1.35633e-06 50.9318 0.18223 51.5681 0.669709C53.6074 2.232 57.24 6.41913 47.8894 12.0806C35.917 19.3293 45.0389 28.1885 35.9171 36.2424C26.7953 44.2962 19.9539 36.242 13.3026 49.6651C7.93375 60.4999 2.56497 54.7181 0.694175 52.0857C0.205685 51.3983 3.89064e-07 50.5655 1.131e-06 49.7222L2.72814e-05 20.0001Z" fill="url(#paint18_linear_1398_505)"/>
+                <path d="M1218 351C1218 362.046 1209.05 371 1198 371L1168.67 371C1167.87 371 1167.07 370.818 1166.43 370.33C1164.39 368.768 1160.76 364.581 1170.11 358.919C1182.08 351.671 1172.96 342.812 1182.08 334.758C1191.2 326.704 1198.05 334.758 1204.7 321.335C1210.07 310.5 1215.44 316.282 1217.31 318.914C1217.79 319.602 1218 320.435 1218 321.278L1218 351Z" fill="url(#paint19_linear_1398_505)"/>
+                <path d="M1218 26.0001C1218 14.9544 1209.05 6.00013 1198 6.0001L1168.67 6C1167.87 6 1167.07 6.18223 1166.43 6.66971C1164.39 8.232 1160.76 12.4191 1170.11 18.0806C1182.08 25.3293 1172.96 34.1885 1182.08 42.2424C1191.2 50.2962 1198.05 42.242 1204.7 55.6651C1210.07 66.4999 1215.44 60.7181 1217.31 58.0857C1217.79 57.3983 1218 56.5655 1218 55.7222L1218 26.0001Z" fill="url(#paint20_linear_1398_505)"/>
+                <defs>
+                    <linearGradient id="paint14_linear_1398_505" x1="608.75" y1="16" x2="608.75" y2="359.925" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#8AD8FF"/>
+                        <stop offset="0.423077" stop-color="white"/>
+                        <stop offset="0.831731" stop-color="#CC67FF"/>
+                    </linearGradient>
+                    <linearGradient id="paint15_linear_1398_505" x1="1267.31" y1="-40.1497" x2="818.852" y2="837.37" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white"/>
+                        <stop offset="0.481914" stop-color="#88FFF9"/>
+                        <stop offset="1" stop-color="#FFDF11"/>
+                    </linearGradient>
+                    <linearGradient id="paint16_linear_1398_505" x1="608.909" y1="21.4336" x2="608.909" y2="353.802" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white"/>
+                        <stop offset="1" stop-color="#3FF9FF"/>
+                    </linearGradient>
+                    <linearGradient id="paint17_linear_1398_505" x1="13" y1="371" x2="33.3761" y2="329.183" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.149038" stop-color="#FF969C"/>
+                        <stop offset="0.644231" stop-color="#FF007B"/>
+                        <stop offset="1" stop-color="#FF546A"/>
+                    </linearGradient>
+                    <linearGradient id="paint18_linear_1398_505" x1="13" y1="-1.30102e-07" x2="33.3761" y2="41.8167" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.149038" stop-color="#FF969C"/>
+                        <stop offset="0.644231" stop-color="#FF007B"/>
+                        <stop offset="1" stop-color="#FF546A"/>
+                    </linearGradient>
+                    <linearGradient id="paint19_linear_1398_505" x1="1205" y1="371" x2="1184.62" y2="329.183" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.149038" stop-color="#FF969C"/>
+                        <stop offset="0.644231" stop-color="#FF007B"/>
+                        <stop offset="1" stop-color="#FF546A"/>
+                    </linearGradient>
+                    <linearGradient id="paint20_linear_1398_505" x1="1205" y1="6" x2="1184.62" y2="47.8167" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.149038" stop-color="#FF969C"/>
+                        <stop offset="0.644231" stop-color="#FF007B"/>
+                        <stop offset="1" stop-color="#FF546A"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+
+            <!-- Card Image Frame -->
+            <div class="card-image-frame" style="box-sizing: border-box; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 20px; gap: 10px; position: absolute; width: 220px; height: 295px; left: 43px; top: 41px; border: 3px solid #FFFFFF; border-radius: 20px;">
+                <img src="../assets/images/cards/ME03_EN_6.png" alt="Serperior" style="width: 186px; height: 259px; object-fit: cover;">
+            </div>
+
+            <!-- Card Content Container -->
+            <div class="card-content-container" style="position: absolute; left: 280px; top: 61px; width: 850px;">
+                <!-- Card Name and Price Row -->
+                <div class="card-name-price-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <!-- Card Name -->
+                    <div class="card-name" style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 20px; line-height: 100%; color: #1068D2;">
+                        Serperior
+                    </div>
+                    <!-- Price -->
+                    <div class="card-price" style="font-family: 'Rowdies'; font-style: normal; font-weight: 700; font-size: 18px; line-height: 100%; color: #FFD700; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+                        Rp 4.500.000
+                    </div>
+                </div>
+
+                <!-- Legendary Badge -->
+                <div class="legendary-badge" style="box-sizing: border-box; display: inline-flex; justify-content: center; align-items: center; padding: 2px 20px; margin-bottom: 10px; width: auto; height: 23px; background: linear-gradient(87.22deg, #FFCC00 -10.32%, rgba(255, 0, 0, 0.99) 112.06%); border: 2px solid #FF0000; border-radius: 120px;">
+                    <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 16px; line-height: 100%; color: #FFFFFF;">Legendary</span>
+                </div>
+
+                <!-- Card Stats -->
+                <div class="card-stats" style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
+                    <div style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 100%; color: #656565;">5/3 terambil</div>
+                    <div style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 100%; color: #656565;">5 Pemilik</div>
+                    <div style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 100%; color: #656565;">5 Pull</div>
+                    <div style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 100%; color: #656565;">166.7% Completion</div>
+                </div>
+
+                <!-- Pemilik Kartu Label -->
+                <div class="pemilik-label" style="font-family: 'Rowdies'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 100%; color: #000000; margin-top: 95px; margin-bottom: 8px;">
+                    PEMILIK KARTU
+                </div>
+
+                <!-- Owner List -->
+                <div class="owner-list" style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    <div class="owner-badge" style="display: inline-flex; justify-content: center; align-items: center; padding: 2px 12px; width: auto; height: 20px; background: #444444; border-radius: 100px;">
+                        <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 12px; line-height: 100%; color: #FFFFFF;">budi_legend 22/02</span>
+                    </div>
+                    <div class="owner-badge" style="display: inline-flex; justify-content: center; align-items: center; padding: 2px 12px; width: auto; height: 20px; background: #444444; border-radius: 100px;">
+                        <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 12px; line-height: 100%; color: #FFFFFF;">rizky_collector 09/03</span>
+                    </div>
+                    <div class="owner-badge" style="display: inline-flex; justify-content: center; align-items: center; padding: 2px 12px; width: auto; height: 20px; background: #444444; border-radius: 100px;">
+                        <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 12px; line-height: 100%; color: #FFFFFF;">kendil_keren 09/03</span>
+                    </div>
+                    <div class="owner-badge" style="display: inline-flex; justify-content: center; align-items: center; padding: 2px 12px; width: auto; height: 20px; background: #444444; border-radius: 100px;">
+                        <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 12px; line-height: 100%; color: #FFFFFF;">yayan_collector 09/03</span>
+                    </div>
+                    <div class="owner-badge" style="display: inline-flex; justify-content: center; align-items: center; padding: 2px 12px; width: auto; height: 20px; background: #444444; border-radius: 100px;">
+                        <span style="font-family: 'Rowdies'; font-style: normal; font-weight: 400; font-size: 12px; line-height: 100%; color: #FFFFFF;">satria_pro 10/03</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+    

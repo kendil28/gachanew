@@ -13,8 +13,8 @@ body {
   background: transparent;
   min-height: 100vh;
   width: 100%;
-  overflow-y: auto; overflow-x: hidden;
-  padding: 16px 12px 100px 12px;
+  overflow: hidden;
+  padding: 20px 16px 100px 16px;
   color: #fff;
 }
 ::-webkit-scrollbar { width: 6px; }
@@ -32,25 +32,36 @@ body {
 /* ===== MAIN PANEL ===== */
 .lb-panel {
   max-width: calc(100% - 275px);
-  margin: 0 auto;
-  background: linear-gradient(160deg, #1a6fd4 0%, #0d4fa8 40%, #0a3d8f 100%);
-  border-radius: 28px;
-  border: 3px solid rgba(100,180,255,0.6);
-  box-shadow:
-    0 0 0 2px rgba(255,255,255,0.15),
-    0 8px 40px rgba(0,0,50,0.5),
-    inset 0 1px 0 rgba(255,255,255,0.2);
-  overflow: hidden;
+  max-height: 80vh;
+  margin: 49px auto 0;
+  background: rgba(255, 255, 255, 0.15);
+  border: 4px solid transparent;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)),
+                    linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 25px;
+  backdrop-filter: blur(15px); 
+  box-shadow: 0 0 30px rgba(255, 107, 107, 0.3),
+              0 0 60px rgba(252, 202, 87, 0.2),
+              10px 10px 0px rgba(0,0,0,0.2);
+  animation: containerGlow 3s ease-in-out infinite alternate;
+  overflow-y: auto;
   padding-bottom: 20px;
   position: relative;
   z-index: 1;
 }
 
+@keyframes containerGlow {
+  0% { box-shadow: 0 0 30px rgba(255, 107, 107, 0.3), 0 0 60px rgba(252, 202, 87, 0.2), 10px 10px 0px rgba(0,0,0,0.2); }
+  100% { box-shadow: 0 0 40px rgba(72, 219, 251, 0.4), 0 0 80px rgba(255, 159, 243, 0.3), 10px 10px 0px rgba(0,0,0,0.2); }
+}
+
 .deco-ash {
   position: absolute;
-  left: -60px;
-  bottom: 0;
-  width: 370px;
+  left: 16px;
+  bottom: -29px;
+  width: 259px;
   height: auto;
   z-index: 10;
   filter: drop-shadow(4px 0 12px rgba(0,0,0,0.4));
@@ -59,9 +70,9 @@ body {
 
 .deco-pikachu {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 220px;
+  right: 8px;
+  bottom: 274px;
+  width: 154px;
   height: auto;
   z-index: 0;
   filter: drop-shadow(-4px 0 12px rgba(0,0,0,0.3));
@@ -83,8 +94,8 @@ body {
 
 @media (max-width: 1100px) {
   .lb-deco-wrap { padding: 0 100px; }
-  .deco-ash { width: 280px; }
-  .deco-pikachu { width: 160px; }
+  .deco-ash { width: 196px; }
+  .deco-pikachu { width: 112px; }
   .podium-header-img img { height: 130px; }
 }
 @media (max-width: 640px) {
@@ -96,33 +107,92 @@ body {
 
 /* ===== TABS ===== */
 .lb-tabs {
+  position: relative;
+  width: 100%;
   display: flex;
-  background: linear-gradient(180deg, #1e7fe0 0%, #1565c0 100%);
-  border-bottom: 3px solid rgba(0,0,80,0.3);
-  padding: 0 8px;
-  gap: 4px;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 3;
 }
 .lb-tab {
-  flex: 1;
-  padding: 14px 8px;
-  text-align: center;
-  font-family: 'Luckiest Guy', cursive;
-  font-size: 18px;
-  color: rgba(255,255,255,0.7);
-  cursor: pointer;
-  border-radius: 12px 12px 0 0;
-  transition: all 0.2s;
-  letter-spacing: 0.5px;
   position: relative;
-  top: 3px;
-  white-space: nowrap;
+  flex: 1;
+  height: 70px;
+  border-radius: 16px;
+  border: 4px solid transparent;
+  color: #FFFFFF;
+  font-family: 'Luckiest Guy', cursive;
+  font-weight: 700;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 12px;
+  box-sizing: border-box;
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.35);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+  background: #888;
+  filter: brightness(0.7);
+  overflow: hidden;
 }
-.lb-tab:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
+.lb-tab::before {
+  content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+  z-index: -1;
+}
+
+.lb-tab:hover::before {
+  transform: translateX(100%);
+}
+
 .lb-tab.active {
-  background: linear-gradient(180deg, #4fc3f7 0%, #0288d1 100%);
-  color: #fff;
-  box-shadow: 0 -2px 12px rgba(79,195,247,0.5);
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  filter: brightness(1.2); 
+  transform: translateY(-5px) scale(1.05); 
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 20px rgba(255,255,255,0.3);
+  animation: tabGlow 2s ease-in-out infinite;
+}
+
+.lb-tab:active { 
+  transform: translate(2px, 2px); 
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.35); 
+}
+
+.lb-tab::before {
+  content: ''; position: absolute; width: 14px; height: calc(14px * 1.8); top: 8px; left: 10px;
+  background: linear-gradient(143.13deg, #FFFFFF 20%, rgba(255, 255, 255, 0) 53.65%); border-radius: 50%;
+}
+
+/* Individual tab colors like DEPOSIT page */
+.lb-tab:nth-child(1) { 
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #48dbfb 100%);
+  border-color: transparent;
+}
+.lb-tab:nth-child(2) { 
+  background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f472b6 100%);
+  border-color: transparent;
+}
+.lb-tab:nth-child(3) { 
+  background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
+  border-color: transparent;
+}
+.lb-tab:nth-child(4) { 
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #fde047 100%);
+  border-color: transparent;
+}
+
+@keyframes tabGlow {
+  0%, 100% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 20px rgba(255,255,255,0.3); }
+  50% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.5); }
+}
+
+@keyframes headerPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
 }
 
 /* ===== HEADER BAR ===== */
@@ -131,15 +201,16 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 12px 20px;
-  background: rgba(0,0,0,0.15);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0, 0, 0, 0.6);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 .lb-timer {
   display: flex; align-items: center; gap: 8px;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 20px; padding: 6px 14px;
   font-size: 16px; font-weight: 700;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
 }
 .lb-timer .timer-icon { font-size: 18px; }
 .lb-timer span { font-family: 'Luckiest Guy', cursive; letter-spacing: 1px; color: #FFD700; font-size: 20px; }
@@ -148,7 +219,7 @@ body {
   text-align: center;
 }
 .lb-level-label {
-  font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.7);
+  font-size: 14px; font-weight: 700; color: #fff;
   letter-spacing: 2px; text-transform: uppercase;
 }
 .lb-progress-wrap {
@@ -166,7 +237,7 @@ body {
   border-radius: 7px;
   transition: width 1s ease;
 }
-.lb-progress-text { font-size: 13px; color: rgba(255,255,255,0.7); }
+.lb-progress-text { font-size: 13px; color: #fff; }
 
 .lb-season-btn {
   background: linear-gradient(135deg, #FFD700, #FFA000);
@@ -282,13 +353,13 @@ body {
 .podium-item.rank-3 .podium-rank-num { font-size: 20px; }
 
 .podium-name {
-  font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.9);
+  font-size: 13px; font-weight: 700; color: #333;
   text-align: center; margin-top: 4px;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   max-width: 90px;
 }
 .podium-score {
-  font-size: 12px; color: #FFD700; font-weight: 700;
+  font-size: 12px; color: #666; font-weight: 700;
   text-align: center; max-width: 90px;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
@@ -344,19 +415,21 @@ body {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255,255,255,0.15);
 }
 .rank-row::before {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(90deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, transparent 60%);
 }
-.rank-row:hover { transform: translateX(4px); }
+.rank-row:hover { transform: translateX(4px); background: rgba(0, 0, 0, 0.5); }
 
-.rank-row.r1 { background: linear-gradient(135deg, rgba(255,215,0,0.25), rgba(255,160,0,0.15)); border: 1px solid rgba(255,215,0,0.4); }
-.rank-row.r2 { background: linear-gradient(135deg, rgba(192,192,192,0.2), rgba(150,150,150,0.1)); border: 1px solid rgba(192,192,192,0.3); }
-.rank-row.r3 { background: linear-gradient(135deg, rgba(205,127,50,0.25), rgba(160,100,30,0.15)); border: 1px solid rgba(205,127,50,0.4); }
-.rank-row.r-other { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); }
-.rank-row.r-me { background: rgba(79,195,247,0.15); border: 1px solid rgba(79,195,247,0.4); }
+.rank-row.r1 { background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.4); }
+.rank-row.r2 { background: rgba(192,192,192,0.12); border: 1px solid rgba(192,192,192,0.3); }
+.rank-row.r3 { background: rgba(205,127,50,0.12); border: 1px solid rgba(205,127,50,0.4); }
+.rank-row.r-other { background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255,255,255,0.1); }
+.rank-row.r-me { background: rgba(79,195,247,0.15); border: 1px solid rgba(79,195,247,0.5); }
 
 .rank-num {
   width: 32px; text-align: center;
@@ -366,7 +439,7 @@ body {
 .rank-row.r1 .rank-num { color: #FFD700; }
 .rank-row.r2 .rank-num { color: #C0C0C0; }
 .rank-row.r3 .rank-num { color: #CD7F32; }
-.rank-row.r-other .rank-num { color: rgba(255,255,255,0.6); }
+.rank-row.r-other .rank-num { color: #fff; }
 
 .rank-crown {
   font-size: 18px; flex-shrink: 0;
@@ -385,7 +458,7 @@ body {
   font-size: 16px; font-weight: 700; color: #fff;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.rank-sub { font-size: 13px; color: rgba(255,255,255,0.5); }
+.rank-sub { font-size: 13px; color: rgba(255,255,255,0.7); }
 
 .rank-score {
   display: flex; align-items: center; gap: 5px;
@@ -396,13 +469,13 @@ body {
 
 /* My rank bar */
 .my-rank-bar {
-  background: rgba(79,195,247,0.1);
-  border: 1px solid rgba(79,195,247,0.3);
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(79,195,247,0.4);
   border-radius: 12px;
   padding: 10px 14px;
   text-align: center;
   font-size: 15px; font-weight: 700;
-  color: rgba(255,255,255,0.7);
+  color: #fff;
   margin-top: 4px;
 }
 .my-rank-bar span { color: #4fc3f7; }
@@ -438,14 +511,16 @@ body {
   .podium-btn { font-size: 15px; padding: 9px; }
 }
 </style>
+<link rel="stylesheet" href="../css/header.css" />
 </head>
 <body>
+<script src="../js/header.js"></script>
 
 <div class="lb-deco-wrap">
   <!-- Ash — overlap kiri -->
-  <img src="../assets/images/character/character/ash3.png" alt="Ash" class="deco-ash"/>
+  <video src="../assets/images/character/character/ash3.webm" alt="Ash" class="deco-ash" autoplay loop muted playsinline></video>
   <!-- Pikachu — kanan luar -->
-  <img src="../assets/images/icons/icon/pokemon.png" alt="Pikachu" class="deco-pikachu"/>
+  <video src="../assets/images/character/character/kelinci.webm" alt="Kelinci" class="deco-pikachu" autoplay loop muted playsinline></video>
 
 <div class="lb-panel">
 
@@ -762,5 +837,6 @@ function closeModal() {
 renderList('spender');
 updatePodium('spender');
 </script>
+
 </body>
 </html>

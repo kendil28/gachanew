@@ -1,0 +1,144 @@
+/* ===== SHARED HEADER ===== */
+.shared-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  background: transparent !important;
+  font-family: 'Poppins', 'Arial', sans-serif;
+  width: 100%;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 100;
+  pointer-events: auto;
+}
+
+/* ===== LOGO ===== */
+.sh-logo img {
+  height: 64px;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+  display: block;
+}
+
+/* ===== PROFILE ===== */
+.sh-profile {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 8px;
+}
+.sh-profile-avatar {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  border: 4px solid #e53935;
+  background: #1a1a1a;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative; z-index: 2;
+  box-shadow: 0 0 0 3px #fff, 0 4px 12px rgba(0,0,0,0.5);
+}
+.sh-avatar-img { width:100%; height:100%; object-fit:cover; object-position:top; }
+.sh-profile-card {
+  display: flex; flex-direction: column;
+  margin-left: -18px; position: relative; z-index: 1;
+}
+.sh-profile-username {
+  background: #e53935; color: #fff;
+  font-size: 15px; font-weight: 700;
+  padding: 6px 20px 6px 28px;
+  clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+  min-width: 160px; letter-spacing: 0.5px;
+}
+.sh-profile-id {
+  background: #fffced; color: #1a1a1a;
+  font-size: 12px; font-weight: 700;
+  padding: 4px 20px 4px 28px;
+  clip-path: polygon(0 0, 92% 0, 84% 100%, 0 100%);
+  min-width: 140px; border-left: 3px solid #1a1a1a;
+}
+
+/* ===== AUTH BUTTONS ===== */
+.sh-auth-buttons { display:flex; gap:10px; align-items:center; margin-left:8px; }
+.sh-btn-login, .sh-btn-register {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 1px;
+  padding: 8px 22px; border-radius: 30px; border: none;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+}
+.sh-btn-login {
+  background: #1565c0; color: #fff;
+  border: 2px solid #1565c0;
+  box-shadow: 0 4px 14px rgba(21,101,192,0.5);
+}
+.sh-btn-login:hover { background: #0d47a1; transform: scale(1.05); }
+.sh-btn-register {
+  background: #e53935; color: #fff;
+  border: 2px solid #e53935;
+  box-shadow: 0 4px 14px rgba(229,57,53,0.5);
+}
+.sh-btn-register:hover { background: #c62828; transform: scale(1.05); }
+
+/* ===== LOGOUT ===== */
+.sh-btn-logout {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 1px;
+  padding: 8px 22px; border-radius: 30px;
+  border: 2px solid #fff; background: transparent; color: #fff;
+  cursor: pointer; transition: transform 0.15s, background 0.2s;
+  display: inline-flex; align-items: center; gap: 6px; margin-left: 8px;
+}
+.sh-btn-logout::before { content: '⏻'; font-size: 14px; }
+.sh-btn-logout:hover { background: rgba(255,255,255,0.15); transform: scale(1.05); }
+
+/* ===== CURRENCY ===== */
+.sh-topbar-right { display:flex; align-items:center; gap:10px; margin-left:auto; }
+.sh-currencies { display:flex; gap:10px; }
+.sh-currency-item {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(0,0,0,0.55); border-radius: 30px;
+  padding: 5px 10px 5px 6px; border: 2px solid rgba(255,255,255,0.2);
+  cursor: pointer;
+}
+.sh-currency-item img { width:30px; height:30px; object-fit:contain; }
+.sh-currency-item span { color:#fff; font-size:13px; font-weight:700; min-width:48px; }
+.sh-btn-plus {
+  background: #4caf50; color: #fff; border: none;
+  border-radius: 50%; width:22px; height:22px;
+  font-size:16px; font-weight:900; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  line-height:1; transition:background 0.2s;
+}
+.sh-btn-plus:hover { background: #388e3c; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .shared-header { padding: 6px 10px; gap: 6px; }
+  .sh-logo img { height: 40px; }
+  .sh-profile-avatar { width:46px; height:46px; border-width:3px; box-shadow:0 0 0 2px #fff,0 2px 6px rgba(0,0,0,.5); }
+  .sh-profile-card { margin-left: -10px; }
+  .sh-profile-username { font-size:10px; padding:3px 14px 3px 16px; min-width:90px; }
+  .sh-profile-id { font-size:9px; padding:2px 12px 2px 14px; min-width:80px; }
+  .sh-topbar-right { flex-direction:column; align-items:flex-end; gap:4px; }
+  .sh-currencies { flex-direction:column; gap:3px; margin-top:4px; }
+  .sh-currency-item { padding:4px 8px 4px 6px; gap:4px; }
+  .sh-currency-item img { width:18px; height:18px; }
+  .sh-currency-item span { font-size:10px; min-width:32px; }
+  .sh-btn-plus { width:20px; height:20px; font-size:13px; min-width:20px; min-height:20px; }
+  .sh-auth-buttons { gap:6px; }
+  .sh-btn-login, .sh-btn-register { font-size:10px; padding:6px 14px; }
+  .sh-btn-logout { font-size:9px; padding:4px 10px; margin-left:2px; gap:3px; }
+}
+@media (max-width: 480px) {
+  .shared-header { padding:5px 8px; gap:4px; }
+  .sh-logo img { height:36px; }
+  .sh-profile-avatar { width:40px; height:40px; }
+  .sh-currency-item span { font-size:9px; min-width:28px; }
+  .sh-currency-item img { width:16px; height:16px; }
+  .sh-currency-item { padding:3px 6px 3px 5px; gap:3px; }
+  .sh-btn-plus { width:18px; height:18px; font-size:12px; min-width:18px; min-height:18px; }
+}
+
+/* Pastikan semua elemen header bisa diklik */
+.shared-header * {
+  pointer-events: auto;
+}

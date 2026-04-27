@@ -3,858 +3,802 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deposit - Member Area</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <title>Cartoon Gacha - Deposit, Transfer, Riwayat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #121212;
-            --bg-card: rgba(255, 255, 255, 0.95);
-            --bg-input: rgba(255, 255, 255, 0.98);
-            --primary: #FFD700;
-            --primary-solid: #FFD700;
-            --primary-hover: #FFC700;
-            --primary-glow: rgba(255, 215, 0, 0.4);
-            --text-main: #333333;
-            --text-muted: #666666;
-            --border: rgba(0, 0, 0, 0.15);
-            --success: #00e676;
-            --radius: 8px;
+            --btn-radius: 12px;
+            --card-radius: 20px;
+            --input-radius: 10px;
+            --glossy-size: 14px;
+            --outline-color: #2a1b0e;
+            --shadow-hard: 5px 5px 0px rgba(0, 0, 0, 0.35);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-        
-        body { 
+        body {
             background: transparent;
-            color: var(--text-main); 
-            padding: 16px 12px 100px 12px;
-            min-height: 100vh;
-            width: 100%;
-            border-radius: 25px;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
-
-        .nav-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 10px;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            margin: 0; font-family: 'Rowdies', cursive; padding: 20px; box-sizing: border-box;
         }
         
-        .nav-tab {
-            background: #2a2a2a;
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 8px 8px 0 0;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: 0.2s;
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .deposit-container {
+            position: relative; width: 100%; max-width: 700px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 4px solid transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)),
+                              linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            border-radius: 25px; padding: 30px; box-sizing: border-box;
+            backdrop-filter: blur(15px); 
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.3),
+                        0 0 60px rgba(252, 202, 87, 0.2),
+                        10px 10px 0px rgba(0,0,0,0.2);
+            animation: containerGlow 3s ease-in-out infinite alternate;
         }
         
-        .nav-tab:hover { background: #333; }
-        .nav-tab.active { background: #FFD700; color: #000; border-color: var(--primary-solid); }
-
-        .tab-pane { display: none; }
-        .tab-pane.active { display: block; animation: fadeIn 0.3s; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .card { 
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 25px; 
-            border: 1px solid rgba(255, 255, 255, 0.3); 
-            overflow: hidden; 
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1); 
-            margin-bottom: 20px;
+        @keyframes containerGlow {
+            0% { box-shadow: 0 0 30px rgba(255, 107, 107, 0.3), 0 0 60px rgba(252, 202, 87, 0.2), 10px 10px 0px rgba(0,0,0,0.2); }
+            100% { box-shadow: 0 0 40px rgba(72, 219, 251, 0.4), 0 0 80px rgba(255, 159, 243, 0.3), 10px 10px 0px rgba(0,0,0,0.2); }
         }
 
-        h3.page-title { 
-            margin: 0; 
-            color: #333333; 
-            font-size: 18px; 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            border-bottom: 2px solid rgba(0,0,0,0.1); 
-            padding: 20px 25px; 
-            background: linear-gradient(180deg, rgba(255,215,0,0.1) 0%, rgba(255,255,255,0) 100%);
-        }
-
-        .tabs {
-            display: flex;
-            border-bottom: none;
-            background: #000;
+        /* === HEADER === */
+        .header { position: relative; width: 100%; margin-bottom: 30px; z-index: 2; }
+        .header-bg {
+            position: absolute; width: 100%; height: 65px; bottom: 0; left: 0;
+            background: linear-gradient(169.13deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%);
+            border: 4px solid transparent;
+            background-image: linear-gradient(169.13deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%),
+                              linear-gradient(45deg, #ff9ff3, #feca57, #48dbfb);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            border-radius: 12px 12px 24px 24px;
+            box-sizing: border-box; z-index: 1; box-shadow: var(--shadow-hard);
+            animation: headerPulse 2s ease-in-out infinite;
         }
         
+        @keyframes headerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        .header-tabs { position: relative; width: 100%; display: flex; justify-content: space-between; gap: 12px; z-index: 3; }
         .tab-btn {
-            flex: 1;
-            padding: 14px 10px;
-            background: #2A2A2A;
-            border: none;
-            color: #ffffff;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-radius: 8px 8px 0 0;
+            position: relative; flex: 1; height: 70px; border-radius: 16px; border: 4px solid transparent;
+            color: #FFFFFF; font-family: 'Rowdies', cursive; font-weight: 700; font-size: 1.2rem; cursor: pointer;
+            display: flex; align-items: flex-end; justify-content: center; padding-bottom: 12px; box-sizing: border-box;
+            box-shadow: var(--shadow-hard); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.5); background: #888; filter: brightness(0.7);
+            overflow: hidden;
         }
         
-        .tab-btn:hover { background: #383838; }
-        .tab-btn.active { color: #000000; background: #FFD700; }
-
-        .tab-content { display: none; padding: 25px; animation: fadeIn 0.3s; }
-        .tab-content.active { display: block; }
-
-        label {
-            display: block;
-            font-size: 12px;
-            color: #333333;
-            margin-bottom: 6px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .tab-btn::before {
+            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+            z-index: -1;
         }
         
-        .form-control {
-            width: 100%; 
-            background: rgba(255, 255, 255, 0.98);
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            color: #333333;
-            padding: 12px; 
-            border-radius: var(--radius); 
-            font-size: 14px;
-            transition: 0.2s;
+        .tab-btn:hover::before {
+            transform: translateX(100%);
+        }
+        .tab-btn.active-main { 
+            filter: brightness(1.2); 
+            transform: translateY(-5px) scale(1.05); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 20px rgba(255,255,255,0.3);
+            animation: tabGlow 2s ease-in-out infinite;
         }
         
-        .form-control:focus { 
-            outline: none; 
-            border-color: var(--primary-solid); 
-            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1); 
+        @keyframes tabGlow {
+            0%, 100% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 20px rgba(255,255,255,0.3); }
+            50% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.5); }
         }
-        
-        .form-control[readonly] { 
-            background: rgba(240, 240, 240, 0.8);
-            color: #666; 
-            border-color: rgba(0, 0, 0, 0.1); 
-            cursor: not-allowed; 
+        .tab-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px rgba(0,0,0,0.35); }
+        .tab-btn::before {
+            content: ''; position: absolute; width: var(--glossy-size); height: calc(var(--glossy-size) * 1.8); top: 8px; left: 10px;
+            background: linear-gradient(143.13deg, #FFFFFF 20%, rgba(255, 255, 255, 0) 53.65%); border-radius: 50%;
+        }
+        .tab-blue { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #48dbfb 100%);
+            border-color: transparent;
+        }
+        .tab-purple { 
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f472b6 100%);
+            border-color: transparent;
+        }
+        .tab-green { 
+            background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
+            border-color: transparent;
+        }
+        .tab-yellow { 
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #fcd34d 100%);
+            border-color: transparent;
         }
 
-        .form-group { margin-bottom: 20px; }
+        .title {
+            width: 100%; text-align: center; font-size: 2.2rem; line-height: 100%; letter-spacing: -0.05em; color: #fff;
+            -webkit-text-stroke: 2px var(--outline-color); margin-bottom: 25px; paint-order: stroke fill; text-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+        }
 
-        .info-box {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-left: 4px solid var(--primary-solid);
-            padding: 15px;
-            border-radius: var(--radius);
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+        /* === FORM CARD === */
+        .form-card {
+            position: relative; width: 100%; background: linear-gradient(135deg, #fff9e6 0%, #fef3c7 50%, #fde68a 100%);
+            border: 5px solid transparent;
+            background-image: linear-gradient(135deg, #fff9e6 0%, #fef3c7 50%, #fde68a 100%),
+                              linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            border-radius: var(--card-radius); box-sizing: border-box; padding: 45px 35px 55px 35px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2), 0 0 20px rgba(252, 202, 87, 0.3);
+            overflow: visible;
+            animation: cardFloat 4s ease-in-out infinite;
         }
         
-        .info-text { font-size: 16px; font-weight: bold; letter-spacing: 0.5px; }
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        .corner { position: absolute; width: 110px; height: auto; z-index: 5; pointer-events: none; filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.2)) brightness(1.2); }
+        .corner-tl { top: -18px; left: -18px; transform: rotate(0deg); animation: cornerGlow 3s ease-in-out infinite; }
+        .corner-tr { top: -18px; right: -18px; transform: rotate(90deg); animation: cornerGlow 3s ease-in-out infinite 0.5s; }
+        .corner-br { bottom: -25px; right: -18px; transform: rotate(180deg); animation: cornerGlow 3s ease-in-out infinite 1s; }
+        .corner-bl { bottom: -25px; left: -18px; transform: rotate(-90deg); animation: cornerGlow 3s ease-in-out infinite 1.5s; }
         
+        @keyframes cornerGlow {
+            0%, 100% { filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.2)) brightness(1.2); }
+            50% { filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.2)) brightness(1.5) drop-shadow(0 0 10px rgba(255,255,255,0.5)); }
+        }
+
+        /* === DYNAMIC WRAPPERS === */
+        .main-content-section { display: none; }
+        .main-content-section.active-main-content { display: block; }
+        .sub-content-section { display: none; }
+        .sub-content-section.active-content { display: block; }
+        .riwayat-content { display: none; }
+        .riwayat-content.active-riwayat { display: block; }
+
+        /* === GENERAL UI ELEMENTS === */
+        .payment-tabs, .saldo-komisi-tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
+        .pay-btn, .sk-tab {
+            position: relative; height: 45px; border-radius: 20px; border: 3px solid transparent;
+            font-family: 'Rowdies', cursive; font-weight: 700; font-size: 1rem; cursor: pointer; box-sizing: border-box;
+            display: flex; align-items: center; justify-content: center; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #e0e0e0; color: #888; padding: 0 20px;
+            overflow: hidden;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+        }
+        
+        .pay-btn::before, .sk-tab::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .pay-btn:hover::before, .sk-tab:hover::before {
+            left: 100%;
+        }
+        .pay-btn.active-pay, .sk-tab.active-sk { 
+            filter: brightness(1.2); 
+            transform: translateY(-3px) scale(1.05); 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3), 0 0 15px rgba(255,255,255,0.4);
+            color: var(--outline-color);
+            animation: buttonPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes buttonPulse {
+            0%, 100% { transform: translateY(-3px) scale(1.05); }
+            50% { transform: translateY(-3px) scale(1.08); }
+        }
+        .pay-btn:active, .sk-tab:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px rgba(0,0,0,0.2); }
+        .pay-orange.active-pay { 
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff8e53 100%);
+            color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            border: 3px solid transparent;
+            background-image: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff8e53 100%),
+                              linear-gradient(45deg, #ff6b6b, #feca57);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .pay-blue.active-pay { 
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #0ea5e9 100%);
+            color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            border: 3px solid transparent;
+            background-image: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #0ea5e9 100%),
+                              linear-gradient(45deg, #3b82f6, #06b6d4);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .pay-green.active-pay { 
+            background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
+            color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            border: 3px solid transparent;
+            background-image: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%),
+                              linear-gradient(45deg, #10b981, #34d399);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .sk-tab.active-sk { 
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #fcd34d 100%);
+            border: 3px solid transparent;
+            background-image: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #fcd34d 100%),
+                              linear-gradient(45deg, #f59e0b, #fbbf24);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+
+        .form-group { margin-bottom: 25px; }
+        .label-bold { font-weight: 700; font-size: 1.1rem; color: #2a1b0e; display: block; margin-bottom: 8px; }
+        .label-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px; }
+        .note { font-weight: 300; font-size: 0.8rem; color: #5a4530; }
+        .input-box {
+            width: 100%; height: 55px; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); 
+            border: 3px solid transparent;
+            background-image: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%),
+                              linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            border-radius: var(--input-radius);
+            box-sizing: border-box; font-family: 'Rowdies', cursive; font-weight: 400; font-size: 1.3rem; color: #2a1b0e;
+            padding: 0 15px; outline: none; 
+            box-shadow: inset 2px 2px 0px rgba(0,0,0,0.1), 0 0 10px rgba(252, 202, 87, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .input-box:focus { 
+            border-color: transparent;
+            box-shadow: inset 2px 2px 0px rgba(0,0,0,0.1), 0 0 20px rgba(72, 219, 251, 0.4), 0 0 30px rgba(72, 219, 251, 0.2);
+            transform: scale(1.02);
+        }
+        .select-container { position: relative; width: 100%; }
+        .select-container::after { content: '▼'; position: absolute; right: 15px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--outline-color); pointer-events: none; }
+        .select-box {
+            width: 100%; height: 55px; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); 
+            border: 3px solid transparent;
+            background-image: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%),
+                              linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            border-radius: var(--input-radius);
+            box-sizing: border-box; font-family: 'Rowdies', cursive; font-weight: 400; font-size: 1.2rem; color: #2a1b0e;
+            padding: 0 15px; outline: none; appearance: none; -webkit-appearance: none; cursor: pointer; 
+            box-shadow: inset 2px 2px 0px rgba(0,0,0,0.1), 0 0 10px rgba(252, 202, 87, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .select-box:focus {
+            box-shadow: inset 2px 2px 0px rgba(0,0,0,0.1), 0 0 20px rgba(72, 219, 251, 0.4), 0 0 30px rgba(72, 219, 251, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* =========================================
+           KHUSUS: DEPOSIT & TRANSFER
+           ========================================= */
+        .transfer-info { border: 4px solid var(--outline-color); border-radius: var(--input-radius); padding: 15px; margin-bottom: 25px; box-shadow: 4px 4px 0px rgba(0,0,0,0.15); }
+        .info-purple { background: #E5C7EC; } .info-blue { background: #C7E5EC; } .info-green { background: #E5ECC7; }
+        .acc-number-row { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; gap: 15px; flex-wrap: wrap; }
+        .acc-num { font-weight: 700; font-size: 1.6rem; color: #2a1b0e; text-shadow: 1px 1px 0px rgba(255,255,255,0.5); }
         .copy-btn {
-            background: var(--bg-input);
-            border: 1px solid var(--primary-solid);
-            color: var(--primary-solid);
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
+            position: relative; height: 50px; min-width: 110px; background: linear-gradient(180deg, #ffee55 0%, #f7b30b 100%);
+            border: 3px solid var(--outline-color); border-radius: var(--btn-radius); color: #2a1b0e; font-family: 'Rowdies', cursive;
+            font-weight: 700; font-size: 1.1rem; cursor: pointer; box-shadow: var(--shadow-hard); transition: transform 0.1s;
+        }
+        .copy-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px rgba(0,0,0,0.35); }
+        .presets { display: flex; gap: 12px; margin-top: 15px; }
+        .preset-btn {
+            position: relative; flex: 1; height: 50px; 
+            background: linear-gradient(135deg, #e0f7fa 0%, #81d4fa 100%);
+            border: 3px solid transparent;
+            background-image: linear-gradient(135deg, #e0f7fa 0%, #81d4fa 100%),
+                              linear-gradient(45deg, #48dbfb, #0ea5e9);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            border-radius: var(--btn-radius); color: #2a1b0e; font-family: 'Rowdies', cursive;
+            font-weight: 700; font-size: 1.2rem; cursor: pointer; 
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2), 0 0 10px rgba(72, 219, 251, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
         }
         
-        .copy-btn:hover { background: var(--primary-solid); color: #000; }
-
-        .btn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px; }
-        
-        .btn-amt {
-            background: rgba(255, 255, 255, 0.98);
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            color: #333333;
-            padding: 12px;
-            border-radius: var(--radius);
-            cursor: pointer;
-            font-size: 13px;
-            transition: 0.2s;
+        .preset-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            transition: left 0.5s;
         }
         
-        .btn-amt:hover { border-color: var(--primary-solid); background: rgba(255, 215, 0, 0.1); }
-
-        .btn-submit { 
-            width: 100%; 
-            background: #FFD700; 
-            border: none; 
-            color: #000000; 
-            padding: 14px; 
-            border-radius: var(--radius); 
-            font-weight: 800; 
-            cursor: pointer; 
-            font-size: 15px; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            box-shadow: 0 4px 15px var(--primary-glow); 
-            transition: transform 0.2s; 
+        .preset-btn:hover::before {
+            left: 100%;
         }
         
-        .btn-submit:active { transform: scale(0.98); }
-        .btn-submit:hover { box-shadow: 0 6px 20px var(--primary-glow); }
-
-        .min-max-info { font-size: 12px; color: #666666; margin: 8px 0 6px; }
-
-        .action-buttons { display: flex; gap: 15px; margin-top: 25px; }
-        .btn-reset {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            color: #333333;
-            padding: 14px;
-            border-radius: var(--radius);
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
+        .preset-btn.active { 
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #0ea5e9 100%);
+            color: #fff; text-shadow: 2px 2px 0px rgba(0,0,0,0.4); 
+            transform: scale(1.05); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3), 0 0 20px rgba(72, 219, 251, 0.4);
+            animation: presetGlow 2s ease-in-out infinite;
         }
-
-        /* Transfer Styles */
-        .transfer-container {
-            display: grid;
-            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-            gap: 20px;
-            align-items: flex-start;
-        }
-        .transfer-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        }
-        .amount-wrapper { display: flex; gap: 10px; align-items: center; }
-        .amount-wrapper .form-control { flex: 1; }
-        .btn-all-in {
-            background: #FFD700;
-            border: none;
-            color: #000;
-            padding: 10px 16px;
-            border-radius: var(--radius);
-            font-weight: 700;
-            font-size: 11px;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .btn-all-in:hover { background: #FFC700; }
-        .warning-text { margin-top: 6px; font-size: 11px; color: #FF6600; }
-        .provider-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .provider-title {
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .btn-refresh {
-            background: rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            color: #333333;
-            padding: 8px 12px;
-            border-radius: 50px;
-            font-size: 12px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .btn-refresh i { font-size: 14px; }
-        .btn-refresh:hover { border-color: var(--primary); }
-        .provider-section { display: flex; flex-direction: column; gap: 12px; }
-        .cat-group { border-top: 1px solid rgba(0, 0, 0, 0.1); padding-top: 8px; }
-        .cat-title {
-            font-size: 11px;
-            color: #666666;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .provider-row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; }
-        .provider-balance { font-weight: 600; }
-
-        /* Filter Styles */
-        .history-filter-container,
-        .statement-filter-container {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: var(--radius);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 18px 20px;
-            margin-bottom: 20px;
-        }
-        .filter-row {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-        }
-        .filter-row:last-child { margin-bottom: 0; }
-        .filter-label {
-            min-width: 140px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #333333;
-        }
-        .filter-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-        .date-filter-btns { display: flex; flex-wrap: wrap; gap: 8px; }
-        .date-btn {
-            padding: 6px 14px;
-            border-radius: 18px;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            background: rgba(255, 255, 255, 0.98);
-            color: #333333;
-            font-size: 12px;
-            cursor: pointer;
-            transition: background 0.2s, border-color 0.2s, color 0.2s;
-        }
-        .date-btn.active { background: #FFD700; border-color: #FFD700; color: #000; }
-        .btn-search {
-            background: #FFD700;
-            border: none;
-            color: #000;
-            padding: 10px 22px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            letter-spacing: 0.5px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .btn-search i { font-size: 16px; }
-        .btn-search:disabled { opacity: 0.7; cursor: default; }
-
-        .history-type-btn,
-        .statement-type-btn {
-            flex: 0 0 200px;
-            width: 200px;
-            background: #f5f5f5;
-            border: 1px solid #d0d0d0;
-            color: #333;
-            border-radius: 4px;
-            font-size: 12px;
-            text-transform: none;
-            letter-spacing: 0;
-            padding: 10px 12px;
-        }
-        .history-type-btn.active,
-        .statement-type-btn.active {
-            background: #FFD700;
-            border-color: #FFD700;
-            color: #000;
-        }
-
-        /* Table Styles */
-        .table-responsive { overflow-x: auto; border-radius: var(--radius); margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 600px; }
-        th { background: rgba(0, 0, 0, 0.05); color: #333333; text-align: left; padding: 15px; font-weight: 600; border-bottom: 2px solid rgba(0, 0, 0, 0.1); text-transform: uppercase; font-size: 11px; white-space: nowrap; }
-        td { padding: 15px; border-bottom: 1px solid rgba(0, 0, 0, 0.1); color: #333333; }
-        tr:hover td { background: rgba(0, 0, 0, 0.03); }
         
-        .table-empty { text-align: center; padding: 24px 10px; color: #666666; font-size: 13px; }
-        .table-footer {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 20px;
-            padding: 12px 10px 4px;
-            font-size: 12px;
-            color: var(--text-muted);
+        @keyframes presetGlow {
+            0%, 100% { box-shadow: 0 4px 15px rgba(0,0,0,0.3), 0 0 20px rgba(72, 219, 251, 0.4); }
+            50% { box-shadow: 0 4px 15px rgba(0,0,0,0.3), 0 0 25px rgba(72, 219, 251, 0.6); }
         }
-        .table-footer .rows-select { display: flex; align-items: center; gap: 6px; }
-        .table-footer .rows-select select {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            color: #333333;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
+        
+        .wallet-box { background: #fff; border: 3px solid var(--outline-color); border-radius: 15px; padding: 15px 20px; margin-bottom: 20px; box-shadow: 4px 4px 0px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 10px; }
+        .wallet-label-row { display: flex; justify-content: space-between; align-items: center; }
+        .wallet-label { font-weight: 700; font-size: 0.9rem; color: var(--outline-color); text-transform: uppercase; }
+        .wallet-balance-right { font-weight: 700; font-size: 1.1rem; color: #d62828; }
+        .balance-text-label { color: #666; font-size: 0.9rem; margin-right: 5px; }
+        .input-group-transfer { display: flex; gap: 15px; align-items: stretch; }
+        .input-group-transfer .input-box { flex: 1; }
+        .all-in-btn {
+            width: 120px; background: linear-gradient(180deg, #ffee55 0%, #f7b30b 100%); border: 3px solid var(--outline-color);
+            border-radius: var(--input-radius); color: var(--outline-color); font-family: 'Rowdies', cursive; font-weight: 700;
+            font-size: 1.2rem; cursor: pointer; box-shadow: 4px 4px 0px rgba(0,0,0,0.2); transition: transform 0.1s;
         }
-        .table-footer .pager { display: flex; align-items: center; gap: 6px; }
-        .table-footer .pager button {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            color: #333333;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            cursor: pointer;
+        .all-in-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px rgba(0,0,0,0.2); }
+        .action-buttons { display: flex; gap: 20px; }
+        .action-btn {
+            flex: 1; height: 65px; 
+            border: 4px solid transparent;
+            font-family: 'Rowdies', cursive;
+            font-weight: 700; font-size: 1.4rem; cursor: pointer; 
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.3), 0 0 15px rgba(252, 202, 87, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
         }
-        .table-footer .pager button:disabled { opacity: 0.5; cursor: default; }
+        
+        .action-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+        
+        .action-btn:hover::before {
+            left: 100%;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4), 0 0 25px rgba(255,255,255,0.3);
+        }
+        .action-btn:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0px rgba(0,0,0,0.3); }
+        .reset-btn { 
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff8e53 100%);
+            border-radius: 35px;
+            border-image: linear-gradient(45deg, #ff6b6b, #feca57) 1;
+            color: #fff; text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+        }
+        .proses-btn { 
+            background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
+            border-radius: 35px;
+            border-image: linear-gradient(45deg, #10b981, #34d399) 1;
+            color: var(--outline-color); text-shadow: 1px 1px 0px rgba(255,255,255,0.4);
+            animation: prosesPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes prosesPulse {
+            0%, 100% { box-shadow: 6px 6px 0px rgba(0,0,0,0.3), 0 0 15px rgba(16, 185, 129, 0.3); }
+            50% { box-shadow: 6px 6px 0px rgba(0,0,0,0.3), 0 0 25px rgba(16, 185, 129, 0.5); }
+        }
 
-        @media screen and (max-width: 768px) {
-            .transfer-container { grid-template-columns: 1fr; }
+        /* =========================================
+           KHUSUS TAB RIWAYAT (DYNAMIC TABLES)
+           ========================================= */
+        .history-filter-box {
+            background: #fff; border: 3px solid var(--outline-color); border-radius: 15px;
+            padding: 20px; margin-bottom: 25px; box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+        }
+        .filter-group { margin-bottom: 20px; }
+        .filter-group:last-child { margin-bottom: 0; }
+        .filter-label { font-weight: 700; font-size: 1rem; color: var(--outline-color); margin-bottom: 10px; display: block; }
+
+        .filter-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter-tab {
+            padding: 8px 15px; border-radius: 15px; border: 2px solid var(--outline-color);
+            font-family: 'Rowdies', cursive; font-weight: 400; font-size: 0.9rem; cursor: pointer;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.15); background: #e0e0e0; color: #666;
+            transition: transform 0.1s, background 0.2s;
+        }
+        .filter-tab:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0px rgba(0,0,0,0.15); }
+        .filter-tab.active-type { background: linear-gradient(180deg, #3be0ff 0%, #149EF5 100%); color: #fff; font-weight: 700; text-shadow: 1px 1px 0px rgba(0,0,0,0.2); }
+        .filter-tab.active-date { background: linear-gradient(180deg, #e89cff 0%, #BB6CED 100%); color: #fff; font-weight: 700; text-shadow: 1px 1px 0px rgba(0,0,0,0.2); }
+
+        .date-range-row { display: flex; gap: 15px; align-items: center; margin-top: 15px; flex-wrap: wrap; }
+        .date-input { flex: 1; min-width: 140px; height: 45px; font-size: 1rem; }
+        .s-d-text { font-weight: 700; color: var(--outline-color); font-size: 1.1rem; }
+
+        .filter-actions { display: flex; gap: 15px; margin-top: 20px; }
+        .filter-btn {
+            flex: 1; height: 45px; border-radius: 20px; border: 3px solid var(--outline-color);
+            font-family: 'Rowdies', cursive; font-weight: 700; font-size: 1rem; cursor: pointer;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2); transition: transform 0.1s;
+        }
+        .filter-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px rgba(0,0,0,0.2); }
+        .btn-tampil { background: linear-gradient(180deg, #b8ff6b 0%, #38d417 100%); color: var(--outline-color); }
+        .btn-reset-filter { background: linear-gradient(180deg, #ff8a8a 0%, #d62828 100%); color: #fff; text-shadow: 1px 1px 0px rgba(0,0,0,0.2); }
+
+        .cartoon-table-wrapper { overflow-x: auto; margin-bottom: 20px; }
+        .cartoon-table {
+            width: 100%; min-width: 500px; border: 3px solid var(--outline-color); border-radius: 15px;
+            overflow: hidden; box-shadow: 4px 4px 0px rgba(0,0,0,0.15); background: #fff;
+        }
+        .ct-header {
+            display: flex; background: linear-gradient(169.13deg, #7B9FE0 24.38%, #3a5da8 94.32%);
+            border-bottom: 3px solid var(--outline-color);
+        }
+        .ct-cell { flex: 1; padding: 12px 10px; text-align: center; font-size: 0.9rem; color: #fff; font-weight: 700; text-shadow: 1px 1px 0px rgba(0,0,0,0.2); }
+        .ct-body { display: flex; justify-content: center; align-items: center; min-height: 120px; padding: 20px; }
+        .ct-empty { color: #888; font-weight: 400; font-size: 1rem; }
+
+        .pagination { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .rows-select { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--outline-color); font-size: 0.9rem; }
+        .small-select {
+            width: 70px; height: 35px; background: #fff; border: 2px solid var(--outline-color); border-radius: 8px;
+            font-family: 'Rowdies', cursive; font-weight: 700; font-size: 0.9rem; color: #2a1b0e; outline: none;
+            appearance: none; -webkit-appearance: none; text-align: center; cursor: pointer;
+        }
+        .page-buttons { display: flex; gap: 10px; }
+        .page-btn {
+            padding: 8px 20px; border-radius: 10px; border: 2px solid var(--outline-color);
+            font-family: 'Rowdies', cursive; font-weight: 700; font-size: 0.9rem; cursor: pointer;
+            background: #e0e0e0; color: #666; box-shadow: 2px 2px 0px rgba(0,0,0,0.15); transition: transform 0.1s;
+        }
+        .page-btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0px rgba(0,0,0,0.15); }
+
+        /* =========================================
+           RESPONSIVE
+           ========================================= */
+        @media (max-width: 768px) {
+            .deposit-container { padding: 20px; }
+            .tab-btn { height: 60px; font-size: 0.9rem; }
+            .header-bg { height: 55px; }
+            .title { font-size: 1.8rem; }
+            .input-box, .select-box { height: 50px; font-size: 1rem; }
+            .preset-btn, .pay-btn, .copy-btn, .all-in-btn { height: 45px; font-size: 0.9rem; }
+            .action-btn { height: 55px; font-size: 1.1rem; }
+            .corner { width: 90px; }
+        }
+
+        @media (max-width: 480px) {
+            .deposit-container { padding: 15px; border-radius: 20px; border-width: 3px; }
+            .header-tabs { flex-wrap: wrap; gap: 8px; }
+            .tab-btn { flex-basis: calc(50% - 8px); height: 55px; font-size: 1rem; }
+            .tab-btn.active-main { transform: translateY(-3px); }
+            .header-bg { height: 115px; bottom: -60px; z-index: 0; }
+            .title { font-size: 1.6rem; -webkit-text-stroke: 1px var(--outline-color); }
+            .form-card { padding: 45px 15px 35px 15px; }
+            .corner { width: 75px; }
+            .corner-tl { top: -12px; left: -12px; } .corner-tr { top: -12px; right: -12px; }
+            .corner-br { bottom: -18px; right: -12px; } .corner-bl { bottom: -18px; left: -12px; }
+            .input-group-transfer { flex-direction: column; }
+            .all-in-btn { width: 100%; }
+            .action-buttons { flex-direction: column-reverse; }
+            .filter-tab { font-size: 0.8rem; padding: 6px 10px; }
+            .date-range-row { flex-direction: column; align-items: stretch; }
+            .s-d-text { text-align: center; }
         }
     </style>
 </head>
 <body>
-    <!-- TOPUP ORDER SUMMARY BANNER -->
-    <div id="topup-summary" style="display:none; margin-bottom:16px; background:linear-gradient(135deg,#1a2f6e,#0d3b8e); border:1.5px solid rgba(255,215,0,0.5); border-radius:16px; padding:16px 20px; color:#fff; font-family:'Roboto',sans-serif;">
-      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <div id="ts-icon" style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;">
-            <img id="ts-img" src="" style="width:28px;height:28px;object-fit:contain;" />
-          </div>
-          <div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:1px;text-transform:uppercase;">Pesanan Top Up</div>
-            <div style="font-size:18px;font-weight:700;color:#FFD700;" id="ts-amount">-</div>
-            <div style="font-size:11px;color:#4ade80;font-weight:600;" id="ts-bonus"></div>
-          </div>
-        </div>
-        <div style="text-align:right;">
-          <div style="font-size:11px;color:rgba(255,255,255,0.6);">Total Bayar</div>
-          <div style="font-size:20px;font-weight:900;color:#fff;" id="ts-price">-</div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:2px;">Selesaikan deposit di bawah</div>
-        </div>
-      </div>
-      <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);font-size:12px;color:rgba(255,255,255,0.5);">
-        💡 Lakukan transfer sesuai nominal di atas. Saldo akan ditambahkan setelah konfirmasi admin.
-      </div>
-    </div>
 
-    <div class="nav-tabs">
-        <button class="nav-tab active" onclick="switchMainTab('deposit')">Deposit</button>
-        <button class="nav-tab" onclick="switchMainTab('transfer')">Transfer</button>
-        <button class="nav-tab" onclick="switchMainTab('history')">Riwayat</button>
-        <button class="nav-tab" onclick="switchMainTab('statement')">Laporan</button>
-    </div>
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="cFill" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#FFB7BC"/><stop offset="1" stop-color="#E8455A"/></linearGradient>
+            <linearGradient id="cStroke" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#2a1b0e"/><stop offset="1" stop-color="#4a0e1c"/></linearGradient>
+        </defs>
+    </svg>
 
-    <!-- Deposit Tab -->
-    <div id="deposit-pane" class="tab-pane active">
-        <div class="card">
-            <h3 class="page-title"><i class="ph ph-file-invoice-dollar" style="margin-right:10px;"></i>Request Top Up</h3>
-            
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab(event, 'bank')">Transfer Bank</button>
-                <button class="tab-btn" onclick="switchTab(event, 'ewallet')">E-Wallet</button>
-                <button class="tab-btn" onclick="switchTab(event, 'qris')">QRIS</button>
-            </div>
-
-            <div id="bank" class="tab-content active">
-                <div class="info-box">
-                    <div>
-                        <div style="font-size:11px; color: var(--text-muted); margin-bottom:4px;">TRANSFER KE:</div>
-                        <div class="info-text">BCA - 1234567890</div>
-                        <div style="font-size:12px; color: var(--text-muted); margin-top:2px;">a.n. Pokemon Gacha</div>
-                    </div>
-                    <button class="copy-btn" onclick="copyText('1234567890')">COPY</button>
-                </div>
-
-                <form>
-                    <div class="form-group">
-                        <label>Jumlah Deposit</label>
-                        <input type="number" class="form-control" id="depositAmount" placeholder="Masukkan jumlah" min="10000">
-                        <div class="min-max-info">Min: Rp 10.000 | Max: Rp 50.000.000</div>
-                    </div>
-
-                    <div class="btn-grid">
-                        <button type="button" class="btn-amt" onclick="setAmount(50000)">50K</button>
-                        <button type="button" class="btn-amt" onclick="setAmount(100000)">100K</button>
-                        <button type="button" class="btn-amt" onclick="setAmount(500000)">500K</button>
-                        <button type="button" class="btn-amt" onclick="setAmount(1000000)">1JT</button>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nama Pengirim</label>
-                        <input type="text" class="form-control" placeholder="Nama sesuai rekening" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Bank Pengirim</label>
-                        <select class="form-control" required>
-                            <option value="">Pilih Bank</option>
-                            <option value="BCA">BCA</option>
-                            <option value="Mandiri">Mandiri</option>
-                            <option value="BNI">BNI</option>
-                            <option value="BRI">BRI</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn-submit">
-                        <i class="ph ph-check-circle" style="font-size:18px; vertical-align:middle;"></i>
-                        Konfirmasi Deposit
-                    </button>
-                </form>
-            </div>
-
-            <div id="ewallet" class="tab-content">
-                <div class="info-box">
-                    <div>
-                        <div style="font-size:11px; color: var(--text-muted); margin-bottom:4px;">TRANSFER KE:</div>
-                        <div class="info-text">OVO - 081234567890</div>
-                    </div>
-                    <button class="copy-btn" onclick="copyText('081234567890')">COPY</button>
-                </div>
-
-                <form>
-                    <div class="form-group">
-                        <label>Jumlah Deposit</label>
-                        <input type="number" class="form-control" placeholder="Masukkan jumlah" min="10000">
-                        <div class="min-max-info">Min: Rp 10.000 | Max: Rp 10.000.000</div>
-                    </div>
-
-                    <div class="btn-grid">
-                        <button type="button" class="btn-amt" onclick="setAmount(50000)">50K</button>
-                        <button type="button" class="btn-amt" onclick="setAmount(100000)">100K</button>
-                        <button type="button" class="btn-amt" onclick="setAmount(500000)">500K</button>
-                        <button type="button" class="btn-amt" onclick="setAmount(1000000)">1JT</button>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nomor HP Pengirim</label>
-                        <input type="tel" class="form-control" placeholder="08xxxxxxxxxx" required>
-                    </div>
-
-                    <button type="submit" class="btn-submit">
-                        <i class="ph ph-check-circle" style="font-size:18px; vertical-align:middle;"></i>
-                        Konfirmasi Deposit
-                    </button>
-                </form>
-            </div>
-
-            <div id="qris" class="tab-content">
-                <div style="text-align:center; padding:40px 20px;">
-                    <div style="background:#fff; display:inline-block; padding:20px; border-radius:8px; margin-bottom:20px;">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=QRIS_POKEMON_GACHA" alt="QRIS" style="width:200px; height:200px;">
-                    </div>
-                    <p style="color: var(--text-muted); font-size:14px;">Scan QRIS untuk melakukan pembayaran</p>
-                </div>
-
-                <form>
-                    <div class="form-group">
-                        <label>Jumlah yang Dibayar</label>
-                        <input type="number" class="form-control" placeholder="Masukkan jumlah" min="10000" required>
-                    </div>
-
-                    <button type="submit" class="btn-submit">
-                        <i class="ph ph-check-circle" style="font-size:18px; vertical-align:middle;"></i>
-                        Konfirmasi Pembayaran
-                    </button>
-                </form>
+    <div class="deposit-container">
+        <div class="header">
+            <div class="header-bg"></div>
+            <div class="header-tabs">
+                <button class="tab-btn tab-blue active-main" data-main-target="main-deposit">DEPOSIT</button>
+                <button class="tab-btn tab-purple" data-main-target="main-transfer">TRANSFER</button>
+                <button class="tab-btn tab-green" data-main-target="main-riwayat">RIWAYAT</button>
+                <button class="tab-btn tab-yellow" data-main-target="main-laporan">LAPORAN</button>
             </div>
         </div>
-    </div>
+        <div class="title">POKÉMON GACHA</div>
 
-    <!-- Transfer Tab -->
-    <div id="transfer-pane" class="tab-pane">
-        <div class="transfer-container">
-            <div class="transfer-card">
-                <div class="tabs">
-                    <button type="button" class="tab-btn active">Saldo</button>
-                    <button type="button" class="tab-btn">Komisi</button>
-                </div>
-                <form>
-                    <div class="form-group" style="margin-bottom:15px;">
-                        <label>Transfer Dari</label>
-                        <select class="form-control"><option value="main">Dompet Utama (IDR)</option></select>
-                    </div>
-                    <div class="form-group" style="margin-bottom:15px;">
-                        <label>Saldo Tersedia</label>
-                        <input type="text" class="form-control" value="0.00" readonly>
-                    </div>
-                    <div class="form-group" style="margin-bottom:15px;">
-                        <label>Transfer Ke</label>
-                        <select class="form-control">
-                            <option value="">-- Pilih Provider --</option>
-                            <option value="thunderfire">THUNDERFIRE (ESPORT)</option>
-                            <option value="jili">JILI-FISHING (FISHING)</option>
-                            <option value="sbo">SBO-CASINO (LIVE)</option>
-                            <option value="pragmatic">PRAGMATICPLAY (SLOT)</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="margin-bottom:15px;">
-                        <label>Saldo Tersedia</label>
-                        <input type="text" class="form-control" value="0.00" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label>Jumlah Transfer</label>
-                        <div class="amount-wrapper">
-                            <input type="number" class="form-control" placeholder="0">
-                            <button type="button" class="btn-all-in">ALL IN</button>
+        <div class="form-card">
+            <div class="corner corner-tl"><svg viewBox="0 0 390 401" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M363.792 0.5C364.513 0.500053 365.173 0.652718 365.775 0.999023C367.785 2.15445 372.501 5.08197 377.197 9.56348C381.897 14.0479 386.546 20.0587 388.479 27.3779C390.405 34.6761 389.646 43.3312 383.433 53.1602C377.208 63.0059 365.505 74.0345 345.534 86.0176C323.855 99.0254 311.689 112.78 304.628 127.019C297.573 141.246 295.638 155.915 294.351 170.691C291.775 200.255 291.775 230.303 259.015 258.969C226.211 287.672 197.567 287.658 170.92 292.471C157.594 294.878 144.774 298.497 132.272 307.565C119.774 316.631 107.636 331.112 95.6055 355.172C84.4276 377.527 73.286 389.902 62.8203 395.794C52.3826 401.67 42.5655 401.127 33.9248 397.523C25.2613 393.91 17.7749 387.216 12.0791 380.79C6.38801 374.37 2.51373 368.252 1.06641 365.839C0.680811 365.196 0.500033 364.477 0.5 363.708V110.001C0.500054 49.526 49.525 0.501171 110 0.500977L363.792 0.5Z" fill="url(#cFill)" stroke="url(#cStroke)" stroke-width="5"/></svg></div>
+            <div class="corner corner-tr"><svg viewBox="0 0 390 401" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M363.792 0.5C364.513 0.500053 365.173 0.652718 365.775 0.999023C367.785 2.15445 372.501 5.08197 377.197 9.56348C381.897 14.0479 386.546 20.0587 388.479 27.3779C390.405 34.6761 389.646 43.3312 383.433 53.1602C377.208 63.0059 365.505 74.0345 345.534 86.0176C323.855 99.0254 311.689 112.78 304.628 127.019C297.573 141.246 295.638 155.915 294.351 170.691C291.775 200.255 291.775 230.303 259.015 258.969C226.211 287.672 197.567 287.658 170.92 292.471C157.594 294.878 144.774 298.497 132.272 307.565C119.774 316.631 107.636 331.112 95.6055 355.172C84.4276 377.527 73.286 389.902 62.8203 395.794C52.3826 401.67 42.5655 401.127 33.9248 397.523C25.2613 393.91 17.7749 387.216 12.0791 380.79C6.38801 374.37 2.51373 368.252 1.06641 365.839C0.680811 365.196 0.500033 364.477 0.5 363.708V110.001C0.500054 49.526 49.525 0.501171 110 0.500977L363.792 0.5Z" fill="url(#cFill)" stroke="url(#cStroke)" stroke-width="5"/></svg></div>
+            <div class="corner corner-br"><svg viewBox="0 0 390 401" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M363.792 0.5C364.513 0.500053 365.173 0.652718 365.775 0.999023C367.785 2.15445 372.501 5.08197 377.197 9.56348C381.897 14.0479 386.546 20.0587 388.479 27.3779C390.405 34.6761 389.646 43.3312 383.433 53.1602C377.208 63.0059 365.505 74.0345 345.534 86.0176C323.855 99.0254 311.689 112.78 304.628 127.019C297.573 141.246 295.638 155.915 294.351 170.691C291.775 200.255 291.775 230.303 259.015 258.969C226.211 287.672 197.567 287.658 170.92 292.471C157.594 294.878 144.774 298.497 132.272 307.565C119.774 316.631 107.636 331.112 95.6055 355.172C84.4276 377.527 73.286 389.902 62.8203 395.794C52.3826 401.67 42.5655 401.127 33.9248 397.523C25.2613 393.91 17.7749 387.216 12.0791 380.79C6.38801 374.37 2.51373 368.252 1.06641 365.839C0.680811 365.196 0.500033 364.477 0.5 363.708V110.001C0.500054 49.526 49.525 0.501171 110 0.500977L363.792 0.5Z" fill="url(#cFill)" stroke="url(#cStroke)" stroke-width="5"/></svg></div>
+            <div class="corner corner-bl"><svg viewBox="0 0 390 401" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M363.792 0.5C364.513 0.500053 365.173 0.652718 365.775 0.999023C367.785 2.15445 372.501 5.08197 377.197 9.56348C381.897 14.0479 386.546 20.0587 388.479 27.3779C390.405 34.6761 389.646 43.3312 383.433 53.1602C377.208 63.0059 365.505 74.0345 345.534 86.0176C323.855 99.0254 311.689 112.78 304.628 127.019C297.573 141.246 295.638 155.915 294.351 170.691C291.775 200.255 291.775 230.303 259.015 258.969C226.211 287.672 197.567 287.658 170.92 292.471C157.594 294.878 144.774 298.497 132.272 307.565C119.774 316.631 107.636 331.112 95.6055 355.172C84.4276 377.527 73.286 389.902 62.8203 395.794C52.3826 401.67 42.5655 401.127 33.9248 397.523C25.2613 393.91 17.7749 387.216 12.0791 380.79C6.38801 374.37 2.51373 368.252 1.06641 365.839C0.680811 365.196 0.500033 364.477 0.5 363.708V110.001C0.500054 49.526 49.525 0.501171 110 0.500977L363.792 0.5Z" fill="url(#cFill)" stroke="url(#cStroke)" stroke-width="5"/></svg></div>
+
+            <!-- DEPOSIT -->
+            <div id="main-deposit" class="main-content-section active-main-content">
+                <div class="payment-tabs"><button class="pay-btn pay-orange active-pay" data-sub-target="sub-bank">Transfer Bank</button><button class="pay-btn pay-blue" data-sub-target="sub-ewallet">E-Wallet</button><button class="pay-btn pay-green" data-sub-target="sub-qris">Qris</button></div>
+                <div id="sub-bank" class="sub-content-section active-content"><div class="transfer-info info-purple"><span class="label" style="font-size: 1rem;">TRANSFER KE :</span><div class="acc-number-row"><span class="acc-num">BCA - 1234567890</span><button class="copy-btn">COPY</button></div><span class="label" style="font-size: 1rem;">a.n. Pokemon Gacha</span></div><div class="form-group"><div class="label-row"><span class="label-bold">Jumlah Deposit</span><span class="note">Min: 10K | Max: 50JT</span></div><input type="text" class="input-box" value="500.000"><div class="presets"><button class="preset-btn">50K</button><button class="preset-btn">100K</button><button class="preset-btn active">500K</button><button class="preset-btn">1JT</button></div></div><div style="display:flex; gap:20px; flex-wrap:wrap;"><div style="flex:1; min-width: 200px;"><span class="label-bold">Nama Pengirim</span><input type="text" class="input-box" placeholder="e.g. Ash"></div><div style="flex:1; min-width: 200px;"><span class="label-bold">Bank Pengirim</span><div class="select-container"><select class="select-box"><option>Pilih Bank</option><option>BCA</option><option>Mandiri</option><option>BNI</option><option>BRI</option></select></div></div></div><button class="action-btn proses-btn" style="width: 100%; margin-top: 25px;">KONFIRMASI</button></div>
+                <div id="sub-ewallet" class="sub-content-section"><div class="transfer-info info-blue"><span class="label" style="font-size: 1rem;">TRANSFER KE :</span><div class="acc-number-row"><span class="acc-num">OVO - 081234567890</span><button class="copy-btn">COPY</button></div></div><div class="form-group"><div class="label-row"><span class="label-bold">Jumlah Deposit</span><span class="note">Min: Rp 10.000 | Max: Rp 10.000.000</span></div><input type="text" class="input-box" placeholder="Masukkan jumlah"></div><div class="form-group"><span class="label-bold">Nomor HP Pengirim</span><input type="text" class="input-box" placeholder="08xxxxxxxxxx"></div><button class="action-btn proses-btn" style="width: 100%; margin-top: 25px;">KONFIRMASI DEPOSIT</button></div>
+                <div id="sub-qris" class="sub-content-section"><div class="transfer-info info-green" style="text-align: center;"><span class="label-bold" style="font-size: 1.2rem;">SCAN QR CODE DI BAWAH INI</span><div style="width: 150px; height: 150px; background: white; border: 3px solid var(--outline-color); margin: 20px auto; display: flex; align-items: center; justify-content: center; border-radius: 10px; box-shadow: var(--shadow-hard);"><span style="color: var(--outline-color); font-weight: 700;">QR IS HERE</span></div></div><button class="action-btn proses-btn" style="width: 100%; margin-top: 25px;">KONFIRMASI</button></div>
+            </div>
+
+            <!-- TRANSFER -->
+            <div id="main-transfer" class="main-content-section">
+                <div class="saldo-komisi-tabs"><button class="sk-tab active-sk" data-sk-target="tab-saldo">SALDO</button><button class="sk-tab" data-sk-target="tab-komisi">KOMISI</button></div>
+                <div id="tab-saldo" class="sub-content-section active-content"><div class="wallet-box"><div class="wallet-label-row"><span class="wallet-label">Transfer dari</span><span class="wallet-balance-right"><span class="balance-text-label">Saldo Tersedia:</span> 0.00</span></div><div class="select-container"><select class="select-box"><option>Dompet Utama (IDR)</option><option>Dompet Promo</option></select></div></div><div class="wallet-box"><div class="wallet-label-row"><span class="wallet-label">Transfer ke</span><span class="wallet-balance-right"><span class="balance-text-label">Saldo:</span> 0.00</span></div><div class="select-container"><select class="select-box"><option>-- Pilih Provider --</option><option>OVO</option><option>DANA</option><option>GoPay</option></select></div></div><div class="form-group"><span class="label-bold">JUMLAH TRANSFER</span><div class="input-group-transfer"><input type="number" class="input-box" value="0"><button class="all-in-btn">ALL IN</button></div></div><div class="action-buttons"><button class="action-btn reset-btn">RESET</button><button class="action-btn proses-btn">PROSES</button></div></div>
+                <div id="tab-komisi" class="sub-content-section"><div class="wallet-box"><div class="wallet-label-row"><span class="wallet-label">Transfer dari</span><span class="wallet-balance-right">4,87</span></div><div class="select-container"><select class="select-box"><option selected>Rebate & Reff</option></select></div></div><div class="wallet-box"><div class="wallet-label-row"><span class="wallet-label">Transfer ke</span><span class="wallet-balance-right"><span class="balance-text-label">Saldo:</span> 2,13</span></div><div class="select-container"><select class="select-box"><option selected>Dompet</option></select></div></div><div class="form-group"><span class="label-bold">JUMLAH TRANSFER</span><div class="input-group-transfer"><input type="number" class="input-box" value="0"><button class="all-in-btn">ALL IN</button></div></div><div class="action-buttons"><button class="action-btn reset-btn">RESET</button><button class="action-btn proses-btn">PROSES</button></div></div>
+            </div>
+
+            <!-- RIWAYAT (WITH DYNAMIC TABLES) -->
+            <div id="main-riwayat" class="main-content-section">
+                <div class="history-filter-box">
+                    <div class="filter-group">
+                        <span class="filter-label">Jenis Transaksi</span>
+                        <div class="filter-tabs">
+                            <button class="filter-tab active-type" data-riwayat-target="riwayat-transfer">Transfer</button>
+                            <button class="filter-tab" data-riwayat-target="riwayat-wd">Withdraw/Deposit</button>
+                            <button class="filter-tab" data-riwayat-target="riwayat-promosi">Promosi</button>
+                            <button class="filter-tab" data-riwayat-target="riwayat-cashback">Cashback</button>
                         </div>
-                        <div class="warning-text">Sisa saldo dibawah 1 ( Seribu Rupiah ) tidak bisa dipindahkan.</div>
                     </div>
-                    <div class="action-buttons">
-                        <button type="button" class="btn-reset">RESET</button>
-                        <button type="submit" class="btn-submit">PROSES</button>
+                    <div class="filter-group">
+                        <span class="filter-label">Tanggal Transaksi</span>
+                        <div class="filter-tabs">
+                            <button class="filter-tab active-date" data-ft="ft-date">Hari Ini</button>
+                            <button class="filter-tab" data-ft="ft-date">3 Hari</button>
+                            <button class="filter-tab" data-ft="ft-date">Minggu</button>
+                            <button class="filter-tab" data-ft="ft-date">Bulan</button>
+                        </div>
+                        <div class="date-range-row">
+                            <input type="date" class="input-box date-input" value="2026-04-27">
+                            <span class="s-d-text">s/d</span>
+                            <input type="date" class="input-box date-input" value="2026-04-27">
+                        </div>
                     </div>
-                </form>
-            </div>
-            <div class="transfer-card">
-                <div class="provider-header">
-                    <div class="provider-title">Saldo Provider</div>
-                    <button class="btn-refresh"><i class="ph ph-arrows-clockwise"></i> Refresh</button>
-                </div>
-                <div class="provider-section">
-                    <div class="cat-group">
-                        <div class="cat-title">ESPORT</div>
-                        <div class="provider-row"><span class="provider-name">THUNDERFIRE</span><span class="provider-balance">0,00</span></div>
-                    </div>
-                    <div class="cat-group">
-                        <div class="cat-title">SLOT</div>
-                        <div class="provider-row"><span class="provider-name">PRAGMATICPLAY</span><span class="provider-balance">0,00</span></div>
-                        <div class="provider-row"><span class="provider-name">PGSOFT</span><span class="provider-balance">0,00</span></div>
+                    <div class="filter-actions">
+                        <button class="filter-btn btn-tampil">TAMPIL</button>
+                        <button class="filter-btn btn-reset-filter">RESET</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Riwayat Tab -->
-    <div id="history-pane" class="tab-pane">
-        <div class="card">
-            <h3 class="page-title"><i class="ph ph-clock-counter-clockwise" style="margin-right:10px;"></i>Riwayat Transaksi</h3>
-            <div class="history-filter-container">
-                <div class="filter-row">
-                    <div class="filter-label">Jenis Transaksi</div>
-                    <div class="filter-controls">
-                        <button class="tab-btn history-type-btn active" data-type="transfer">Transfer</button>
-                        <button class="tab-btn history-type-btn" data-type="wd_dp">Withdraw/Deposit</button>
-                        <button class="tab-btn history-type-btn" data-type="promo">Promosi</button>
-                        <button class="tab-btn history-type-btn" data-type="cashback">Cashback</button>
+                <!-- Tabel Transfer -->
+                <div id="riwayat-transfer" class="riwayat-content active-riwayat">
+                    <div class="cartoon-table-wrapper">
+                        <div class="cartoon-table">
+                            <div class="ct-header">
+                                <div class="ct-cell">Tanggal</div>
+                                <div class="ct-cell">Provider</div>
+                                <div class="ct-cell">Jumlah</div>
+                                <div class="ct-cell">Jenis Transfer</div>
+                                <div class="ct-cell">Status</div>
+                            </div>
+                            <div class="ct-body"><span class="ct-empty">Tidak ada hasil</span></div>
+                        </div>
                     </div>
                 </div>
-                <div class="filter-row">
-                    <div class="filter-label">Tanggal Transaksi</div>
-                    <div class="filter-controls date-filter-btns">
-                        <button class="date-btn active">Hari Ini</button>
-                        <button class="date-btn">3 Hari</button>
-                        <button class="date-btn">Minggu</button>
-                        <button class="date-btn">Bulan</button>
-                    </div>
-                </div>
-                <div class="filter-row">
-                    <div class="filter-label">Tanggal</div>
-                    <div class="filter-controls">
-                        <input type="date" class="form-control">
-                        <span style="color:#aaa; font-size:12px;">s/d</span>
-                        <input type="date" class="form-control">
-                        <button class="btn-search">TAMPIL</button>
-                        <button class="btn-reset" style="flex:0; padding:10px 18px;">RESET</button>
-                    </div>
-                </div>
-            </div>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Tanggal</th>
-                            <th>Provider</th>
-                            <th>Jumlah</th>
-                            <th>Jenis Transfer</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="5" class="table-empty">Tidak ada hasil</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="table-footer">
-                <div class="rows-select">
-                    <span>Rows</span>
-                    <select>
-                        <option>10</option>
-                        <option>20</option>
-                        <option>50</option>
-                    </select>
-                </div>
-                <div class="pager">
-                    <button disabled>Prev</button>
-                    <button disabled>Next</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Laporan Tab -->
-    <div id="statement-pane" class="tab-pane">
-        <div class="card">
-            <h3 class="page-title"><i class="ph ph-file-text" style="margin-right:10px;"></i>Laporan</h3>
-            <div class="statement-filter-container">
-                <div class="filter-row">
-                    <div class="filter-label">Jenis Transaksi</div>
-                    <div class="filter-controls">
-                        <button class="tab-btn statement-type-btn active" data-type="game">Laporan Permainan</button>
-                        <button class="tab-btn statement-type-btn" data-type="commission">Laporan Komisi</button>
+                <!-- Tabel Withdraw/Deposit (Sesuai Referensi) -->
+                <div id="riwayat-wd" class="riwayat-content">
+                    <div class="cartoon-table-wrapper">
+                        <div class="cartoon-table">
+                            <div class="ct-header">
+                                <div class="ct-cell">Tanggal</div>
+                                <div class="ct-cell">Jumlah</div>
+                                <div class="ct-cell">Biaya Admin</div>
+                                <div class="ct-cell">Jenis Transaksi</div>
+                                <div class="ct-cell">Status</div>
+                            </div>
+                            <div class="ct-body"><span class="ct-empty">Tidak ada hasil</span></div>
+                        </div>
                     </div>
                 </div>
-                <div class="filter-row">
-                    <div class="filter-label">Tanggal Transaksi</div>
-                    <div class="filter-controls date-filter-btns">
-                        <button class="date-btn active">Hari Ini</button>
-                        <button class="date-btn">3 Hari</button>
-                        <button class="date-btn">Minggu</button>
-                        <button class="date-btn">Bulan</button>
+
+                <!-- Tabel Promosi -->
+                <div id="riwayat-promosi" class="riwayat-content">
+                    <div class="cartoon-table-wrapper">
+                        <div class="cartoon-table">
+                            <div class="ct-header">
+                                <div class="ct-cell">Tanggal</div>
+                                <div class="ct-cell">Promo</div>
+                                <div class="ct-cell">Jumlah</div>
+                                <div class="ct-cell">Status</div>
+                            </div>
+                            <div class="ct-body"><span class="ct-empty">Tidak ada hasil</span></div>
+                        </div>
                     </div>
                 </div>
-                <div class="filter-row">
-                    <div class="filter-label">Tanggal</div>
-                    <div class="filter-controls">
-                        <input type="date" class="form-control">
-                        <span style="color:#aaa; font-size:12px;">s/d</span>
-                        <input type="date" class="form-control">
-                        <button class="btn-search">TAMPIL</button>
-                        <button class="btn-reset" style="flex:0; padding:10px 18px;">RESET</button>
+
+                <!-- Tabel Cashback -->
+                <div id="riwayat-cashback" class="riwayat-content">
+                    <div class="cartoon-table-wrapper">
+                        <div class="cartoon-table">
+                            <div class="ct-header">
+                                <div class="ct-cell">Tanggal</div>
+                                <div class="ct-cell">Cashback</div>
+                                <div class="ct-cell">Jumlah</div>
+                                <div class="ct-cell">Status</div>
+                            </div>
+                            <div class="ct-body"><span class="ct-empty">Tidak ada hasil</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination">
+                    <div class="rows-select">
+                        Rows
+                        <select class="small-select"><option>10</option><option>25</option><option>50</option></select>
+                    </div>
+                    <div class="page-buttons">
+                        <button class="page-btn">Prev</button>
+                        <button class="page-btn">Next</button>
                     </div>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Tanggal</th>
-                            <th>Provider</th>
-                            <th>Kategori</th>
-                            <th>Total Taruhan</th>
-                            <th>Win/Loss</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="6" class="table-empty">Tidak ada hasil</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="table-footer">
-                <div class="rows-select">
-                    <span>Rows</span>
-                    <select>
-                        <option>10</option>
-                        <option>20</option>
-                        <option>50</option>
-                    </select>
+
+            <!-- LAPORAN (UPDATED) -->
+            <div id="main-laporan" class="main-content-section">
+                <div class="history-filter-box">
+                    <div class="filter-group">
+                        <span class="filter-label">Jenis Transaksi</span>
+                        <div class="filter-tabs">
+                            <button class="filter-tab active-type" data-laporan-target="laporan-permainan">Laporan Permainan</button>
+                            <button class="filter-tab" data-laporan-target="laporan-komisi">Laporan Komisi</button>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <span class="filter-label">Tanggal Transaksi</span>
+                        <div class="filter-tabs">
+                            <button class="filter-tab active-date" data-ft="ft-date-laporan">Hari Ini</button>
+                            <button class="filter-tab" data-ft="ft-date-laporan">3 Hari</button>
+                            <button class="filter-tab" data-ft="ft-date-laporan">Minggu</button>
+                            <button class="filter-tab" data-ft="ft-date-laporan">Bulan</button>
+                        </div>
+                        <div class="date-range-row">
+                            <input type="date" class="input-box date-input" value="2026-04-27">
+                            <span class="s-d-text">s/d</span>
+                            <input type="date" class="input-box date-input" value="2026-04-27">
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="filter-btn btn-tampil">TAMPIL</button>
+                        <button class="filter-btn btn-reset-filter">RESET</button>
+                    </div>
                 </div>
-                <div class="pager">
-                    <button disabled>Prev</button>
-                    <button disabled>Next</button>
+
+                <div id="laporan-permainan" class="riwayat-content active-riwayat">
+                    <div class="cartoon-table-wrapper">
+                        <div class="cartoon-table" style="min-width: 700px;"> <!-- Diperlebar sedikit untuk 6 kolom -->
+                            <div class="ct-header">
+                                <div class="ct-cell">Tanggal</div>
+                                <div class="ct-cell">Provider</div>
+                                <div class="ct-cell">Kategori</div>
+                                <div class="ct-cell">Total Taruhan</div>
+                                <div class="ct-cell">Win/Loss</div>
+                                <div class="ct-cell">Aksi</div>
+                            </div>
+                            <div class="ct-body"><span class="ct-empty">Tidak ada hasil</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="laporan-komisi" class="riwayat-content">
+                    <div class="cartoon-table-wrapper">
+                        <div class="cartoon-table" style="min-width: 750px;"> <!-- Diperlebar karena kolomnya banyak -->
+                            <div class="ct-header">
+                                <div class="ct-cell">Tanggal</div>
+                                <div class="ct-cell">Jenis Transaksi</div>
+                                <div class="ct-cell">Jumlah Sebelum</div>
+                                <div class="ct-cell">Jumlah</div>
+                                <div class="ct-cell">Jumlah Sesudah</div>
+                                <div class="ct-cell">Status</div>
+                            </div>
+                            <div class="ct-body"><span class="ct-empty">Tidak ada hasil</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination">
+                    <div class="rows-select">Rows <select class="small-select"><option>10</option><option>25</option><option>50</option></select></div>
+                    <div class="page-buttons"><button class="page-btn">Prev</button><button class="page-btn">Next</button></div>
                 </div>
             </div>
+
         </div>
     </div>
 
     <script>
-        function switchMainTab(tabName) {
-            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
-            document.getElementById(tabName + '-pane').classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        function switchTab(evt, tabName) {
-            const tabContents = document.getElementsByClassName('tab-content');
-            for (let i = 0; i < tabContents.length; i++) {
-                tabContents[i].classList.remove('active');
-            }
-            const tabBtns = document.getElementsByClassName('tab-btn');
-            for (let i = 0; i < tabBtns.length; i++) {
-                tabBtns[i].classList.remove('active');
-            }
-            document.getElementById(tabName).classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
-
-        function setAmount(amount) {
-            const inputs = document.querySelectorAll('input[type="number"]');
-            inputs.forEach(input => {
-                if (input.placeholder.includes('jumlah')) {
-                    input.value = amount;
-                }
-            });
-        }
-
-        function copyText(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Nomor rekening berhasil disalin!');
-            });
-        }
-
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Permintaan berhasil dikirim!');
+        // --- LOGIKA TAB UTAMA ---
+        const mainTabBtns = document.querySelectorAll('.tab-btn');
+        const mainContentSections = document.querySelectorAll('.main-content-section');
+        mainTabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                mainTabBtns.forEach(b => b.classList.remove('active-main'));
+                this.classList.add('active-main');
+                const targetId = this.getAttribute('data-main-target');
+                mainContentSections.forEach(section => section.classList.remove('active-main-content'));
+                document.getElementById(targetId).classList.add('active-main-content');
             });
         });
 
-        // ===== TOPUP ORDER DETECTION =====
-        (function() {
-            // Cek sessionStorage langsung — tidak perlu cek URL karena di dalam iframe
-            var currency  = sessionStorage.getItem('topup_currency');
-            var label     = sessionStorage.getItem('topup_label');
-            var bonus     = sessionStorage.getItem('topup_bonus');
-            var price     = sessionStorage.getItem('topup_price');
+        // --- LOGIKA TAB SUB DEPOSIT ---
+        const payBtns = document.querySelectorAll('.pay-btn');
+        const subDepositContents = document.querySelectorAll('#main-deposit .sub-content-section');
+        payBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                payBtns.forEach(b => b.classList.remove('active-pay'));
+                this.classList.add('active-pay');
+                const targetId = this.getAttribute('data-sub-target');
+                subDepositContents.forEach(section => section.classList.remove('active-content'));
+                document.getElementById(targetId).classList.add('active-content');
+            });
+        });
 
-            if (!currency || !label) return;
+        // --- LOGIKA TAB SALDO/KOMISI ---
+        const skTabs = document.querySelectorAll('.sk-tab');
+        const subTransferContents = document.querySelectorAll('#main-transfer .sub-content-section');
+        skTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                skTabs.forEach(t => t.classList.remove('active-sk'));
+                this.classList.add('active-sk');
+                const targetId = this.getAttribute('data-sk-target');
+                subTransferContents.forEach(section => section.classList.remove('active-content'));
+                document.getElementById(targetId).classList.add('active-content');
+            });
+        });
 
-            // Icon map
-            var iconMap = {
-                koin:    '../assets/images/icons/icon/koin.png',
-                diamond: '../assets/images/icons/icon/diamond.png',
-                flash:   '../assets/images/icons/icon/flash.png'
-            };
-            var currencyName = { koin: 'Koin', diamond: 'Diamond', flash: 'Flash' };
+        // --- LOGIKA RIWAYAT TABS ---
+        const riwayatTabs = document.querySelectorAll('[data-riwayat-target]');
+        const riwayatContents = document.querySelectorAll('#main-riwayat .riwayat-content');
+        riwayatTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                riwayatTabs.forEach(t => t.classList.remove('active-type'));
+                this.classList.add('active-type');
+                const targetId = this.getAttribute('data-riwayat-target');
+                riwayatContents.forEach(content => content.classList.remove('active-riwayat'));
+                document.getElementById(targetId).classList.add('active-riwayat');
+            });
+        });
 
-            document.getElementById('ts-img').src = iconMap[currency] || '';
-            document.getElementById('ts-amount').textContent = label + ' ' + (currencyName[currency] || currency);
-            document.getElementById('ts-bonus').textContent  = bonus || '';
-            document.getElementById('ts-price').textContent  = price || 'Custom';
-            document.getElementById('topup-summary').style.display = 'block';
+        // --- LOGIKA LAPORAN TABS ---
+        const laporanTabs = document.querySelectorAll('[data-laporan-target]');
+        const laporanContents = document.querySelectorAll('#main-laporan .riwayat-content');
+        laporanTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                laporanTabs.forEach(t => t.classList.remove('active-type'));
+                this.classList.add('active-type');
+                const targetId = this.getAttribute('data-laporan-target');
+                laporanContents.forEach(content => content.classList.remove('active-riwayat'));
+                document.getElementById(targetId).classList.add('active-riwayat');
+            });
+        });
 
-            // Auto-isi jumlah deposit jika ada harga
-            if (price) {
-                var nominal = parseInt(price.replace(/[^0-9]/g, ''));
-                if (nominal) {
-                    var inp = document.getElementById('depositAmount');
-                    if (inp) inp.value = nominal;
-                }
-            }
+        // --- LOGIKA TAB TANGGAL (SEMUA TAB) ---
+        const dateTabsRiwayat = document.querySelectorAll('[data-ft="ft-date-riwayat"]');
+        dateTabsRiwayat.forEach(tab => {
+            tab.addEventListener('click', function() {
+                dateTabsRiwayat.forEach(t => t.classList.remove('active-date'));
+                this.classList.add('active-date');
+            });
+        });
 
-            // Bersihkan session setelah dibaca
-            sessionStorage.removeItem('topup_currency');
-            sessionStorage.removeItem('topup_amount');
-            sessionStorage.removeItem('topup_bonus');
-            sessionStorage.removeItem('topup_total');
-            sessionStorage.removeItem('topup_price');
-            sessionStorage.removeItem('topup_label');
-        })();
+        const dateTabsLaporan = document.querySelectorAll('[data-ft="ft-date-laporan"]');
+        dateTabsLaporan.forEach(tab => {
+            tab.addEventListener('click', function() {
+                dateTabsLaporan.forEach(t => t.classList.remove('active-date'));
+                this.classList.add('active-date');
+            });
+        });
+
+        // --- LOGIKA TOMBOL PRESET ---
+        const presetGroups = document.querySelectorAll('.presets');
+        presetGroups.forEach(group => {
+            const presetBtns = group.querySelectorAll('.preset-btn');
+            const parentInput = group.parentElement.querySelector('.input-box');
+            presetBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    presetBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    if(parentInput) { parentInput.value = this.innerText + ".000"; }
+                });
+            });
+        });
     </script>
 </body>
 </html>

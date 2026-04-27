@@ -3,64 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>GachaKeren Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
   <link href="https://fonts.cdnfonts.com/css/super-starfish" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=2.2" />
+  <link rel="stylesheet" href="css/header.css?v=2.2" />
 </head>
 <body>
 
   <!-- BACKGROUND -->
-  <div class="bg" style="background-image: url('assets/images/backgrounds/background.png');"></div>
+  <div class="bg" style="background-image: url('assets/images/backgrounds/backgroundhome.png');"></div>
 
-  <!-- TOP BAR -->
-  <header class="topbar">
-    <!-- Logo -->
-    <div class="logo">
-      <img src="assets/images/ui/logoweb.png" alt="GachaKeren" />
+  <!-- SHARED HEADER -->
+  <header class="shared-header">
+    <div class="sh-logo"><img src="assets/images/ui/logoweb.png" alt="GachaKeren"/></div>
+    <div class="sh-auth-buttons" id="sh-auth-buttons">
+      <button class="sh-btn-login" onclick="shOpenAuth('login')">LOGIN</button>
+      <button class="sh-btn-register" onclick="shOpenAuth('register')">REGISTER</button>
     </div>
-
-    <!-- Auth Buttons (Before Login) -->
-    <div class="auth-buttons" id="auth-buttons">
-      <button class="btn-login" onclick="openAuth('login')">LOGIN</button>
-      <button class="btn-register" onclick="openAuth('register')">REGISTER</button>
-    </div>
-
-    <!-- Profile (After Login) -->
-    <div class="profile" id="profile-section" style="display: none;">
-      <div class="profile-avatar">
-        <img src="assets/images/icons/icon/pokemon.png" alt="avatar" class="avatar-img" />
-      </div>
-      <div class="profile-card">
-        <div class="profile-username" id="username-display">Username</div>
-        <div class="profile-id" id="user-id-display">ID 608</div>
+    <div class="sh-profile" id="sh-profile-section" style="display:none;">
+      <div class="sh-profile-avatar"><img src="assets/images/icons/icon/pokemon.png" alt="avatar" class="sh-avatar-img"/></div>
+      <div class="sh-profile-card">
+        <div class="sh-profile-username" id="sh-username-display">Username</div>
+        <div class="sh-profile-id" id="sh-user-id-display">ID 608</div>
       </div>
     </div>
-
-    <!-- Logout Button (After Login) -->
-    <button class="btn-logout" id="btn-logout" style="display: none;" onclick="handleLogout()">KELUAR</button>
-
-    <!-- Currency + Profile Card Mobile (kanan) -->
-    <div class="topbar-right">
-      <!-- Currency -->
-      <div class="currencies">
-        <div class="currency-item">
-          <img src="assets/images/icons/icon/koin.png" alt="koin" />
-          <span id="bal-koin">20.15M</span>
-          <button class="btn-plus" onclick="openTopup('koin')">+</button>
-        </div>
-        <div class="currency-item">
-          <img src="assets/images/icons/icon/diamond.png" alt="diamond" />
-          <span id="bal-diamond">20.15M</span>
-          <button class="btn-plus" onclick="openTopup('diamond')">+</button>
-        </div>
-        <div class="currency-item">
-          <img src="assets/images/icons/icon/flash.png" alt="flash" />
-          <span id="bal-flash">20.15M</span>
-          <button class="btn-plus" onclick="openTopup('flash')">+</button>
-        </div>
+    <button class="sh-btn-logout" id="sh-btn-logout" style="display:none;" onclick="shHandleLogout()">KELUAR</button>
+    <div class="sh-topbar-right">
+      <div class="sh-currencies">
+        <div class="sh-currency-item" onclick="shOpenTopup('koin')"><img src="assets/images/icons/icon/koin.png" alt="koin"/><span id="sh-bal-koin">20.15M</span><button class="sh-btn-plus" onclick="event.stopPropagation();shOpenTopup('koin')">+</button></div>
+        <div class="sh-currency-item" onclick="shOpenTopup('diamond')"><img src="assets/images/icons/icon/diamond.png" alt="diamond"/><span id="sh-bal-diamond">20.15M</span><button class="sh-btn-plus" onclick="event.stopPropagation();shOpenTopup('diamond')">+</button></div>
+        <div class="sh-currency-item" onclick="shOpenTopup('flash')"><img src="assets/images/icons/icon/flash.png" alt="flash"/><span id="sh-bal-flash">20.15M</span><button class="sh-btn-plus" onclick="event.stopPropagation();shOpenTopup('flash')">+</button></div>
       </div>
     </div>
   </header>
@@ -155,6 +133,7 @@
   </nav>
 
   <script src="js/main.js"></script>
+  <script src="js/header.js"></script>
   <script>
     // Mobile tap tooltip untuk navbar bawah
     document.querySelectorAll('.nav-item').forEach(function(item) {
@@ -271,6 +250,15 @@
       toggleAuth(type);
     }
 
+    // Auto-buka modal jika datang dari redirect shOpenAuth
+    (function() {
+      var intent = sessionStorage.getItem('auth_intent');
+      if (intent) {
+        sessionStorage.removeItem('auth_intent');
+        setTimeout(function() { openAuth(intent); }, 100);
+      }
+    })();
+
     function closeAuth() {
       document.getElementById('auth-modal').classList.remove('active');
     }
@@ -305,46 +293,29 @@
       }
 
       // Simpan session
-      sessionStorage.setItem('loggedIn', 'true');
-      sessionStorage.setItem('username', username);
+      localStorage.setItem('loggedIn', 'true');
+      localStorage.setItem('username', username);
 
       closeAuth();
-      updateAuthUI(username);
+      // Update shared header
+      if (typeof shHandleLogout !== 'undefined') {
+        // re-init auth di shared header
+        var authBtns   = document.getElementById('sh-auth-buttons');
+        var profileSec = document.getElementById('sh-profile-section');
+        var btnLogout  = document.getElementById('sh-btn-logout');
+        var usernameEl = document.getElementById('sh-username-display');
+        if (authBtns)   authBtns.style.display   = 'none';
+        if (profileSec) profileSec.style.display = 'flex';
+        if (btnLogout)  btnLogout.style.display  = 'inline-flex';
+        if (usernameEl) usernameEl.textContent   = username;
+      }
     }
 
     function handleLogout() {
-      sessionStorage.removeItem('loggedIn');
-      sessionStorage.removeItem('username');
-      updateAuthUI(null);
+      localStorage.removeItem('loggedIn');
+      localStorage.removeItem('username');
+      if (typeof shHandleLogout === 'function') shHandleLogout();
     }
-
-    function updateAuthUI(username) {
-      const authButtons   = document.getElementById('auth-buttons');
-      const profileSection = document.getElementById('profile-section');
-      const btnLogout     = document.getElementById('btn-logout');
-      const usernameDisplay = document.getElementById('username-display');
-
-      if (username) {
-        // After login
-        authButtons.style.display    = 'none';
-        profileSection.style.display = 'flex';
-        btnLogout.style.display      = 'inline-flex';
-        usernameDisplay.textContent  = username;
-      } else {
-        // Before login
-        authButtons.style.display    = 'flex';
-        profileSection.style.display = 'none';
-        btnLogout.style.display      = 'none';
-      }
-    }
-
-    // Cek session saat halaman dimuat
-    (function() {
-      const saved = sessionStorage.getItem('username');
-      if (sessionStorage.getItem('loggedIn') && saved) {
-        updateAuthUI(saved);
-      }
-    })();
 
     // Tutup modal saat klik overlay
     document.getElementById('auth-modal').addEventListener('click', function(e) {
@@ -415,9 +386,12 @@
     }
 
     function refreshBalanceDisplay() {
-      document.getElementById('bal-koin').textContent    = formatBalance(balances.koin);
-      document.getElementById('bal-diamond').textContent = formatBalance(balances.diamond);
-      document.getElementById('bal-flash').textContent   = formatBalance(balances.flash);
+      var koinEl = document.getElementById('bal-koin');
+      var diamondEl = document.getElementById('bal-diamond');
+      var flashEl = document.getElementById('bal-flash');
+      if (koinEl) koinEl.textContent = formatBalance(balances.koin);
+      if (diamondEl) diamondEl.textContent = formatBalance(balances.diamond);
+      if (flashEl) flashEl.textContent = formatBalance(balances.flash);
     }
 
     function openTopup(type) {
