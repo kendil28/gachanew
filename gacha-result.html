@@ -63,12 +63,23 @@ body::-webkit-scrollbar{display:none;}
   max-height:calc(100vh - 80px);
   overflow-y:auto;
   scrollbar-width:none;
+  display:flex;
+  flex-direction:column;
 }
 .gp-wrap::-webkit-scrollbar{display:none;}
 
 .gp-grid{
   display:flex;flex-wrap:wrap;justify-content:center;
   gap:12px;padding:4px 2px;
+  flex:1;
+  align-items:center;
+}
+
+/* x1: single card — center vertikal */
+.gp-grid.single-card {
+  align-items:center;
+  justify-content:center;
+  min-height:300px;
 }
 
 /* ===== CARD SLOT ===== */
@@ -246,43 +257,79 @@ body::-webkit-scrollbar{display:none;}
 .card-detail-overlay{
   position:fixed;inset:0;
   background:rgba(0,0,0,.85);backdrop-filter:blur(8px);
-  z-index:200;display:none;align-items:center;justify-content:center;padding:20px;
+  z-index:200;display:none;
+  align-items:flex-start;
+  justify-content:center;
+  padding:16px 16px 32px;
+  overflow-y:auto;
 }
 .card-detail-overlay.show{display:flex;}
 .card-detail-box{
   background:linear-gradient(160deg,#1a1a2e,#0f3460);
-  border-radius:20px;padding:24px;max-width:340px;width:100%;
+  border-radius:20px;padding:20px;max-width:420px;width:100%;
   position:relative;
   animation:detailPop .3s cubic-bezier(.34,1.56,.64,1);
   border:1.5px solid rgba(58,76,202,.4);
   box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 30px rgba(58,76,202,.2);
-  max-height:90vh;
-  overflow-y:auto;
-  scrollbar-width:none;
-  -ms-overflow-style:none;
+  flex-shrink:0;
+  margin:auto;
 }
-.card-detail-box::-webkit-scrollbar{display:none;}
 @keyframes detailPop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
 .card-detail-close{
-  position:absolute;top:14px;right:14px;
+  position:absolute;top:12px;right:12px;
   background:rgba(255,255,255,.1);border:none;
   color:#fff;width:30px;height:30px;border-radius:50%;
   font-size:16px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  transition:background .2s;
+  transition:background .2s;z-index:2;
 }
 .card-detail-close:hover{background:rgba(252,1,2,.4);}
-.card-detail-img{width:100%;height:220px;object-fit:contain;border-radius:12px;margin-bottom:14px;background:rgba(0,0,0,.3);}
-.card-detail-name{
-  font-family:'Bangers',cursive;font-size:1.9rem;letter-spacing:2px;
-  background:linear-gradient(90deg,var(--c-blue),var(--c-red),var(--c-yellow));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  margin-bottom:4px;
-}
-.card-detail-rarity{font-size:.75rem;font-weight:700;letter-spacing:1px;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:12px;}
-.card-detail-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.card-stat{background:rgba(255,255,255,.06);border-radius:10px;padding:8px 12px;font-size:.75rem;color:rgba(255,255,255,.7);}
-.card-stat strong{display:block;font-size:1rem;color:var(--c-yellow);font-weight:700;}
+
+/* Top section: image + info */
+.cd-top{display:flex;gap:14px;margin-bottom:14px;}
+.cd-img{width:120px;min-width:120px;height:168px;object-fit:cover;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.5);}
+.cd-info{flex:1;min-width:0;display:flex;flex-direction:column;}
+.cd-sub{font-size:.65rem;font-weight:600;color:#b0a8c8;margin-bottom:4px;}
+.cd-badge{font-size:.5rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#4ade80;background:rgba(45,212,91,.15);border:1px solid rgba(45,212,91,.35);padding:2px 7px;border-radius:5px;align-self:flex-start;margin-bottom:6px;}
+.cd-name{font-size:1.1rem;font-weight:900;color:#fff;margin-bottom:6px;line-height:1.2;}
+.cd-hp{font-size:1.5rem;font-weight:900;color:#ff5566;line-height:1;}
+.cd-hp span{font-size:.58rem;font-weight:600;color:#8a85a0;letter-spacing:1px;margin-left:3px;}
+
+/* Divider */
+.cd-divider{height:1px;background:rgba(255,255,255,.12);margin:10px 0;}
+
+/* Attacks */
+.cd-attack{margin-bottom:10px;}
+.cd-attack-row{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
+.cd-attack-name{font-size:.78rem;font-weight:800;color:#f0ecff;margin-left:4px;}
+.cd-attack-dmg{font-size:.9rem;font-weight:900;color:#ff5566;margin-left:auto;}
+.cd-attack-desc{font-size:.65rem;line-height:1.6;color:#b0a8c8;padding-left:2px;}
+
+/* Energy dot */
+.cd-energy{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;font-size:.55rem;font-weight:700;color:#fff;flex-shrink:0;}
+.cd-energy.F{background:#e25822;}
+.cd-energy.W{background:#4a90d9;}
+.cd-energy.L{background:#f5d300;}
+.cd-energy.P{background:#a259c4;}
+.cd-energy.G{background:#4caf50;}
+.cd-energy.C{background:#9ca3af;}
+.cd-energy.D{background:#5a5a8a;}
+.cd-energy.M{background:#b0b0b0;}
+.cd-energy.R{background:#e53935;}
+.cd-energy.N{background:#6d4c41;}
+
+/* Weakness / Resistance / Retreat */
+.cd-wwr{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.cd-wwr-label{font-size:.52rem;font-weight:700;text-transform:uppercase;color:#7a7590;}
+.cd-wwr-val{font-size:.62rem;color:#d4d0e8;font-weight:700;}
+.cd-wwr-sep{width:1px;height:14px;background:rgba(255,255,255,.1);display:inline-block;}
+
+/* Footer: set / rarity / illustrator */
+.cd-footer{padding-top:8px;border-top:1px solid rgba(255,255,255,.08);}
+.cd-footer-row{display:flex;justify-content:space-between;margin-bottom:3px;}
+.cd-footer-key{font-size:.52rem;color:#7a7590;text-transform:uppercase;}
+.cd-footer-val{font-size:.6rem;color:#b0a8c8;font-weight:600;}
+.cd-footer-val.rarity-val{color:#fbbf24;font-weight:700;}
 
 /* ===== SUMMARY — warna per rarity ===== */
 .gp-summary{
@@ -326,10 +373,7 @@ body::-webkit-scrollbar{display:none;}
 <div class="card-detail-overlay" id="cardDetailOverlay" onclick="closeDetail(event)">
   <div class="card-detail-box">
     <button class="card-detail-close" onclick="closeDetailBtn()">✕</button>
-    <img class="card-detail-img" id="detail-img" src="" alt="" />
-    <div class="card-detail-name" id="detail-name"></div>
-    <span class="card-detail-rarity" id="detail-rarity"></span>
-    <div class="card-detail-stats" id="detail-stats"></div>
+    <div id="cardDetailContent"></div>
   </div>
 </div>
 

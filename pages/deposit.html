@@ -71,10 +71,35 @@
         .tab-btn {
             position: relative; flex: 1; height: 70px; border-radius: 16px; border: 4px solid transparent;
             color: #FFFFFF; font-family: 'Rowdies', cursive; font-weight: 700; font-size: 1.2rem; cursor: pointer;
-            display: flex; align-items: flex-end; justify-content: center; padding-bottom: 12px; box-sizing: border-box;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 8px; box-sizing: border-box;
             box-shadow: var(--shadow-hard); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-shadow: 2px 2px 0px rgba(0,0,0,0.5); background: #888; filter: brightness(0.7);
-            overflow: hidden;
+            overflow: visible;
+        }
+        
+        .tab-icon {
+            position: absolute;
+            top: -20px;
+            width: 45px;
+            height: 45px;
+            z-index: 10;
+            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.3));
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .tab-btn:hover .tab-icon {
+            transform: translateY(-2px);
+            filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.4)) brightness(1.1);
+        }
+        
+        .tab-btn.active-main .tab-icon {
+            filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.4)) brightness(1.2);
+            animation: iconFloat 2s ease-in-out infinite;
+        }
+        
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
         }
         
         .tab-btn::before {
@@ -343,7 +368,7 @@
         .action-buttons { display: flex; gap: 20px; }
         .action-btn {
             flex: 1; height: 65px; 
-            border: 4px solid transparent;
+            border: none;
             font-family: 'Rowdies', cursive;
             font-weight: 700; font-size: 1.4rem; cursor: pointer; 
             box-shadow: 6px 6px 0px rgba(0,0,0,0.3), 0 0 15px rgba(252, 202, 87, 0.3);
@@ -370,13 +395,11 @@
         .reset-btn { 
             background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff8e53 100%);
             border-radius: 35px;
-            border-image: linear-gradient(45deg, #ff6b6b, #feca57) 1;
             color: #fff; text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
         }
         .proses-btn { 
             background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
             border-radius: 35px;
-            border-image: linear-gradient(45deg, #10b981, #34d399) 1;
             color: var(--outline-color); text-shadow: 1px 1px 0px rgba(255,255,255,0.4);
             animation: prosesPulse 2s ease-in-out infinite;
         }
@@ -454,6 +477,7 @@
            RESPONSIVE
            ========================================= */
         @media (max-width: 768px) {
+            body { padding-bottom: 160px; align-items: flex-start; overflow-y: auto; }
             .deposit-container { padding: 20px; }
             .tab-btn { height: 60px; font-size: 0.9rem; }
             .header-bg { height: 55px; }
@@ -465,8 +489,9 @@
         }
 
         @media (max-width: 480px) {
+            body { padding-bottom: 160px; align-items: flex-start; overflow-y: auto; }
             .deposit-container { padding: 15px; border-radius: 20px; border-width: 3px; }
-            .header-tabs { flex-wrap: wrap; gap: 8px; }
+            .header-tabs { flex-wrap: wrap; gap: 8px; row-gap: 30px; }
             .tab-btn { flex-basis: calc(50% - 8px); height: 55px; font-size: 1rem; }
             .tab-btn.active-main { transform: translateY(-3px); }
             .header-bg { height: 115px; bottom: -60px; z-index: 0; }
@@ -497,10 +522,22 @@
         <div class="header">
             <div class="header-bg"></div>
             <div class="header-tabs">
-                <button class="tab-btn tab-blue active-main" data-main-target="main-deposit">DEPOSIT</button>
-                <button class="tab-btn tab-purple" data-main-target="main-transfer">TRANSFER</button>
-                <button class="tab-btn tab-green" data-main-target="main-riwayat">RIWAYAT</button>
-                <button class="tab-btn tab-yellow" data-main-target="main-laporan">LAPORAN</button>
+                <button class="tab-btn tab-blue active-main" data-main-target="main-deposit">
+                    <img src="../assets/images/icons/icon/deposit.png" class="tab-icon" alt="Deposit">
+                    DEPOSIT
+                </button>
+                <button class="tab-btn tab-purple" data-main-target="main-transfer">
+                    <img src="../assets/images/icons/icon/withdraw.png" class="tab-icon" alt="Transfer">
+                    TRANSFER
+                </button>
+                <button class="tab-btn tab-green" data-main-target="main-riwayat">
+                    <img src="../assets/images/icons/icon/riwayat.png" class="tab-icon" alt="Riwayat">
+                    RIWAYAT
+                </button>
+                <button class="tab-btn tab-yellow" data-main-target="main-laporan">
+                    <img src="../assets/images/icons/icon/common.png" class="tab-icon" alt="Laporan">
+                    LAPORAN
+                </button>
             </div>
         </div>
         <div class="title">POKÉMON GACHA</div>

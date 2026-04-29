@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leaderboard - GachaKeren</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Luckiest+Guy&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -13,7 +13,8 @@ body {
   background: transparent;
   min-height: 100vh;
   width: 100%;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px 16px 100px 16px;
   color: #fff;
 }
@@ -32,7 +33,6 @@ body {
 /* ===== MAIN PANEL ===== */
 .lb-panel {
   max-width: calc(100% - 275px);
-  max-height: 80vh;
   margin: 49px auto 0;
   background: rgba(255, 255, 255, 0.15);
   border: 4px solid transparent;
@@ -46,11 +46,25 @@ body {
               0 0 60px rgba(252, 202, 87, 0.2),
               10px 10px 0px rgba(0,0,0,0.2);
   animation: containerGlow 3s ease-in-out infinite alternate;
-  overflow-y: auto;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
   padding-bottom: 20px;
   position: relative;
   z-index: 1;
 }
+
+/* Inner scrollable area — tabs tetap visible, konten di bawahnya scroll */
+.lb-inner-scroll {
+  max-height: calc(80vh - 90px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.lb-inner-scroll::-webkit-scrollbar { width: 4px; }
+.lb-inner-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 
 @keyframes containerGlow {
   0% { box-shadow: 0 0 30px rgba(255, 107, 107, 0.3), 0 0 60px rgba(252, 202, 87, 0.2), 10px 10px 0px rgba(0,0,0,0.2); }
@@ -113,22 +127,55 @@ body {
   justify-content: space-between;
   gap: 12px;
   z-index: 3;
+  overflow: visible;
+  padding-top: 20px;
 }
-.lb-tab {
+
+.lb-tab-wrap {
   position: relative;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.lb-tab-wrap .lb-tab-icon {
+  position: absolute;
+  top: 0;
+  width: 45px;
+  height: 45px;
+  z-index: 10;
+  filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.3));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.lb-tab-wrap:hover .lb-tab-icon {
+  filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.4)) brightness(1.1);
+}
+
+.lb-tab-wrap:has(.active) .lb-tab-icon {
+  filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.4)) brightness(1.2);
+  animation: iconFloat 2s ease-in-out infinite;
+}
+
+.lb-tab {
+  position: relative;
+  width: 100%;
   height: 70px;
   border-radius: 16px;
   border: 4px solid transparent;
   color: #FFFFFF;
-  font-family: 'Luckiest Guy', cursive;
+  font-family: 'Rowdies', cursive;
   font-weight: 700;
   font-size: 1.2rem;
   cursor: pointer;
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding-bottom: 12px;
+  padding-bottom: 0;
   box-sizing: border-box;
   box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.35);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -136,6 +183,11 @@ body {
   background: #888;
   filter: brightness(0.7);
   overflow: hidden;
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
 }
 
 .lb-tab::before {
@@ -162,11 +214,11 @@ body {
   box-shadow: 2px 2px 0px rgba(0,0,0,0.35); 
 }
 
-.lb-tab::before {
-  content: ''; position: absolute; width: 14px; height: calc(14px * 1.8); top: 8px; left: 10px;
+.lb-tab::after {
+  content: ''; position: absolute; width: 14px; height: calc(14px * 1.8); top: 2px; left: 5px;
   background: linear-gradient(143.13deg, #FFFFFF 20%, rgba(255, 255, 255, 0) 53.65%); border-radius: 50%;
+  pointer-events: none;
 }
-
 /* Individual tab colors like DEPOSIT page */
 .lb-tab:nth-child(1) { 
   background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #48dbfb 100%);
@@ -487,11 +539,16 @@ body {
 }
 
 @media (max-width: 640px) {
-  body { padding: 8px 8px 20px; }
-  .lb-panel { max-width: 100%; border-radius: 20px; }
-  .lb-content { flex-direction: column; gap: 12px; padding: 12px 12px; }
-  .lb-podium-wrap { flex: none; width: 100%; }
-  .lb-tab { font-size: 11px; padding: 8px 4px; }
+  body { padding: 8px 8px 160px; overflow-y: auto; }
+  .lb-panel { max-width: 100%; border-radius: 20px; overflow: visible; padding-bottom: 20px; }
+  .lb-inner-scroll { max-height: none; overflow: visible; }
+  .lb-content { flex-direction: column; gap: 12px; padding: 12px 12px; overflow: visible; }
+  .lb-podium-wrap { flex: none; width: 100%; overflow: visible; }
+  .lb-list-wrap { overflow: visible; }
+  .lb-tabs { padding-top: 20px; gap: 8px; }
+  .lb-tab-wrap { padding-top: 20px; }
+  .lb-tab-wrap .lb-tab-icon { width: 36px; height: 36px; }
+  .lb-tab { font-size: 10px; height: 56px; justify-content: center; align-items: center; text-align: center; }
   .lb-header { flex-wrap: wrap; gap: 8px; padding: 10px 12px; }
   .lb-progress-bar { width: 100px; }
   .lb-progress-text { font-size: 11px; }
@@ -526,13 +583,26 @@ body {
 
   <!-- TABS -->
   <div class="lb-tabs">
-    <div class="lb-tab active" onclick="switchTab('spender',this)">💰 Top Spender</div>
-    <div class="lb-tab" onclick="switchTab('collector',this)">🃏 Top Collector</div>
-    <div class="lb-tab" onclick="switchTab('daily',this)">📅 Daily</div>
-    <div class="lb-tab" onclick="switchTab('weekly',this)">📆 Weekly</div>
+    <div class="lb-tab-wrap">
+      <img src="../assets/images/icons/icon/topspender.png" class="lb-tab-icon" alt="Top Spender">
+      <div class="lb-tab active" onclick="switchTab('spender',this)">Top Spender</div>
+    </div>
+    <div class="lb-tab-wrap">
+      <img src="../assets/images/icons/icon/topcollector.png" class="lb-tab-icon" alt="Top Collector">
+      <div class="lb-tab" onclick="switchTab('collector',this)">Top Collector</div>
+    </div>
+    <div class="lb-tab-wrap">
+      <img src="../assets/images/icons/icon/daily.png" class="lb-tab-icon" alt="Daily">
+      <div class="lb-tab" onclick="switchTab('daily',this)">Daily</div>
+    </div>
+    <div class="lb-tab-wrap">
+      <img src="../assets/images/icons/icon/weekly.png" class="lb-tab-icon" alt="Weekly">
+      <div class="lb-tab" onclick="switchTab('weekly',this)">Weekly</div>
+    </div>
   </div>
 
   <!-- HEADER -->
+  <div class="lb-inner-scroll">
   <div class="lb-header">
     <div class="lb-timer">
       <span class="timer-icon">⏱️</span>
@@ -614,6 +684,7 @@ body {
     </div>
 
   </div>
+  </div><!-- /lb-inner-scroll -->
 </div><!-- /lb-panel -->
 </div><!-- /lb-deco-wrap -->
 

@@ -69,42 +69,43 @@
             background: transparent;
         }
 
-        /* === Karakter: di depan form === */
-        .profile-icon {
+        /* === Karakter desktop: di luar stacking context === */
+        .profile-icon-desktop {
             position: fixed;
             width: 400px;
             height: 720px;
-            left: 210px;
+            left: 223px;
             top: 26px;
-            z-index: 6;
+            z-index: 9999;
             pointer-events: none;
         }
 
-        .profile-icon img {
+        .profile-icon-desktop img {
             width: 100%;
             height: 100%;
             object-fit: contain;
             object-position: bottom center;
-            mix-blend-mode: multiply;
-            filter: contrast(1.05) brightness(1.02);
+            mix-blend-mode: normal;
+            filter: none;
         }
+
+        /* Mobile version hidden on desktop */
+        .profile-icon-mobile { display: none; }
 
         /* === Sidebar === */
         .sidebar-buttons {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            padding: 0px;
-            gap: 14px;
-            position: absolute;
-            width: auto;
-            height: auto;
-            left: 50%;
-            top: 564px;
-            transform: translateX(-50%);
-            margin-left: 76px;
-            z-index: 5;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 20px !important;
+            gap: 14px !important;
+            position: absolute !important;
+            width: 650px !important;
+            height: auto !important;
+            left: 318px !important;
+            top: 564px !important;
+            z-index: 5 !important;
         }
 
         .sidebar-btn {
@@ -112,10 +113,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 0px;
-            gap: 6px;
-            width: 70px;
-            height: 70px;
+            padding: 12px 8px;
+            gap: 1px;
+            width: 74px;
+            height: 74px;
             background: #3B7DD8;
             border-radius: 12px;
             cursor: pointer;
@@ -123,7 +124,6 @@
             border: none;
             position: relative;
             overflow: hidden;
-            flex-shrink: 0;
             box-shadow: 0 3px 10px rgba(0,0,0,0.15);
         }
 
@@ -144,29 +144,41 @@
             box-shadow: 0 4px 16px rgba(59, 125, 216, 0.6), inset 0 2px 4px rgba(255,255,255,0.2);
         }
 
-        .sidebar-btn .btn-icon { width: 42px; height: 36px; display: flex; align-items: center; justify-content: center; flex: none; }
+        .sidebar-btn .btn-icon { width: 32px !important; height: 28px !important; display: flex !important; align-items: center !important; justify-content: center !important; flex: none !important; margin-bottom: 0px !important; }
         .sidebar-btn .btn-icon svg { width: 100%; height: 100%; }
 
         .sidebar-btn .btn-label {
-            width: 100%;
-            text-align: center;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 9px;
-            line-height: 12px;
-            color: #FFFFFF;
-            padding: 0 3px;
+            width: 100% !important;
+            text-align: center !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 9px !important;
+            line-height: 11px !important;
+            color: #FFFFFF !important;
+            letter-spacing: 0px !important;
+            margin-top: 0px !important;
+            padding: 0 2px !important;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            white-space: normal !important;
+            display: block !important;
+        }
+        
+        .sidebar-btn[onclick*="ubah-password"] .btn-label {
+            letter-spacing: -0.5px !important;
+            font-size: 8.5px !important;
+            line-height: 10px !important;
         }
 
-        .pokemon-icon { width: 55px; height: 33px; }
+        .pokemon-icon { width: 38px; height: 24px; }
 
         /* === Form Panel === */
         .edit-profile-form {
             position: absolute;
-            width: 500px;
-            height: 405px;
-            left: 280px;
-            top: 145px;
+            width: 650px;
+            height: 520px;
+            left: 166px;
+            top: 88px;
             margin-left: 152px;
             z-index: 4;
         }
@@ -205,12 +217,12 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            padding: 0px;
-            gap: 7px;
+            padding: 20px;
+            gap: 12px;
             position: absolute;
-            width: 310px;
+            width: 410px;
             height: auto;
-            left: 82px;
+            left: 120px;
             top: 46px;
             bottom: 11px;
             overflow: hidden;
@@ -221,8 +233,8 @@
         .form-title h2 {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            font-size: 13px;
-            line-height: 20px;
+            font-size: 16px;
+            line-height: 24px;
             color: #1a2e1a;
             margin: 0;
             letter-spacing: 0.5px;
@@ -234,31 +246,31 @@
             justify-content: center;
             align-items: flex-start;
             padding: 0px;
-            gap: 3px;
-            width: 300px;
+            gap: 6px;
+            width: 400px;
             flex-shrink: 0;
         }
 
-        .field-group.compact { height: 48px; }
-        .field-group.tall { height: 56px; }
+        .field-group.compact { height: 53px; }
+        .field-group.tall { height: 61px; }
 
         .field-label {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            font-size: 11px;
-            line-height: 15px;
+            font-size: 13px;
+            line-height: 18px;
             color: #2d4a2d;
         }
 
         .field-hint {
             font-family: 'Poppins', sans-serif;
             font-weight: 400;
-            font-size: 9px;
-            line-height: 13px;
+            font-size: 11px;
+            line-height: 15px;
             color: #5a7a5a;
         }
 
-        .field-input-wrap { width: 300px; height: 30px; position: relative; flex-shrink: 0; }
+        .field-input-wrap { width: 400px; height: 35px; position: relative; flex-shrink: 0; }
 
         .field-input {
             position: absolute;
@@ -272,8 +284,8 @@
             padding: 0 12px;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            font-size: 10px;
-            line-height: 30px;
+            font-size: 12px;
+            line-height: 35px;
             color: #1B3A1B;
             transition: all 0.3s ease;
         }
@@ -282,7 +294,7 @@
         .field-input:focus { background: #FFFFFF; border-color: #3B7DD8; box-shadow: 0 0 0 3px rgba(59, 125, 216, 0.15); }
         .field-input.readonly { cursor: not-allowed; opacity: 0.7; background: #dde6da; }
 
-        .select-wrap { position: relative; width: 300px; height: 30px; flex-shrink: 0; }
+        .select-wrap { position: relative; width: 400px; height: 35px; flex-shrink: 0; }
 
         .select-wrap select {
             position: absolute;
@@ -296,8 +308,8 @@
             padding: 0 28px 0 12px;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            font-size: 10px;
-            line-height: 30px;
+            font-size: 12px;
+            line-height: 35px;
             color: #1B3A1B;
             appearance: none;
             -webkit-appearance: none;
@@ -320,7 +332,7 @@
             pointer-events: none;
         }
 
-        .error-note { width: 298px; height: 16px; flex-shrink: 0; display: flex; align-items: center; }
+        .error-note { width: 400px; height: 16px; flex-shrink: 0; display: flex; align-items: center; }
 
         .error-note span {
             font-family: 'Poppins', sans-serif;
@@ -331,7 +343,7 @@
             color: #C0392B;
         }
 
-        .save-btn-wrap { width: 300px; height: 30px; flex-shrink: 0; align-self: stretch; }
+        .save-btn-wrap { width: 400px; height: 30px; flex-shrink: 0; align-self: stretch; }
 
         .save-btn {
             width: 100%;
@@ -342,7 +354,7 @@
             cursor: pointer;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            font-size: 10px;
+            font-size: 12px;
             color: #FFFFFF;
             letter-spacing: 0.5px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -375,16 +387,16 @@
         }
 
         /* === Tabel === */
-        .data-table-wrap { width: 300px; flex-shrink: 0; border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06); }
+        .data-table-wrap { width: 400px; flex-shrink: 0; border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06); }
 
         .data-table { width: 100%; border-collapse: collapse; font-family: 'Poppins', sans-serif; }
 
         .data-table thead th {
             background: rgba(59, 125, 216, 0.1);
             font-weight: 600;
-            font-size: 8px;
+            font-size: 11px;
             color: #2d4a2d;
-            padding: 5px 6px;
+            padding: 6px 8px;
             text-align: left;
             white-space: nowrap;
             border-bottom: 1px solid rgba(0,0,0,0.06);
@@ -392,9 +404,9 @@
 
         .data-table tbody td {
             font-weight: 600;
-            font-size: 8px;
+            font-size: 11px;
             color: #1a2e1a;
-            padding: 5px 6px;
+            padding: 6px 8px;
             border-bottom: 1px solid rgba(0,0,0,0.04);
             white-space: nowrap;
         }
@@ -402,7 +414,7 @@
         .data-table tbody tr:last-child td { border-bottom: none; }
         .data-table tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
 
-        .badge { display: inline-block; font-weight: 700; font-size: 8px; padding: 2px 7px; border-radius: 4px; letter-spacing: 0.3px; }
+        .badge { display: inline-block; font-weight: 700; font-size: 10px; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.3px; }
         .badge-aktif { background: rgba(46, 125, 50, 0.15); color: #2E7D32; }
         .badge-utama { background: rgba(46, 125, 50, 0.15); color: #2E7D32; }
         .badge-nonaktif { background: rgba(230, 126, 34, 0.12); color: #E67E22; }
@@ -410,7 +422,7 @@
         .aksi-hapus {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            font-size: 8px;
+            font-size: 10px;
             color: #C0392B;
             cursor: pointer;
             background: rgba(192, 57, 43, 0.08);
@@ -428,8 +440,8 @@
             flex-direction: column;
             gap: 8px;
             position: absolute;
-            width: 310px;
-            left: 82px;
+            width: 410px;
+            left: 120px;
             top: 46px;
             bottom: 11px;
             overflow: hidden;
@@ -437,8 +449,8 @@
 
         .ref-section-label { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 13px; color: #1a2e1a; flex-shrink: 0; }
         .ref-row { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
-        .ref-row-label { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 9px; color: #5a7a5a; letter-spacing: 0.3px; }
-        .ref-row-input { display: flex; gap: 0; height: 30px; width: 300px; }
+        .ref-row-label { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; color: #5a7a5a; letter-spacing: 0.3px; }
+        .ref-row-input { display: flex; gap: 0; height: 30px; width: 400px; }
 
         .ref-row-value {
             flex: 1;
@@ -457,18 +469,18 @@
             text-overflow: ellipsis;
         }
 
-        .ref-row-value.long-text { font-size: 9px; letter-spacing: -0.1px; }
+        .ref-row-value.long-text { font-size: 11px; letter-spacing: -0.1px; }
 
         .ref-salin-btn {
-            width: 55px;
+            width: 70px;
             height: 30px;
             background: linear-gradient(135deg, #3B7DD8 0%, #2A5FAA 100%);
             border: none;
-            border-radius: 0 8px 8px 0;
+            border-radius: 6px;
             cursor: pointer;
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            font-size: 9px;
+            font-size: 11px;
             color: #FFFFFF;
             letter-spacing: 0.5px;
             transition: all 0.3s ease;
@@ -478,7 +490,7 @@
 
         .ref-salin-btn:hover { background: linear-gradient(135deg, #4d8de0 0%, #3a72be 100%); }
         .ref-salin-btn:active { transform: scale(0.96); }
-        .ref-table-title { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 10px; color: #2d4a2d; flex-shrink: 0; }
+        .ref-table-title { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12px; color: #2d4a2d; flex-shrink: 0; }
 
         /* === Level === */
         .level-content {
@@ -486,8 +498,8 @@
             flex-direction: column;
             gap: 9px;
             position: absolute;
-            width: 310px;
-            left: 82px;
+            width: 410px;
+            left: 120px;
             top: 46px;
             bottom: 14px;
             overflow: hidden;
@@ -495,26 +507,26 @@
 
         .level-title { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 13px; color: #1a2e1a; flex-shrink: 0; }
         .level-current-box { background: rgba(212, 175, 55, 0.12); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 10px 14px; flex-shrink: 0; }
-        .level-current-label { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 9px; color: #5a7a5a; margin-bottom: 3px; }
+        .level-current-label { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; color: #5a7a5a; margin-bottom: 3px; }
         .level-current-name { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 18px; color: #B8960F; letter-spacing: 2px; line-height: 1.2; }
-        .level-bonus-text { font-family: 'Poppins', sans-serif; font-weight: 400; font-size: 9px; color: #5a7a5a; margin-top: 2px; }
-        .level-section-label { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 10px; color: #2d4a2d; flex-shrink: 0; }
+        .level-bonus-text { font-family: 'Poppins', sans-serif; font-weight: 400; font-size: 11px; color: #5a7a5a; margin-top: 2px; }
+        .level-section-label { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12px; color: #2d4a2d; flex-shrink: 0; }
 
         .level-benefits { display: flex; flex-direction: column; gap: 5px; flex-shrink: 0; }
         .level-benefit-item { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: rgba(212, 175, 55, 0.06); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.15); }
         .benefit-icon { width: 16px; height: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
         .benefit-icon svg { width: 14px; height: 14px; }
-        .benefit-text { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 10px; color: #2d4a2d; line-height: 1.3; }
+        .benefit-text { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; color: #2d4a2d; line-height: 1.3; }
 
         .level-target-box { background: rgba(59, 125, 216, 0.06); border: 1px solid rgba(59, 125, 216, 0.15); border-radius: 12px; padding: 10px 14px; flex-shrink: 0; }
         .level-target-header { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
-        .level-target-label { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 9px; color: #5a7a5a; }
-        .level-target-name { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 9px; color: #3B7DD8; }
+        .level-target-label { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; color: #5a7a5a; }
+        .level-target-name { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 11px; color: #3B7DD8; }
 
         .progress-section { margin-bottom: 6px; }
         .progress-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-        .progress-label { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 8px; color: #5a7a5a; }
-        .progress-value { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 8px; color: #1a2e1a; }
+        .progress-label { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 10px; color: #5a7a5a; }
+        .progress-value { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 10px; color: #1a2e1a; }
 
         .progress-bar-bg { width: 100%; height: 8px; background: rgba(0,0,0,0.08); border-radius: 4px; overflow: hidden; }
         .progress-bar-fill { height: 100%; border-radius: 4px; width: 0%; transition: width 1s ease; }
@@ -527,7 +539,7 @@
             top: 16px;
             right: 16px;
             left: auto;
-            background: rgba(30, 70, 30, 0.95);
+            background: rgba(30, 30, 30, 0.95);
             color: #fff;
             padding: 12px 18px;
             border-radius: 12px;
@@ -536,425 +548,396 @@
             font-weight: 600;
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             transform: translateY(-120%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
             z-index: 100;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .toast.show { transform: translateY(0); }
+        .toast.show { transform: translateY(0); opacity: 1; }
         .toast.error { background: rgba(192, 57, 43, 0.95); }
 
         /* ===================== MOBILE ===================== */
         @media (max-width: 768px) {
             body {
                 align-items: flex-start;
-                background: #FFFFFF;
-                height: 100vh;
-                margin: 0;
-                padding: 0;
+                overflow-x: hidden;
+                overflow-y: auto;
+                height: auto;
+                min-height: 100vh;
+                padding-bottom: 80px;
+                background: #eeeae3;
             }
 
             .edit-profile-konten {
                 width: 100%;
+                max-width: 100vw;
                 height: auto;
+                min-height: 100vh;
                 display: flex;
                 flex-direction: column;
-                padding-bottom: 100px;
-                min-height: 100vh;
+                align-items: stretch;
+                padding: 0;
+                gap: 0;
+                position: relative;
+                overflow: visible;
             }
 
+            /* desktop icon hidden on mobile */
+            .profile-icon-desktop { display: none !important; }
+
+            /* ── Hero image area ── */
             .background {
                 position: relative;
-                width: 100%;
-                height: 180px;
-                top: 0;
+                width: calc(100% - 24px);
+                margin: 12px 12px 0;
+                height: 240px;
                 flex-shrink: 0;
-                background: linear-gradient(135deg, #3B7DD8 0%, #2A5FAA 100%);
+                border-radius: 30px;
+                overflow: hidden;
+                top: auto; left: auto;
+                order: 1;
+                background: transparent;
             }
 
-            .background-rect {
-                width: 100%;
-                height: 180px;
-                border-radius: 0 0 20px 20px;
-                background: inherit;
-            }
+            /* background-rect hidden */
+            .background-rect { display: none; }
 
-            /* Karakter di mobile: kecil di atas area background */
-            .profile-icon {
-                position: relative;
-                width: 100px;
-                height: 140px;
-                left: 50%;
-                top: -40px;
-                bottom: auto;
-                transform: translateX(-50%);
-                z-index: 6;
-                pointer-events: none;
-                margin-bottom: -30px;
-            }
-
-            .profile-icon img {
+            /* Layer 1: akunbg — padang rumput, full container */
+            .profile-bg-layer {
+                position: absolute;
                 width: 100%;
                 height: 100%;
-                object-fit: contain;
-                object-position: bottom center;
-                mix-blend-mode: multiply;
-                filter: contrast(1.05) brightness(1.02) drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+                left: 0;
+                top: 0;
+                background: url('../assets/images/backgrounds/akunbg.png.png') center bottom/cover no-repeat;
+                border-radius: 0;
+                z-index: 1;
             }
 
-            .sidebar-buttons {
-                position: fixed;
-                top: 0;
-                left: 0;
+            /* Layer 2: karakter Ash — full overlay (mobile) */
+            .profile-icon-mobile {
+                display: flex !important;
+                position: absolute;
                 width: 100%;
-                height: auto;
-                flex-direction: row;
-                overflow-x: auto;
-                gap: 10px;
-                padding: 12px 20px;
-                z-index: 100;
-                flex-shrink: 0;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-                background: rgba(59, 125, 216, 0.98);
-                backdrop-filter: blur(10px);
-                border-bottom: 1px solid rgba(255,255,255,0.2);
+                height: 100%;
+                left: 0;
+                top: 0;
+                z-index: 2;
+                pointer-events: none;
+                align-items: flex-end;
+                justify-content: center;
+            }
+
+            .profile-icon-mobile img {
+                width: auto;
+                height: 90%;
+                object-fit: contain;
+                object-position: bottom center;
+            }
+
+            /* ── Nav buttons ── */
+            .sidebar-buttons {
+                position: relative !important;
+                width: 100% !important;
+                height: auto !important;
+                left: auto !important;
+                top: auto !important;
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: flex-start !important;
+                align-items: center !important;
+                flex-wrap: nowrap !important;
+                gap: 10px !important;
+                padding: 14px 12px !important;
+                background: transparent !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                scrollbar-width: none !important;
+                z-index: 10 !important;
+                order: 2;
             }
 
             .sidebar-buttons::-webkit-scrollbar { display: none; }
 
             .sidebar-btn {
-                flex-shrink: 0;
-                width: 70px;
-                height: 56px;
-                gap: 4px;
-                border-radius: 12px;
-                background: rgba(255, 255, 255, 0.15);
-                border: 1px solid rgba(255, 255, 255, 0.3);
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                flex-shrink: 0 !important;
+                width: 72px !important;
+                height: 72px !important;
+                padding: 8px 4px 6px !important;
+                gap: 4px !important;
+                background: #5b9bd5 !important;
+                border-radius: 16px !important;
+                border: none !important;
+                cursor: pointer !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+                transition: all 0.2s !important;
+                position: relative !important;
+                overflow: hidden !important;
             }
-
-            .sidebar-btn:hover { transform: translateY(-2px) scale(1.02); }
-            .sidebar-btn .btn-icon { width: 26px; height: 24px; }
-            .sidebar-btn .btn-label { font-size: 8px; line-height: 10px; padding: 0 2px; }
-            .pokemon-icon { width: 38px; height: 24px; }
 
             .sidebar-btn.active {
-                background: rgba(255, 255, 255, 0.9);
-                color: #3B7DD8;
-                border-color: rgba(255, 255, 255, 0.9);
+                background: #3B7DD8 !important;
+                box-shadow: 0 4px 14px rgba(59,125,216,0.45) !important;
             }
 
-            .sidebar-btn.active .btn-label {
-                color: #3B7DD8;
+            .sidebar-btn .btn-icon {
+                width: 32px !important;
+                height: 32px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
             }
 
-            .edit-profile-konten {
-                padding-top: 90px;
+            .sidebar-btn .btn-icon img {
+                width: 32px !important;
+                height: 32px !important;
+                object-fit: contain !important;
             }
 
-            .background {
-                position: relative;
-                width: 100%;
-                height: 160px;
-                top: 0;
-                flex-shrink: 0;
-                background: linear-gradient(135deg, #3B7DD8 0%, #2A5FAA 100%);
-                margin-top: 0;
+            .sidebar-btn .btn-label {
+                font-size: 9px !important;
+                line-height: 11px !important;
+                color: #fff !important;
+                text-align: center !important;
+                padding: 0 2px !important;
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
+                white-space: normal !important;
+                font-weight: 700 !important;
             }
 
-            .profile-icon {
-                position: relative;
-                width: 90px;
-                height: 120px;
-                left: 50%;
-                top: -30px;
-                bottom: auto;
-                transform: translateX(-50%);
-                z-index: 6;
-                pointer-events: none;
-                margin-bottom: -20px;
-                margin-top: 0;
-            }
+            .sidebar-btn.active .btn-label { color: #fff !important; }
 
+            /* ── Form card ── */
             .edit-profile-form {
-                position: relative;
-                width: calc(100% - 40px);
-                height: auto;
-                left: 20px;
-                top: 0;
-                margin-top: 16px;
-                margin-bottom: 20px;
-                z-index: 4;
+                position: relative !important;
+                width: calc(100% - 24px) !important;
+                height: auto !important;
+                left: auto !important;
+                top: auto !important;
+                margin: 0 12px 16px !important;
+                padding: 20px 16px 24px !important;
+                background: #f5f2ec !important;
+                border-radius: 20px !important;
+                order: 3;
             }
 
-            .form-card {
-                position: relative;
-                border-radius: 20px;
-                overflow: visible;
-                background: rgba(255, 255, 255, 0.95);
-                backdrop-filter: blur(15px);
-                border: 1px solid rgba(59, 125, 216, 0.2);
-                box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            }
-
-            .form-card::before { border-radius: 20px; }
+            .form-card { display: none !important; }
 
             .form-content {
-                position: relative;
-                width: calc(100% - 40px);
-                max-height: none;
-                left: 20px;
-                top: 0;
-                bottom: auto;
-                padding: 25px 0 30px;
+                position: relative !important;
+                width: 100% !important;
+                height: auto !important;
+                left: auto !important;
+                top: auto !important;
+                bottom: auto !important;
+                padding: 0 !important;
+                gap: 10px !important;
+                overflow: visible !important;
             }
 
-            .form-content .save-btn-wrap { margin-top: 20px; }
-
             .level-content {
-                position: relative;
-                width: calc(100% - 40px);
-                left: 20px;
-                top: 0;
-                bottom: auto;
-                padding: 25px 0 30px;
-                overflow: visible;
+                position: relative !important;
+                width: 100% !important;
+                height: auto !important;
+                left: auto !important;
+                top: auto !important;
+                bottom: auto !important;
+                padding: 0 !important;
+                overflow: visible !important;
             }
 
             .ref-content {
-                position: relative;
-                width: calc(100% - 40px);
-                left: 20px;
-                top: 0;
-                bottom: auto;
-                padding: 25px 0 30px;
-                overflow: visible;
+                position: relative !important;
+                width: 100% !important;
+                height: auto !important;
+                left: auto !important;
+                top: auto !important;
+                bottom: auto !important;
+                padding: 0 !important;
+                overflow: visible !important;
             }
 
-            .field-group { 
-                width: 100%; 
-                margin-bottom: 16px;
-            }
-            .field-input-wrap { width: 100%; }
-            .select-wrap { width: 100%; }
-            .error-note { width: 100%; margin-bottom: 12px; }
-            .save-btn-wrap { width: 100%; }
-
-            .field-input {
-                font-size: 14px !important;
-                padding: 0 16px !important;
-                height: 45px !important;
-                line-height: 45px !important;
+            /* ── Fields ── */
+            .form-title h2 {
+                font-size: 16px !important;
+                font-weight: 700 !important;
+                color: #1a2e1a !important;
+                margin-bottom: 14px !important;
             }
 
-            .select-wrap select {
-                font-size: 14px !important;
-                padding: 0 32px 0 16px !important;
-                height: 45px !important;
-                line-height: 45px !important;
+            .field-group {
+                width: 100% !important;
+                height: auto !important;
+                margin-bottom: 2px !important;
             }
 
             .field-label {
                 font-size: 13px !important;
+                font-weight: 600 !important;
+                color: #1a2e1a !important;
                 margin-bottom: 6px !important;
+                display: block !important;
+            }
+
+            .field-input-wrap {
+                width: 100% !important;
+                height: 46px !important;
+                position: relative !important;
+            }
+
+            .field-input {
+                background: #7ab3e0 !important;
+                border: none !important;
+                border-radius: 12px !important;
+                color: #fff !important;
+                font-size: 14px !important;
+                padding: 0 16px !important;
+                height: 46px !important;
+                line-height: 46px !important;
+                width: 100% !important;
+            }
+
+            .field-input::placeholder { color: rgba(255,255,255,0.85) !important; }
+
+            .field-input.readonly {
+                background: #7ab3e0 !important;
+                opacity: 1 !important;
+                cursor: not-allowed !important;
+            }
+
+            .field-input:focus {
+                background: #5b9bd5 !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            .select-wrap {
+                width: 100% !important;
+                height: 46px !important;
+            }
+
+            .select-wrap select {
+                background: #7ab3e0 !important;
+                border: none !important;
+                border-radius: 12px !important;
+                color: #fff !important;
+                font-size: 14px !important;
+                padding: 0 32px 0 16px !important;
+                height: 46px !important;
+            }
+
+            .select-wrap::after { border-top-color: #fff !important; }
+
+            .error-note {
+                width: 100% !important;
+                margin-bottom: 4px !important;
+            }
+
+            .error-note span {
+                color: #e74c3c !important;
+                font-style: italic !important;
+                font-size: 12px !important;
+            }
+
+            .save-btn-wrap {
+                width: 100% !important;
+                height: 46px !important;
+                margin-top: 10px !important;
             }
 
             .save-btn {
+                background: #3B7DD8 !important;
+                border-radius: 12px !important;
                 font-size: 14px !important;
-                height: 45px !important;
-                font-weight: 600 !important;
+                height: 46px !important;
             }
 
-            .form-title h2 {
-                font-size: 18px !important;
-                margin-bottom: 20px !important;
+            /* Riwayat items */
+            .form-content div[style*="width:400px"],
+            .form-content div[style*="width: 400px"] {
+                width: 100% !important;
             }
 
+            /* Table */
             .data-table-wrap {
-                width: 100%;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                border-radius: 12px;
-                margin-top: 16px;
+                width: 100% !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                border-radius: 10px !important;
+                margin-top: 12px !important;
             }
 
-            .data-table { 
-                min-width: 500px; 
-                font-size: 12px !important;
-            }
-            
+            .data-table { min-width: 400px !important; }
+
             .data-table thead th {
                 font-size: 11px !important;
                 padding: 8px 10px !important;
             }
-            
+
             .data-table tbody td {
                 font-size: 11px !important;
                 padding: 8px 10px !important;
             }
 
-            .ref-row-input { width: 100%; }
-            .ref-row-value {
-                font-size: 12px !important;
-                padding: 0 16px !important;
-                height: 45px !important;
-                line-height: 45px !important;
-            }
-            .ref-salin-btn {
-                height: 45px !important;
-                width: 70px !important;
-                font-size: 11px !important;
+            /* Referral */
+            .ref-row-input {
+                width: 100% !important;
+                height: 46px !important;
             }
 
-            .toast { 
-                left: 20px; 
-                right: 20px; 
-                font-size: 14px !important;
-                padding: 16px 20px !important;
+            .ref-row-value {
+                background: #7ab3e0 !important;
+                border: none !important;
+                border-radius: 12px 0 0 12px !important;
+                color: #fff !important;
+                font-size: 12px !important;
+                padding: 0 12px !important;
+                height: 46px !important;
+                line-height: 46px !important;
+            }
+
+            .ref-salin-btn {
+                height: 46px !important;
+                width: 70px !important;
+                font-size: 11px !important;
+                border-radius: 0 10px 10px 0 !important;
+            }
+
+            /* Level */
+            .level-current-box { padding: 12px 14px !important; }
+            .level-target-box { padding: 12px 14px !important; }
+
+            .toast {
+                left: 16px !important;
+                right: 16px !important;
+                font-size: 13px !important;
+                padding: 14px 18px !important;
             }
         }
 
         @media (max-width: 480px) {
-            .edit-profile-konten {
-                padding-top: 80px;
-                padding-bottom: 120px;
-            }
-
-            .background {
-                height: 140px;
-            }
-
-            .background-rect {
-                height: 140px;
-                border-radius: 0 0 16px 16px;
-            }
-
-            .profile-icon {
-                width: 70px;
-                height: 100px;
-                top: -25px;
-                margin-bottom: -15px;
-            }
-
-            .sidebar-buttons {
-                position: fixed;
-                top: 0;
-                left: 0;
-                padding: 10px 16px;
-                gap: 8px;
-                z-index: 100;
-            }
+            .background { height: 220px; }
 
             .sidebar-btn {
-                width: 60px;
-                height: 48px;
-                gap: 2px;
-                border-radius: 10px;
-                background: rgba(255, 255, 255, 0.15);
-                border: 1px solid rgba(255, 255, 255, 0.3);
+                width: 66px !important;
+                height: 66px !important;
             }
 
-            .sidebar-btn .btn-icon { width: 24px; height: 20px; }
-            .sidebar-btn .btn-label { font-size: 7px; line-height: 8px; }
-            .pokemon-icon { width: 34px; height: 20px; }
-
-            .sidebar-btn.active {
-                background: rgba(255, 255, 255, 0.9);
-                color: #3B7DD8;
-                border-color: rgba(255, 255, 255, 0.9);
+            .sidebar-btn .btn-icon img {
+                width: 28px !important;
+                height: 28px !important;
             }
 
-            .sidebar-btn.active .btn-label {
-                color: #3B7DD8;
-            }
-
-            .edit-profile-form {
-                width: calc(100% - 32px);
-                left: 16px;
-                margin-top: 14px;
-                margin-bottom: 16px;
-            }
-
-            .form-content {
-                width: calc(100% - 32px);
-                left: 16px;
-                padding: 20px 0 25px;
-            }
-
-            .level-content {
-                width: calc(100% - 32px);
-                left: 16px;
-                padding: 20px 0 25px;
-            }
-
-            .ref-content {
-                width: calc(100% - 32px);
-                left: 16px;
-                padding: 20px 0 25px;
-            }
-
-            .field-input {
-                font-size: 13px !important;
-                padding: 0 12px !important;
-                height: 40px !important;
-                line-height: 40px !important;
-            }
-
-            .select-wrap select {
-                font-size: 13px !important;
-                padding: 0 28px 0 12px !important;
-                height: 40px !important;
-                line-height: 40px !important;
-            }
-
-            .field-label {
-                font-size: 12px !important;
-            }
-
-            .save-btn {
-                font-size: 13px !important;
-                height: 40px !important;
-            }
-
-            .form-title h2 {
-                font-size: 16px !important;
-                margin-bottom: 16px !important;
-            }
-
-            .data-table { 
-                min-width: 450px; 
-                font-size: 11px !important;
-            }
-            
-            .data-table thead th {
-                font-size: 10px !important;
-                padding: 6px 8px !important;
-            }
-            
-            .data-table tbody td {
-                font-size: 10px !important;
-                padding: 6px 8px !important;
-            }
-
-            .ref-row-value {
-                font-size: 11px !important;
-                padding: 0 12px !important;
-                height: 40px !important;
-                line-height: 40px !important;
-            }
-            .ref-salin-btn {
-                height: 40px !important;
-                width: 60px !important;
-                font-size: 10px !important;
-            }
-
-            .toast { 
-                left: 16px; 
-                right: 16px; 
-                font-size: 13px !important;
-                padding: 14px 18px !important;
+            .sidebar-btn .btn-label {
+                font-size: 8px !important;
             }
         }
 
@@ -977,15 +960,20 @@
         <span id="toastMsg">Berhasil!</span>
     </div>
 
+    <!-- Karakter desktop: di luar semua container agar z-index bebas -->
+    <div class="profile-icon profile-icon-desktop">
+        <img src="../assets/images/character/character/ashakun.png" alt="Pokemon Trainer Character">
+    </div>
+
     <div class="edit-profile-konten">
 
         <div class="background">
-            <div class="background-rect"></div>
-        </div>
-
-        <!-- Karakter: DI DEPAN form (z-index 6 > form z-index 4) -->
-        <div class="profile-icon">
-            <img src="https://z-cdn-media.chatglm.cn/files/0f0cd814-6d33-4bc8-bed0-475605398051.png?auth_key=1876609961-48b9724e454a4c019975f93bf78cbf51-0-e05393b01bdbbf28dc5da3faff18948b" alt="Pokemon Trainer Character">
+            <!-- Layer 1: background padang rumput -->
+            <div class="profile-bg-layer"></div>
+            <!-- Layer 2: karakter Ash (mobile only) -->
+            <div class="profile-icon profile-icon-mobile">
+                <img src="../assets/images/character/character/ashakun.png" alt="Pokemon Trainer Character">
+            </div>
         </div>
 
         <!-- EDIT PROFILE -->
@@ -1018,7 +1006,7 @@
                         <input type="tel" class="field-input" placeholder="Masukan Nomer Telepon" id="telpInput" aria-label="No Telpon">
                     </div>
                 </div>
-                <div class="save-btn-wrap" style="margin-top:auto;">
+                <div class="save-btn-wrap" style="margin-top:15px;">
                     <button class="save-btn" onclick="saveProfile()">SIMPAN PERUBAHAN</button>
                 </div>
             </div>
@@ -1087,21 +1075,21 @@
             <div class="form-card"></div>
             <div class="form-content" style="gap: 8px;">
                 <div class="form-title"><h2>RIWAYAT</h2></div>
-                <div style="width:100%; background:rgba(59,125,216,0.06); border-radius:8px; padding:8px 10px; flex-shrink:0; border:1px solid rgba(0,0,0,0.04);">
-                    <p style="color:#1a2e1a; font-size:10px; font-weight:600;">Battle vs Gym Leader - Menang</p>
-                    <p style="color:#5a7a5a; font-size:9px; margin-top:2px;">12 Januari 2025</p>
+                <div style="width:400px; background:rgba(59,125,216,0.06); border-radius:8px; padding:10px 12px; flex-shrink:0; border:1px solid rgba(0,0,0,0.04);">
+                    <p style="color:#1a2e1a; font-size:13px; font-weight:600;">Battle vs Gym Leader - Menang</p>
+                    <p style="color:#5a7a5a; font-size:11px; margin-top:2px;">12 Januari 2025</p>
                 </div>
-                <div style="width:100%; background:rgba(59,125,216,0.06); border-radius:8px; padding:8px 10px; flex-shrink:0; border:1px solid rgba(0,0,0,0.04);">
-                    <p style="color:#1a2e1a; font-size:10px; font-weight:600;">Trade Pokemon - Selesai</p>
-                    <p style="color:#5a7a5a; font-size:9px; margin-top:2px;">8 Januari 2025</p>
+                <div style="width:400px; background:rgba(59,125,216,0.06); border-radius:8px; padding:10px 12px; flex-shrink:0; border:1px solid rgba(0,0,0,0.04);">
+                    <p style="color:#1a1e1a; font-size:13px; font-weight:600;">Trade Pokemon - Selesai</p>
+                    <p style="color:#5a7a5a; font-size:11px; margin-top:2px;">8 Januari 2025</p>
                 </div>
-                <div style="width:100%; background:rgba(59,125,216,0.06); border-radius:8px; padding:8px 10px; flex-shrink:0; border:1px solid rgba(0,0,0,0.04);">
-                    <p style="color:#1a2e1a; font-size:10px; font-weight:600;">Evolution Eevee - Berhasil</p>
-                    <p style="color:#5a7a5a; font-size:9px; margin-top:2px;">3 Januari 2025</p>
+                <div style="width:400px; background:rgba(59,125,216,0.06); border-radius:8px; padding:10px 12px; flex-shrink:0; border:1px solid rgba(0,0,0,0.04);">
+                    <p style="color:#1a1e1a; font-size:13px; font-weight:600;">Evolution Eevee - Berhasil</p>
+                    <p style="color:#5a7a5a; font-size:11px; margin-top:2px;">3 Januari 2025</p>
                 </div>
-                <div style="width:100%; background:rgba(59,125,216,0.06); border-radius:8px; padding:8px 10px; flex-shrink:0; border:1px solid rgba(0,0,0,0.04);">
-                    <p style="color:#1a2e1a; font-size:10px; font-weight:600;">Catch Pikachu - Berhasil</p>
-                    <p style="color:#5a7a5a; font-size:9px; margin-top:2px;">1 Januari 2025</p>
+                <div style="width:400px; background:rgba(59,125,216,0.06); border-radius:8px; padding:10px 12px; flex-shrink:0; border:1px solid rgba(0,0,0,0.04);">
+                    <p style="color:#1a1e1a; font-size:13px; font-weight:600;">Catch Pikachu - Berhasil</p>
+                    <p style="color:#5a7a5a; font-size:11px; margin-top:2px;">1 Januari 2025</p>
                 </div>
             </div>
         </div>
@@ -1229,57 +1217,35 @@
         <div class="sidebar-buttons">
             <button class="sidebar-btn active" onclick="switchTab(this, 'edit-profile')" aria-label="Edit Profile">
                 <div class="btn-icon">
-                    <svg class="pokemon-icon" viewBox="0 0 55 33" fill="none">
-                        <circle cx="27.5" cy="16.5" r="14" stroke="#fff" stroke-width="2.5" fill="none"/>
-                        <path d="M13.5 16.5 H41.5" stroke="#fff" stroke-width="2.5"/>
-                        <path d="M13.5 16.5 A14 14 0 0 1 41.5 16.5" fill="#fff" opacity="0.3"/>
-                        <circle cx="27.5" cy="16.5" r="4" stroke="#fff" stroke-width="2.5" fill="none"/>
-                        <circle cx="27.5" cy="16.5" r="1.5" fill="#fff"/>
-                    </svg>
+                    <img src="../assets/images/icons/icon/settingakun.png" alt="Edit Profile" style="width:32px;height:32px;object-fit:contain;">
                 </div>
                 <div class="btn-label">EDIT PROFILE</div>
             </button>
 
             <button class="sidebar-btn" onclick="switchTab(this, 'member-level')" aria-label="Member Level">
                 <div class="btn-icon">
-                    <svg viewBox="0 0 42 36" fill="none">
-                        <path d="M21 2 L26 12 L37 12 L28 19 L31 30 L21 23 L11 30 L14 19 L5 12 L16 12 Z" fill="#fff" opacity="0.9"/>
-                        <text x="21" y="20" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff" font-family="Poppins">6</text>
-                    </svg>
+                    <img src="../assets/images/icons/icon/member.png" alt="Member Level" style="width:32px;height:32px;object-fit:contain;">
                 </div>
                 <div class="btn-label">MEMBER LEVEL</div>
             </button>
 
             <button class="sidebar-btn" onclick="switchTab(this, 'riwayat')" aria-label="Riwayat">
                 <div class="btn-icon">
-                    <svg viewBox="0 0 42 36" fill="none">
-                        <rect x="4" y="4" width="34" height="28" rx="4" stroke="#fff" stroke-width="2.5" fill="none"/>
-                        <line x1="12" y1="12" x2="30" y2="12" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="12" y1="18" x2="26" y2="18" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-                        <line x1="12" y1="24" x2="22" y2="24" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
+                    <img src="../assets/images/icons/icon/riwayat.png" alt="Riwayat" style="width:32px;height:32px;object-fit:contain;">
                 </div>
                 <div class="btn-label">RIWAYAT</div>
             </button>
 
             <button class="sidebar-btn" onclick="switchTab(this, 'ubah-password')" aria-label="Ubah Password">
                 <div class="btn-icon">
-                    <svg viewBox="0 0 36 40" fill="none">
-                        <rect x="4" y="18" width="28" height="20" rx="4" stroke="#fff" stroke-width="2.5" fill="none"/>
-                        <path d="M10 18 V12 A8 8 0 0 1 26 12 V18" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                        <circle cx="18" cy="28" r="3" fill="#fff"/>
-                        <line x1="18" y1="31" x2="18" y2="34" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-                    </svg>
+                    <img src="../assets/images/icons/icon/password.png" alt="Ubah Password" style="width:32px;height:32px;object-fit:contain;">
                 </div>
                 <div class="btn-label">UBAH PASSWORD</div>
             </button>
 
             <button class="sidebar-btn" onclick="switchTab(this, 'komisi')" aria-label="Rujukan & Komisi">
                 <div class="btn-icon">
-                    <svg viewBox="0 0 35 35" fill="none">
-                        <circle cx="17.5" cy="17.5" r="14" stroke="#fff" stroke-width="2.5" fill="none"/>
-                        <text x="17.5" y="22" text-anchor="middle" font-size="16" font-weight="bold" fill="#fff" font-family="Poppins">$</text>
-                    </svg>
+                    <img src="../assets/images/icons/icon/komisi.png" alt="Rujukan & Komisi" style="width:32px;height:32px;object-fit:contain;">
                 </div>
                 <div class="btn-label">RUJUKAN & KOMISI</div>
             </button>
