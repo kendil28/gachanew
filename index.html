@@ -71,7 +71,11 @@
     <!-- CHARACTER CENTER -->
     <div class="character-center">
       <video class="character-img" autoplay loop muted playsinline>
-        <source src="assets/images/character/character/ash.webm" type="video/webm" />
+        <!-- Safari: HEVC with alpha (transparent) -->
+        <source src="assets/images/character/character/ashhome.mov" type='video/quicktime; codecs="hvc1"' />
+        <source src="assets/images/character/character/ashhome.mov" type='video/mp4; codecs="hvc1"' />
+        <!-- Chrome/Firefox: WebM with alpha (transparent) -->
+        <source src="assets/images/character/character/ashhome.webm" type="video/webm" />
       </video>
     </div>
 
