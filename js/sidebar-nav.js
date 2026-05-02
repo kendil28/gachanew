@@ -1,5 +1,5 @@
-/**
- * Shared Navigation — Vertical sidebar (desktop) + Horizontal swipeable (mobile)
+﻿/**
+ * Shared Navigation â€” Vertical sidebar (desktop) + Horizontal swipeable (mobile)
  */
 (function() {
 
@@ -46,7 +46,7 @@
       width: 50px !important;
       height: 50px !important;
     }
-    /* Desktop only — di mobile content-area full width */
+    /* Desktop only â€” di mobile content-area full width */
     @media (min-width: 769px) {
       body.page-leaderboard .content-area {
         margin-left: 92px !important;
@@ -231,7 +231,7 @@
       100%{ opacity:0; transform:scale(3.2); border-width:1px; }
     }
 
-    /* Tooltip di atas icon — muncul saat hover/tap */
+    /* Tooltip di atas icon â€” muncul saat hover/tap */
     .sbn-item span {
       position: absolute;
       bottom: calc(100% + 8px);

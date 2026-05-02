@@ -235,6 +235,8 @@ body {
 
   margin-bottom: 82px;
 
+  mix-blend-mode: multiply;
+
 }
 
 
@@ -263,7 +265,7 @@ body {
 
   margin-right: -19px;
 
-  margin-left: 0;
+  margin-left: auto;
 
   transform: translateX(-26px);
 
@@ -659,7 +661,9 @@ body {
 
 @media (max-width: 768px) {
 
-
+  .bg {
+    background-image: url('../assets/images/backgrounds/bgmobilehome.webp') !important;
+  }
 
   .topbar {
 
